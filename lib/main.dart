@@ -115,10 +115,6 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_direction',
               style: Theme.of(context).textTheme.display1,
             ),
-            new Transform.rotate(
-              angle: ((_direction ?? 0) * (pi / 180) * -1),
-              child: new Image.asset('assets/compass.jpg'),
-            ),
           ],
         ),
       ),

@@ -13,6 +13,7 @@ before_script:
 - cd binnacle && git clone https://github.com/flutter/flutter.git -b beta
 - ./flutter/bin/flutter doctor
 script:
+- ./flutter/bin/flutter analyze
 - ./flutter/bin/flutter test
 cache:
   directories:

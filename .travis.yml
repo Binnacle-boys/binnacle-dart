@@ -11,9 +11,9 @@ addons:
     - fonts-droid
 before_script:
 - cd binnacle && git clone https://github.com/flutter/flutter.git -b beta
-- cd binnacle && ./flutter/bin/flutter doctor
+- ./flutter/bin/flutter doctor
 script:
-- cd binnacle && ./flutter/bin/flutter test
+- ./flutter/bin/flutter test
 cache:
   directories:
   - $HOME/.pub-cache

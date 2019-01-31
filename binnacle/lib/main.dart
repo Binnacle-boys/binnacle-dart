@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -83,6 +84,13 @@ class _MyHomePageState extends State<MyHomePage> {
     FlutterCompass.events.listen((double direction) {
       setState(() {
         _direction = direction;
+      });
+    geolocator.getPositionStream(locationOptions).listen(
+      (Position position) {
+        //print(_position == null ? 'Unknown' : _position.latitude.toString() + ', ' + _position.longitude.toString());
+        setState(() {
+          _location = position;
+        });
       });
     });
 

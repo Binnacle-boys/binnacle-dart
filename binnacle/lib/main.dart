@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var _heading; 
   var geolocator = Geolocator();
   var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
-  //StreamSubscription<Position> positionStream;
+  //Stream<Position> positionStream;
   Position _location;
 
   void _incrementCounter() {
@@ -70,19 +70,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    print('Initializing the state');
     super.initState();
     FlutterCompass.events.listen((double direction) {
       setState(() {
         _direction = direction;
       });
+    });
     geolocator.getPositionStream(locationOptions).listen(
       (Position position) {
-        //print(_position == null ? 'Unknown' : _position.latitude.toString() + ', ' + _position.longitude.toString());
+        print('Position heard');
+        print(_location == null ? 'Unknown' : _location.latitude.toString() + ', ' + _location.longitude.toString());
         setState(() {
+          print('Position! heard');
           _location = position;
         });
-      });
     });
+    
   }
 
   @override
@@ -127,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.display1,
             ),
             Text(
-              'Heading: ' + headingFormat.format(_direction),
+              _direction == null ? 'Direction unknown' : 'Heading: ' + headingFormat.format(_direction),
               style: Theme.of(context).textTheme.display1,
             ),
             Text(

@@ -85,6 +85,13 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _direction = direction;
       });
+    geolocator.getPositionStream(locationOptions).listen(
+      (Position position) {
+        //print(_position == null ? 'Unknown' : _position.latitude.toString() + ', ' + _position.longitude.toString());
+        setState(() {
+          _location = position;
+        });
+      });
     });
     geolocator.getPositionStream(locationOptions).listen(
       (Position position) {

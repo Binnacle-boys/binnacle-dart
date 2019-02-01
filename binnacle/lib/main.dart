@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
-import 'dart:math';
 
 void main() => runApp(MyApp());
 

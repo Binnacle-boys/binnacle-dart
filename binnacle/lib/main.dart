@@ -49,9 +49,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   double _direction;
-  var headingFormat = new NumberFormat("##0.0#", "en_US");
-  var geolocator = Geolocator();
-  var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+  NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
+  Geolocator geolocator;
+  LocationOptions locationOptions;
   Position _location;
 
   void _incrementCounter() {
@@ -69,11 +69,22 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     print('Initializing the state');
     super.initState();
+    initSensorsApi();
     FlutterCompass.events.listen((double direction) {
       setState(() {
         _direction = direction;
       });
     });
+
+
+  }
+
+  void initSensorsApi() {
+    initLocationApi();
+  }
+  void initLocationApi() {
+    geolocator = Geolocator();
+    locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
     geolocator.getPositionStream(locationOptions).listen(
       (Position position) {
         print('Position heard');

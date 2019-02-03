@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
-<<<<<<< HEAD
-import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
-=======
->>>>>>> 83c3cf73d0eb1231cc1445d90f327a315d2f6587
 
 void main() => runApp(MyApp());
 

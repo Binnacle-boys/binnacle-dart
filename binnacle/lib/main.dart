@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
-import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -51,10 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   double _direction;
   var headingFormat = new NumberFormat("##0.0#", "en_US");
-  var _heading; 
   var geolocator = Geolocator();
   var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
-  //Stream<Position> positionStream;
   Position _location;
 
   void _incrementCounter() {

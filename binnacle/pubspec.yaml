@@ -13,6 +13,8 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  convert: ^2.1.1
+  http: ^0.12.0+1
   flutter_compass: ^0.1.0
   intl: ^0.15.7
   geolocator: ^2.1.1

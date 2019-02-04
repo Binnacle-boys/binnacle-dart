@@ -159,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.display1,
             ),
             FutureBuilder<WindRequest>(
-                future: fetchWind(_location.latitude, _location.longitude),
+                future: fetchWind(_location),
                 builder: (context, snapshot) {
                   if(snapshot.connectionState == ConnectionState.done && snapshot.data != null){
                     return Center(
@@ -167,11 +167,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                snapshot.data.wind.heading == null ? 'Wind Heading unknown' : 'Wind Heading: ' + headingFormat.format(snapshot.data.wind.heading),
+                                snapshot.data.wind.heading == null ? 'Wind Heading unknown' : 'Wind Heading: ' + snapshot.data.wind.heading,
                                 style: Theme.of(context).textTheme.display1,
                               ),
                               Text(
-                                snapshot.data.wind.speed == null ? 'Wind Speed unknown' : 'Wind Speed: ' + headingFormat.format(snapshot.data.wind.speed),
+                                snapshot.data.wind.speed == null ? 'Wind Speed unknown' : 'Wind Speed: ' + snapshot.data.wind.speed,
                                 style: Theme.of(context).textTheme.display1,
                               ),
                             ]

@@ -16,7 +16,7 @@ class WindRequest {
 
 class Wind{
   double speed;
-  int heading;
+  double heading;
 
   Wind({
     this.speed,

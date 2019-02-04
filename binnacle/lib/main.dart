@@ -70,21 +70,28 @@ class _MyHomePageState extends State<MyHomePage> {
     print('Initializing the state');
     super.initState();
     initSensorsApi();
+  }
+
+  //Setting up hardware sensor apis
+  void initSensorsApi() {
+    initCompassApi();
+    initLocationApi();
+  }
+
+  //Setting up compass api listener
+  void initCompassApi() {
     FlutterCompass.events.listen((double direction) {
       setState(() {
         _direction = direction;
       });
     });
-    
-    
   }
 
-  void initSensorsApi() {
-    initLocationApi();
-  }
+  //Setting up location api listener
   void initLocationApi() {
     geolocator = Geolocator();
-    locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+    int distanceFilt = 10;
+    locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: distanceFilt);
     geolocator.getPositionStream(locationOptions).listen(
       (Position position) {
         print('Position heard');

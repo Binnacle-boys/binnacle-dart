@@ -85,6 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
         _direction = direction;
       });
     });
+
+
   }
 
   //Setting up location api listener
@@ -101,6 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _location = position;
         });
     });
+    
   }
 
   @override

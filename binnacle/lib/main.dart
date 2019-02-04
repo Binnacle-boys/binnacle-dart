@@ -95,17 +95,6 @@ class _MyHomePageState extends State<MyHomePage> {
           _location = position;
         });
     });
-    geolocator.getPositionStream(locationOptions).listen(
-      (Position position) {
-        print('Position heard');
-        print(_location == null ? 'Unknown' : _location.latitude.toString() + ', ' + _location.longitude.toString());
-        setState(() {
-          print('Position! heard');
-          _location = position;
-        });
-    });
-
-
   }
 
   //Setting up location api listener

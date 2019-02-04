@@ -1,3 +1,6 @@
+language: dart
+dart:
+- stable
 os:
 - linux
 sudo: false
@@ -9,6 +12,8 @@ addons:
     packages:
     - libstdc++6
     - fonts-droid
+install:
+- echo 'Avoid default Travis CI install step' # this is to avoid an error with pub in Travis
 before_script:
 - cd binnacle && git clone https://github.com/flutter/flutter.git -b beta
 - ./flutter/bin/flutter doctor

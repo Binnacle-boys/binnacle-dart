@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:intl/intl.dart';
+import 'package:geolocator/geolocator.dart';
 
 void main() => runApp(MyApp());
 
@@ -47,6 +49,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   double _direction;
+  NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
+  Geolocator geolocator;
+  LocationOptions locationOptions;
+  Position _location;
 
   void _incrementCounter() {
     setState(() {
@@ -61,12 +67,43 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    print('Initializing the state');
     super.initState();
+    initSensorsApi();
+  }
+
+  //Setting up hardware sensor apis
+  void initSensorsApi() {
+    initCompassApi();
+    initLocationApi();
+  }
+
+  //Setting up compass api listener
+  void initCompassApi() {
     FlutterCompass.events.listen((double direction) {
       setState(() {
         _direction = direction;
       });
     });
+
+
+  }
+
+  //Setting up location api listener
+  void initLocationApi() {
+    geolocator = Geolocator();
+    int distanceFilt = 10;
+    locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: distanceFilt);
+    geolocator.getPositionStream(locationOptions).listen(
+      (Position position) {
+        print('Position heard');
+        print(_location == null ? 'Unknown' : _location.latitude.toString() + ', ' + _location.longitude.toString());
+        setState(() {
+          print('Position! heard');
+          _location = position;
+        });
+    });
+    
   }
 
   @override
@@ -111,7 +148,15 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.display1,
             ),
             Text(
-              '$_direction',
+              _direction == null ? 'Direction unknown' : 'Heading: ' + headingFormat.format(_direction),
+              style: Theme.of(context).textTheme.display1,
+            ),
+            Text(
+              _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
+              style: Theme.of(context).textTheme.display1,
+            ),
+            Text(
+              _location == null ? 'Longitude unknown' : 'Longitude: ' + headingFormat.format(_location.longitude),
               style: Theme.of(context).textTheme.display1,
             ),
           ],

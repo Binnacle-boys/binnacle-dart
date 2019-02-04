@@ -1,3 +1,6 @@
+language: dart
+dart:
+- stable
 os:
 - linux
 sudo: false
@@ -13,11 +16,15 @@ addons:
 notifications:
     slack: tbdsillysailingpun:qq46CINpRzpkYPRbpRATa2xK
 
+install:
+- echo 'Avoid default Travis CI install step' # this is to avoid an error with pub in Travis
+
 before_script:
 - cd binnacle && git clone https://github.com/flutter/flutter.git -b beta
 - ./flutter/bin/flutter doctor
+- ./flutter/bin/flutter packages get
 script:
-- ./flutter/bin/flutter analyze
+- ./flutter/bin/flutter analyze --no-pub --no-current-package lib
 - ./flutter/bin/flutter test
 cache:
   directories:

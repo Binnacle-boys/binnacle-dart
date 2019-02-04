@@ -12,9 +12,8 @@ addons:
 before_script:
 - cd binnacle && git clone https://github.com/flutter/flutter.git -b beta
 - ./flutter/bin/flutter doctor
-- ./flutter/bin/flutter packages get
 script:
-- ./flutter/bin/flutter analyze --current-package
+- ./flutter/bin/flutter analyze --no-pub --no-current-package lib
 - ./flutter/bin/flutter test
 cache:
   directories:

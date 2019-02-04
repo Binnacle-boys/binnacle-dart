@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
-import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:sensors/sensors.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -49,14 +49,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   double _direction;
-  var headingFormat = new NumberFormat("##0.0#", "en_US");
-  var _heading; 
+  var _counter;
   var _acceleroList = new List(3);
-  var geolocator = Geolocator();
-  var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
-  //Stream<Position> positionStream;
+  NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
+  Geolocator geolocator;
+  LocationOptions locationOptions;
   Position _location;
 
   void _incrementCounter() {
@@ -74,16 +72,36 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     print('Initializing the state');
     super.initState();
+    initSensorsApi();
+  }
+
+  //Setting up hardware sensor apis
+  void initSensorsApi() {
+    initCompassApi();
+    initLocationApi();
+    initAccelerometer();
+  }
+void initAcceleometer() {
+  accelerometerEvents.listen((AccelerometerEvent event) {
+      _acceleroList[0] = event.x;
+      _acceleroList[1] = event.y;
+      _acceleroList[2] = event.z;
+    });
+}
+  //Setting up compass api listener
+  void initCompassApi() {
     FlutterCompass.events.listen((double direction) {
       setState(() {
         _direction = direction;
       });
     });
-    accelerometerEvents.listen((AccelerometerEvent event) {
-      _acceleroList[0] = event.x;
-      _acceleroList[1] = event.y;
-      _acceleroList[2] = event.z;
-    });
+  }
+
+  //Setting up location api listener
+  void initLocationApi() {
+    geolocator = Geolocator();
+    int distanceFilt = 10;
+    locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: distanceFilt);
     geolocator.getPositionStream(locationOptions).listen(
       (Position position) {
         print('Position heard');
@@ -93,7 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
           _location = position;
         });
     });
-    
   }
 
   @override
@@ -132,10 +149,17 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               'You have pushed the button this many times:',
-              
             ),
             Text(
               '$_acceleroList',
+              style: Theme.of(context).textTheme.display1,
+            ),
+            Text(
+              _direction == null ? 'Direction unknown' : 'Heading: ' + headingFormat.format(_direction),
+              style: Theme.of(context).textTheme.display1,
+            ),
+            Text(
+              _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
               style: Theme.of(context).textTheme.display1,
             ),
             Text(

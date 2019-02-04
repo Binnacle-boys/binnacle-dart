@@ -15,7 +15,10 @@ environment:
 dependencies:
   flutter_compass: ^0.1.0
   intl: ^0.15.7
+<<<<<<< HEAD
   sensors: ^0.4.0
+=======
+>>>>>>> sprint1
   geolocator: ^2.1.1
   flutter:
     sdk: flutter
@@ -28,6 +31,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  pedantic: ^1.0.0
 
 
 # For information on the generic Dart part of this file, see the

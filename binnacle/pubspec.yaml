@@ -15,9 +15,11 @@ environment:
 dependencies:
   flutter_compass: ^0.1.0
   intl: ^0.15.7
+  sensors: ^0.4.0
   geolocator: ^2.1.1
   flutter:
     sdk: flutter
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

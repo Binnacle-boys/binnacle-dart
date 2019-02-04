@@ -3,6 +3,7 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:sensors/sensors.dart';
 
 void main() => runApp(MyApp());
 
@@ -52,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   double _direction;
   var headingFormat = new NumberFormat("##0.0#", "en_US");
   var _heading; 
+  var _acceleroList = new List(3);
   var geolocator = Geolocator();
   var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
   //Stream<Position> positionStream;
@@ -76,6 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _direction = direction;
       });
+    });
+    accelerometerEvents.listen((AccelerometerEvent event) {
+      _acceleroList[0] = event.x;
+      _acceleroList[1] = event.y;
+      _acceleroList[2] = event.z;
     });
     geolocator.getPositionStream(locationOptions).listen(
       (Position position) {
@@ -125,9 +132,10 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               'You have pushed the button this many times:',
+              
             ),
             Text(
-              '$_counter',
+              '$_acceleroList',
               style: Theme.of(context).textTheme.display1,
             ),
             Text(

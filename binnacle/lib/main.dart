@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
-import 'package:intl/intl.dart';
-import 'package:geolocator/geolocator.dart';
-import 'WindRequest.dart';
-import 'package:sensors/sensors.dart';
-
+import 'dart:math';
 
 void main() => runApp(MyApp());
 
@@ -50,16 +46,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
   double _direction;
-<<<<<<< HEAD
-=======
-  int _counter;
-  var _acceleroList = new List(3);
->>>>>>> accelero
-  NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
-  Geolocator geolocator;
-  LocationOptions locationOptions;
-  Position _location;
 
   void _incrementCounter() {
     setState(() {
@@ -74,46 +62,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    print('Initializing the state');
     super.initState();
-    initSensorsApi();
-  }
-
-  //Setting up hardware sensor apis
-  void initSensorsApi() {
-    initCompassApi();
-    initLocationApi();
-    initAccelerometer();
-  }
-void initAcceleometer() {
-  accelerometerEvents.listen((AccelerometerEvent event) {
-      _acceleroList[0] = event.x;
-      _acceleroList[1] = event.y;
-      _acceleroList[2] = event.z;
-    });
-}
-  //Setting up compass api listener
-  void initCompassApi() {
     FlutterCompass.events.listen((double direction) {
       setState(() {
         _direction = direction;
       });
-    });
-  }
-
-  //Setting up location api listener
-  void initLocationApi() {
-    geolocator = Geolocator();
-    int distanceFilt = 10;
-    locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: distanceFilt);
-    geolocator.getPositionStream(locationOptions).listen(
-      (Position position) {
-        print('Position heard');
-        print(_location == null ? 'Unknown' : _location.latitude.toString() + ', ' + _location.longitude.toString());
-        setState(() {
-          print('Position! heard');
-          _location = position;
-        });
     });
   }
 
@@ -155,66 +108,13 @@ void initAcceleometer() {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_acceleroList',
+              '$_counter',
               style: Theme.of(context).textTheme.display1,
             ),
             Text(
-              _direction == null ? 'Direction unknown' : 'Heading: ' + headingFormat.format(_direction),
+              '$_direction',
               style: Theme.of(context).textTheme.display1,
             ),
-            Text(
-              _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
-              style: Theme.of(context).textTheme.display1,
-            ),
-            Text(
-              _direction == null ? 'Direction unknown' : 'Heading: ' + headingFormat.format(_direction),
-              style: Theme.of(context).textTheme.display1,
-            ),
-            Text(
-              _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
-              style: Theme.of(context).textTheme.display1,
-            ),
-            Text(
-              _location == null ? 'Longitude unknown' : 'Longitude: ' + headingFormat.format(_location.longitude),
-              style: Theme.of(context).textTheme.display1,
-            ),
-            FutureBuilder<WindRequest>(
-                future: fetchWind(_location),
-                builder: (context, snapshot) {
-                  if(snapshot.connectionState == ConnectionState.done && snapshot.data != null){
-                    return Center(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                snapshot.data.wind.heading == null ? 'Wind Heading unknown' : 'Wind Heading: ' + snapshot.data.wind.heading,
-                                style: Theme.of(context).textTheme.display1,
-                              ),
-                              Text(
-                                snapshot.data.wind.speed == null ? 'Wind Speed unknown' : 'Wind Speed: ' + snapshot.data.wind.speed,
-                                style: Theme.of(context).textTheme.display1,
-                              ),
-                            ]
-                        )
-                    );
-                  }
-                  else if(snapshot.hasError){
-                    return Container(
-                      child: Text(snapshot.error.toString())
-                    );
-                  }
-                  else{
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CircularProgressIndicator()
-                        ],
-                      )
-                    );
-                  }
-                }
-            )
           ],
         ),
       ),

@@ -1,24 +1,16 @@
-# Binnacle
+# sos
 
-[![Build Status](https://travis-ci.com/Binnacle-boys/binnacle-dart.svg?branch=master)](https://travis-ci.com/Binnacle-boys/binnacle-dart)
-
-A Flutter project.
-
+A new Flutter project.
 
 ## Getting Started
 
-`flutter packages get` - Install project dependencies
+This project is a starting point for a Flutter application.
 
-`flutter attach` - Attach physical device or emulator for development purposes
+A few resources to get you started if this is your first Flutter project:
 
-`flutter run` - Run project on attached device
+- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
 
-`flutter analyze` - Run analysis tools on codebase
-
-`flutter test` - Run tests
-
-`flutter doctor` - Check if Flutter is installed properly
-
-## Resources
-
-[Flutter Style Guide](https://github.com/flutter/flutter/wiki/Style-guide-for-Flutter-repo)
+For help getting started with Flutter, view our 
+[online documentation](https://flutter.io/docs), which offers tutorials, 
+samples, guidance on mobile development, and a full API reference.

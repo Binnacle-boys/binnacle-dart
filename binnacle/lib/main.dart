@@ -3,6 +3,8 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'WindRequest.dart';
+import 'package:sensors/sensors.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -48,8 +50,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   double _direction;
+<<<<<<< HEAD
+=======
+  int _counter;
+  var _acceleroList = new List(3);
+>>>>>>> accelero
   NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
   Geolocator geolocator;
   LocationOptions locationOptions;
@@ -77,8 +83,15 @@ class _MyHomePageState extends State<MyHomePage> {
   void initSensorsApi() {
     initCompassApi();
     initLocationApi();
+    initAccelerometer();
   }
-
+void initAcceleometer() {
+  accelerometerEvents.listen((AccelerometerEvent event) {
+      _acceleroList[0] = event.x;
+      _acceleroList[1] = event.y;
+      _acceleroList[2] = event.z;
+    });
+}
   //Setting up compass api listener
   void initCompassApi() {
     FlutterCompass.events.listen((double direction) {
@@ -102,7 +115,6 @@ class _MyHomePageState extends State<MyHomePage> {
           _location = position;
         });
     });
-    
   }
 
   @override
@@ -143,7 +155,15 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              '$_acceleroList',
+              style: Theme.of(context).textTheme.display1,
+            ),
+            Text(
+              _direction == null ? 'Direction unknown' : 'Heading: ' + headingFormat.format(_direction),
+              style: Theme.of(context).textTheme.display1,
+            ),
+            Text(
+              _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
               style: Theme.of(context).textTheme.display1,
             ),
             Text(

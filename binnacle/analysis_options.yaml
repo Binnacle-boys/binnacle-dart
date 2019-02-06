@@ -1,0 +1,3 @@
+include: package:pedantic/analysis_options.yaml
+
+# NOTE: Custom linting and analysis tools can be used here

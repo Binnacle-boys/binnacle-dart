@@ -50,7 +50,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   double _direction;
-  var _counter;
+  int _counter;
   var _acceleroList = new List(3);
   NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
   Geolocator geolocator;

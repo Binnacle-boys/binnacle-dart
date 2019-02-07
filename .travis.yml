@@ -16,12 +16,9 @@ addons:
 notifications:
     slack: tbdsillysailingpun:qq46CINpRzpkYPRbpRATa2xK
 
-<<<<<<< HEAD
-=======
 install:
 - echo 'Avoid default Travis CI install step' # this is to avoid an error with pub in Travis
 
->>>>>>> sprint1
 before_script:
 - cd binnacle && git clone https://github.com/flutter/flutter.git -b beta
 - ./flutter/bin/flutter doctor

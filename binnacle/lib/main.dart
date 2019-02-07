@@ -51,11 +51,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   double _direction;
-<<<<<<< HEAD
-=======
   int _counter;
   var _acceleroList = new List(3);
->>>>>>> accelero
   NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
   Geolocator geolocator;
   LocationOptions locationOptions;
@@ -85,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
     initLocationApi();
     initAccelerometer();
   }
-void initAcceleometer() {
+void initAccelerometer() {
   accelerometerEvents.listen((AccelerometerEvent event) {
       _acceleroList[0] = event.x;
       _acceleroList[1] = event.y;

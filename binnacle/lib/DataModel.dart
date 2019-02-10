@@ -1,3 +1,4 @@
+import 'package:geolocator/geolocator.dart';
 /// Data that sailing UI needs. Can be implemented for both a sensor package
 /// and a standalone UI.
 abstract class DataModel {
@@ -20,13 +21,17 @@ abstract class Boat {
   double _boomAngle = -1;
   double get boomAngle => _boomAngle;
 
-  /// Speed of the boat in miles per hour.
-  double _speed = -1;
-  double get speed => _speed;
+  /// Position of the boat which includes, course heading,
+  /// ground speed, and location (lat/long). 
+  Position _position;
+  Position get position => _position;
 
-  /// Heading of the boat in degrees. Compass direction (North = 0, East = 90)
-  double _headingAngle = -1;
-  double get headingAngle => _headingAngle;
+  /// Compass heading which differs from the course heading. Determined magnetically,
+  /// vs current course. This important to have two differing heading
+  /// components to distinguish boats direction vs movement direction 
+  /// which could include currents.
+  double _compassHeading = -1;
+  double get compassHeading => _compassHeading;
 
   /// Angle of list, the angle that the boat is in the water. 0 means the boat
   /// is completely flat, where 180 means it's capsized perfectly.

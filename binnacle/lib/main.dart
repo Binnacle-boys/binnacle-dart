@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'WindRequest.dart';
 import 'package:sensors/sensors.dart';
+import './SpeedWidget.dart';
 
 
 void main() => runApp(MyApp());
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Demo Home'),
     );
   }
 }
@@ -151,6 +152,7 @@ void initAccelerometer() {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            SpeedWidget('adsd'),
             Text(
               'You have pushed the button this many times:',
             ),

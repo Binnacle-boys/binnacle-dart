@@ -26,6 +26,10 @@ abstract class Boat {
   Position _position;
   Position get position => _position;
 
+  // Position stream, for listening on the positions values
+  Stream<Position> _positionStream;
+  Stream<Position> get positionStream => _positionStream;
+
   /// Compass heading which differs from the course heading. Determined magnetically,
   /// vs current course. This important to have two differing heading
   /// components to distinguish boats direction vs movement direction 

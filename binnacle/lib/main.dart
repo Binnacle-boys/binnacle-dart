@@ -152,7 +152,7 @@ void initAccelerometer() {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SpeedWidget('adsd'),
+            SpeedWidget(_location),
             Text(
               'You have pushed the button this many times:',
             ),

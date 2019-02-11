@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
+import  'package:geolocator/geolocator.dart';
+
+
 class SpeedWidget extends StatelessWidget {
   
-  // Final because this is a StatelessWidget,
-  // So this Widget should not alter state
-  
-  // Constructor
-  final String speed; 
+  final Position speed; //String just for now, needs to be updated to Stream<Position>
   SpeedWidget(this.speed);
 
   @override
   Widget build(BuildContext context) {
-    return Text(speed);
+    return Text(speed.toString());
   }
 }

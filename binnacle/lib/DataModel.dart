@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'dart:async';
 /// Data that sailing UI needs. Can be implemented for both a sensor package
 /// and a standalone UI.
 abstract class DataModel {

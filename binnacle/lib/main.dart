@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
-import 'WindRequest.dart';
 import 'package:sensors/sensors.dart';
-import './SpeedWidget.dart';
 
+import 'DataModel.dart';
+import 'phone/PhoneModel.dart';
+import './SpeedWidget.dart';
+import 'WindRequest.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Binnacle Demo',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -25,9 +27,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home'),
+      home: MyHomePage(title: 'Binnacle Demo (Main)'),
     );
   }
 }
@@ -51,71 +53,30 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double _direction;
-  int _counter;
-  var _acceleroList = new List(3);
-  NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
-  Geolocator geolocator;
-  LocationOptions locationOptions;
+  DataModel _model;
   Position _location;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-    
-      _counter++;
-      print(_counter);
-    });
-  }
+  NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
 
   @override
   void initState() {
     print('Initializing the state');
     super.initState();
-    _counter = 0;
-    initSensorsApi();
-  }
 
-  //Setting up hardware sensor apis
-  void initSensorsApi() {
-    initCompassApi();
-    initLocationApi();
-    initAccelerometer();
-  }
-void initAccelerometer() {
-  accelerometerEvents.listen((AccelerometerEvent event) {
-      _acceleroList[0] = event.x;
-      _acceleroList[1] = event.y;
-      _acceleroList[2] = event.z;
-    });
-}
-  //Setting up compass api listener
-  void initCompassApi() {
-    FlutterCompass.events.listen((double direction) {
-      setState(() {
-        _direction = direction;
-      });
-    });
-  }
+    // TODO: Abstract this to a factory (down the line might be a builder)
+    bool phoneModel = true;
+    if (phoneModel) {
+      _model = new PhoneModel();
+    } else {
+      throw new Exception("Other data models not implemented");
+    }
 
-  //Setting up location api listener
-  void initLocationApi() {
-    geolocator = Geolocator();
-    int distanceFilt = 10;
-    locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: distanceFilt);
-    geolocator.getPositionStream(locationOptions).listen(
+    _model.currentBoat.positionStream.listen(
       (Position position) {
-        print('Position heard');
-        print(_location == null ? 'Unknown' : _location.latitude.toString() + ', ' + _location.longitude.toString());
         setState(() {
-          print('Position! heard');
+          print('PhoneModel position heard');
           _location = position;
         });
-    });
+      });
   }
 
   @override
@@ -153,29 +114,6 @@ void initAccelerometer() {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SpeedWidget(_location),
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-            Text(
-              '$_acceleroList',
-              style: Theme.of(context).textTheme.display1,
-            ),
-            Text(
-              _direction == null ? 'Direction unknown' : 'Heading: ' + headingFormat.format(_direction),
-              style: Theme.of(context).textTheme.display1,
-            ),
-            Text(
-              _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
-              style: Theme.of(context).textTheme.display1,
-            ),
-            Text(
-              _direction == null ? 'Direction unknown' : 'Heading: ' + headingFormat.format(_direction),
-              style: Theme.of(context).textTheme.display1,
-            ),
             Text(
               _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
               style: Theme.of(context).textTheme.display1,
@@ -224,11 +162,6 @@ void initAccelerometer() {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

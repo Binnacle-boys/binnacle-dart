@@ -9,6 +9,10 @@ class SpeedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (_position == null) {
+      return Text("Loading geolocator");
+    }
+
     return Text(_position.speed.toString());
   }
 }

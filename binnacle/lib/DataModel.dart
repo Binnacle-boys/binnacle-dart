@@ -1,16 +1,36 @@
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
+
+import 'phone/Boat.dart';
+import 'phone/Wind.dart';
+import 'algorithm/Boat.dart';
+
+enum SensorType {
+  phone,
+  bluetooth
+}
+
 /// Data that sailing UI needs. Can be implemented for both a sensor package
 /// and a standalone UI.
-abstract class DataModel {
-  Boat _currentBoat;
-  Boat get currentBoat => _currentBoat;
+class DataModel {
+  Boat currentBoat;
 
-  Boat _idealBoat;
-  Boat get idealBoat => _idealBoat;
+  Boat idealBoat;
 
-  Wind _wind;
-  Wind get wind => _wind;
+  Wind wind;
+
+  factory DataModel(SensorType type) {
+    if (type == SensorType.phone) {
+      Boat phoneBoat = new PhoneBoat();
+      Wind phoneWind = new PhoneWind();
+      Boat idealBoat = new IdealBoat(phoneBoat, phoneWind);
+      return DataModel._internal(phoneBoat, idealBoat, phoneWind);
+    } else {
+      throw new Exception("Other DataModels not implemented");
+    }
+  }
+
+  DataModel._internal(this.currentBoat, this.idealBoat, this.wind);
 }
 
 /// Interface for the data collected from a sailboat. Implemented for both

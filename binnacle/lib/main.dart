@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_compass/flutter_compass.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:sensors/sensors.dart';
 
 import 'DataModel.dart';
-import 'phone/PhoneModel.dart';
 import './SpeedWidget.dart';
 import 'WindRequest.dart';
 
@@ -65,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: Abstract this to a factory (down the line might be a builder)
     bool phoneModel = true;
     if (phoneModel) {
-      _model = new PhoneModel();
+      _model = new DataModel(SensorType.phone);
     } else {
       throw new Exception("Other data models not implemented");
     }

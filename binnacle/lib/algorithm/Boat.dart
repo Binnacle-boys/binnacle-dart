@@ -1,4 +1,6 @@
 import 'package:geolocator/geolocator.dart';
+import 'dart:async';
+
 import '../DataModel.dart';
 
 /// This is a stub until we work on integrating with the algorithm

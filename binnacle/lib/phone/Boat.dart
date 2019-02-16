@@ -1,4 +1,6 @@
 import 'package:geolocator/geolocator.dart';
+import 'dart:async';
+
 import '../DataModel.dart';
 
 /// Interface for the data collected from a sailboat. Implemented for both

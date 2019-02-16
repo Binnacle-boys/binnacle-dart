@@ -1,41 +1,11 @@
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 
-import 'phone/Boat.dart';
-import 'phone/Wind.dart';
-import 'algorithm/Boat.dart';
-
-enum SensorType {
-  phone,
-  bluetooth
-}
-
-/// Data that sailing UI needs. Can be implemented for both a sensor package
-/// and a standalone UI.
-class DataModel {
-  Boat currentBoat;
-
-  Boat idealBoat;
-
-  Wind wind;
-
-  factory DataModel(SensorType type) {
-    if (type == SensorType.phone) {
-      Boat phoneBoat = new PhoneBoat();
-      Wind phoneWind = new PhoneWind();
-      Boat idealBoat = new IdealBoat(phoneBoat, phoneWind);
-      return DataModel._internal(phoneBoat, idealBoat, phoneWind);
-    } else {
-      throw new Exception("Other DataModels not implemented");
-    }
-  }
-
-  DataModel._internal(this.currentBoat, this.idealBoat, this.wind);
-}
+import '../DataModel.dart';
 
 /// Interface for the data collected from a sailboat. Implemented for both
 /// the live sailboat and a mocked "ideal" sailboat (generated from algorithm).
-abstract class Boat {
+class PhoneBoat extends Boat {
   /// The position of the boom measured in degrees. This angle will always
   /// be with in a range of [90, 270] degrees since the boom should not rotate
   /// all the way around. Relative to the sailboat.
@@ -63,18 +33,15 @@ abstract class Boat {
   /// DateTime when these values were last updated.
   DateTime _lastUpdate;
   DateTime get lastUpdate => _lastUpdate;
-}
 
-abstract class Wind {
-  /// Current speed of the wind in current location in miles per hour.
-  double _speed;
-  double get speed => _speed;
+  ///
+  Geolocator _geolocator;
 
-  /// Current direction of the wind in degrees (where 0 = North, 90 = East).
-  double _direction;
-  double get direction => _direction;
-
-  /// DateTime when these values were last updated.
-  DateTime _lastUpdate;
-  DateTime get lastUpdate => _lastUpdate;
+  PhoneBoat() {
+    _geolocator = Geolocator();
+    int distanceFilter = 10;
+    LocationOptions locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: distanceFilter);
+    _positionStream = _geolocator.getPositionStream(locationOptions);
+    print("PhoneBoat()");
+  }
 }

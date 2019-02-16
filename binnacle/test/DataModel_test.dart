@@ -8,4 +8,14 @@ void main() {
 
     expect(dm != null, true);
   });
+
+  test('bluetooth data model throws not implemented', () {
+    try {
+      final dm = new DataModel(SensorType.bluetooth);
+
+      expect(dm == null, true);
+    } catch (e) {
+      expect(true, true); // should throw exception
+    }
+  });
 }

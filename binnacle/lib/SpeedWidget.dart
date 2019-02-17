@@ -25,10 +25,9 @@ class _SpeedWidgetState extends State<SpeedWidget> {
   @override
   void initState() {
     super.initState();
-    //Set listen to updatePosition call
-    if (widget.positionStream != null) {
-      _positionSub = widget.positionStream.listen(updatePosition);
-    }
+    // Set listen to updatePosition call
+    // Returns null if positionStream is null
+    _positionSub = widget.positionStream?.listen(updatePosition);
     // Setting up a standard format for speed
     // TODO: Use a static class for these formats in future
     speedFormat = new NumberFormat("##0.0#", "en_US");

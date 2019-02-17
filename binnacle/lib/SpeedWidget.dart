@@ -14,7 +14,10 @@ class SpeedWidget extends StatefulWidget {
 
 class _SpeedWidgetState extends State<SpeedWidget> {
   
+  /// In case streamsubscription needs to be managed
   StreamSubscription<Position> _positionSub;
+  StreamSubscription<Position> get positionSub => _positionSub;
+  
   Position _position;
   NumberFormat speedFormat;
 
@@ -46,6 +49,7 @@ class _SpeedWidgetState extends State<SpeedWidget> {
       //When no position found, may need to be changed later
       return "Loading speed";
     }
+    // TODO: Switch based on unit options  
     double mphSpeed = msToMph(pos.speed);
     return speedFormat.format(mphSpeed) + " mph";
   }

@@ -3,6 +3,8 @@ import 'dart:async';
 
 import '../DataModel.dart';
 
+// ignore_for_file: unused_field
+
 /// This is a stub until we work on integrating with the algorithm
 class IdealBoat extends Boat {
   /// Uses actual data to base the algorithm on

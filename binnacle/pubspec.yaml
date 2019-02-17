@@ -13,6 +13,8 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  rxdart: ^0.20.0
+  mockito: ^4.0.0
   permission_handler: "2.1.2"
   google_api_availability: "1.0.4"
   convert: ^2.1.1

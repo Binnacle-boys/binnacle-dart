@@ -17,14 +17,11 @@ class _SpeedWidgetState extends State<SpeedWidget> {
   StreamSubscription<Position> _positionSub;
   Position _position;
   NumberFormat speedFormat;
-  // _SpeedWidgetState() {
-  // }
 
   @override
   void initState() {
     super.initState();
     //Set listen to updatePosition call
-    print("!!!!!!!!!!!!!!!!!!!!!!!Constructing speed widget");
     _positionSub = widget.positionStream.listen(updatePosition);
     // Setting up a standard format for speed
     // TODO: Use a static class for these formats in future
@@ -34,7 +31,6 @@ class _SpeedWidgetState extends State<SpeedWidget> {
   /// Assigned to the listener to update the state of this widget
   void updatePosition(Position position) {
     setState(() {
-      print("Updating speed position for speed widget");
       _position = position;
     });
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import  'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'dart:ui' as dartui;
 
 class SpeedWidget extends StatefulWidget {
   SpeedWidget({Key key, this.positionStream}) : super(key: key);
@@ -25,7 +26,9 @@ class _SpeedWidgetState extends State<SpeedWidget> {
   void initState() {
     super.initState();
     //Set listen to updatePosition call
-    _positionSub = widget.positionStream.listen(updatePosition);
+    if (widget.positionStream != null) {
+      _positionSub = widget.positionStream.listen(updatePosition);
+    }
     // Setting up a standard format for speed
     // TODO: Use a static class for these formats in future
     speedFormat = new NumberFormat("##0.0#", "en_US");
@@ -45,6 +48,7 @@ class _SpeedWidgetState extends State<SpeedWidget> {
 
   /// Creates a string to display for the speed
   String speedString(Position pos) {
+    print("Generating speed string");
     if(pos == null) {
       //When no position found, may need to be changed later
       return "Loading speed";
@@ -56,6 +60,6 @@ class _SpeedWidgetState extends State<SpeedWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(speedString(_position));
+    return Text(speedString(_position), textDirection: dartui.TextDirection.ltr);
   }
 }

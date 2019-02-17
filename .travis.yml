@@ -15,6 +15,10 @@ addons:
     
 notifications:
     slack: tbdsillysailingpun:qq46CINpRzpkYPRbpRATa2xK
+# blocklist
+branches:
+  except:
+  - /*-rp/
 
 install:
 - echo 'Avoid default Travis CI install step' # this is to avoid an error with pub in Travis

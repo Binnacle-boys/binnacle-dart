@@ -10,7 +10,7 @@ See '-h' for usage.
     on 2-10-2019
 --------------------------------------
 '''
-from optparse import OptionParser
+import argparse
 import sys
 import math
 import matplotlib.pyplot as plt
@@ -19,7 +19,7 @@ import yaml
 from algorithm_modules import *
 
 sys.path.append("./algorithm_modules")
-v_flag = False
+verbose_flag = False
 
 def euc_dist(a, b):
     """ Find euclidean distance between points """
@@ -59,7 +59,7 @@ def main(input_path, output_path, group_name):
     for input_index, input_datum in test_input.items():
         single_datum_results = []
 
-        if v_flag:
+        if verbose_flag:
             print(input_datum)
 
         for alg_name in algs:
@@ -68,7 +68,7 @@ def main(input_path, output_path, group_name):
             t, s = func()
             line_len = calc_length(t, s)
             lable_text = "%s(input[%d]) = %.4f" % (alg_name, i, line_len)
-            if v_flag:
+            if verbose_flag:
                 print(lable_text)
             plt.plot(t, s, lw=2, label=lable_text)
             result = {}
@@ -87,27 +87,26 @@ def main(input_path, output_path, group_name):
     plt.show()
 
 if __name__ == '__main__':
-    parser = OptionParser(usage="usage: $./alphabet_test [options] <input_path> <output_path>",
-                          version="%prog 0.1")
-    parser.add_option("-g", "--groupname",
-                      dest="g",
-                      default="all",
-                      help="Group of algorithm names to run, see tst_config.yaml")
-    parser.add_option("-v", "--verbose",
-                      action="store_true",
-                      dest="v_flag",
-                      default=False,
-                      help="Verbose mode",)
+    parser = argparse.ArgumentParser(
+        description="Run and compare different groups of algorithms.")
 
-    (options, args) = parser.parse_args()
+    parser.add_argument("-v", "--verbose",
+                        action="store_true",
+                        dest="verbose_flag",
+                        default=False,
+                        help="Verbose mode",)
+    parser.add_argument("-g", "--groupname",
+                        dest="groupname",
+                        help="Group of algorithm names to run, see tst_config.yaml")
+    parser.add_argument("input_filepath",
+                        default="input.yaml",
+                        help="Input filepath")
+    parser.add_argument("output_filepath",
+                        default="output.yaml",
+                        help="Output filepath")
+    args = parser.parse_args()
+    print(args.output_filepath)
 
-    print("options  [", type(options).__name__, "]   :", options)
-    print("args  [", type(args).__name__, "]   :", args)
+    verbose_flag = args.verbose_flag
 
-    input_filepath = args[0]
-    output_filepath = args[1]
-    options_dict = vars(options)
-    groupname = options_dict['g']
-    v_flag = options_dict['v_flag']
-
-    main(input_filepath, output_filepath, groupname)
+    main(args.input_filepath, args.output_filepath, args.groupname)

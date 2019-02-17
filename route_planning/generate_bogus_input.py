@@ -45,14 +45,15 @@ def main(case_count, output_path):
     output_data = {}
     width = 100
     step = (2 * (width // case_count)) // 1
-    pts = [[x, width - x] for x in range(0, width, step)]
-    stand = [[0, width]] * (width // step)
+    variable_points = [[x, width - x] for x in range(0, width, step)]
+    similar_points = [[0, width]] * (width // step)
 
-    zipd_forward = list(zip(stand, pts))
-    zipd_back = list(zip(pts, stand))
+    # Adding the two zipped lists that contain points (a,b) and (b,a)
+    all_pts = list(zip(similar_points, variable_points)) + \
+        list(zip(variable_points, similar_points))
 
-    all_pts = zipd_forward + zipd_back
-    print("all_pts len = ", len(all_pts))
+    if verbose_flag:
+        print("all_pts len = ", len(all_pts))
     n = 0
     for x, y in all_pts[0:case_count]:
         case = {}
@@ -62,6 +63,7 @@ def main(case_count, output_path):
         case["wind_speed"] = random.randrange(20)
         output_data[n] = case
         n += 1
+
     if verbose_flag:
         pp.pprint(output_data)
     with open(output_path, "w") as op:

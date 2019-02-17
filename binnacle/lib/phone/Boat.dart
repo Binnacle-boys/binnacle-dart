@@ -41,7 +41,7 @@ class PhoneBoat extends Boat {
     _geolocator = Geolocator();
     int distanceFilter = 10;
     LocationOptions locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: distanceFilter);
-    _positionStream = _geolocator.getPositionStream(locationOptions);
+    _positionStream = _geolocator.getPositionStream(locationOptions).asBroadcastStream();
     print("PhoneBoat()");
   }
 }

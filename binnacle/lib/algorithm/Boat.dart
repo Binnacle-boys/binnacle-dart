@@ -3,11 +3,13 @@ import 'dart:async';
 
 import '../DataModel.dart';
 
+
+
 /// This is a stub until we work on integrating with the algorithm
 class IdealBoat extends Boat {
   /// Uses actual data to base the algorithm on
-  Boat _actualBoat;
-  Wind _wind;
+  Boat _actualBoat; // ignore: unused_field
+  Wind _wind; // ignore: unused_field
 
   /// The position of the boom measured in degrees. This angle will always
   /// be with in a range of [90, 270] degrees since the boom should not rotate

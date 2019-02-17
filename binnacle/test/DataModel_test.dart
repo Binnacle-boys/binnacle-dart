@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:sos/DataModel.dart';
+import 'package:sos/model/DataModel.dart';
 
 void main() {
   test('phone data model returned', () {

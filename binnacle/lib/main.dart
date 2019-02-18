@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 
-import 'DataModel.dart';
+import './model/DataModel.dart';
 import './SpeedWidget.dart';
 import 'WindRequest.dart';
 

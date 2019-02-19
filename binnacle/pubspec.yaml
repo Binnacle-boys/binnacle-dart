@@ -15,14 +15,17 @@ environment:
 dependencies:
   rxdart: ^0.20.0
   mockito: ^4.0.0
-  permission_handler: "2.1.2"
-  google_api_availability: "1.0.4"
   convert: ^2.1.1
   http: ^0.12.0+1
   flutter_compass: ^0.1.0
   intl: ^0.15.7
   sensors: ^0.4.0
-  geolocator: ^2.1.1
+  geolocator:
+    git:
+      url: https://github.com/BaseflowIT/flutter-geolocator.git
+      ref: develop
+  permission_handler: "^2.2.0"
+  google_api_availability: "^1.0.6"
   flutter:
     sdk: flutter
 

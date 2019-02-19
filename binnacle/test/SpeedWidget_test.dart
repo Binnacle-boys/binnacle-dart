@@ -29,10 +29,6 @@ void main() {
       // Waiting for the listen emission
       await tester.pump(Duration.zero);
       expect(find.text("0.0 mph"), findsOneWidget);
-      /// TODO: Do pull request on the geolocator plug-in to add a 
-      /// public constructor for simpler testing. Not able to mock 
-      /// position at the moment.
-      
     }
   );
 }

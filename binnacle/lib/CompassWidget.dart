@@ -26,7 +26,9 @@ class _CompassWidgetState extends State<CompassWidget> {
 
   /// Updates direction; callback for the direction stream subscription
   void updateDirection (double direction) {
-    _direction = direction;
+    setState(() {
+      _direction = direction;
+    });
   }
 
   /// Building UI component for the compass

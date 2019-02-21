@@ -53,7 +53,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/compass.jpg
     - assets/compass.png
 
   #  - images/a_dot_burr.jpeg

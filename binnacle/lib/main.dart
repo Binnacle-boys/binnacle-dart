@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 
 import './model/DataModel.dart';
 import './SpeedWidget.dart';
+import './CompassWidget.dart';
 import 'WindRequest.dart';
 
 void main() => runApp(MyApp());
@@ -119,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _location == null ? 'Longitude unknown' : 'Longitude: ' + headingFormat.format(_location.longitude),
               style: Theme.of(context).textTheme.display1,
             ),
+            CompassWidget(directionStream: _model.currentBoat.compassHeading?.stream),
             FutureBuilder<WindRequest>(
                 future: fetchWind(_location),
                 builder: (context, snapshot) {

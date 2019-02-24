@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import './model/DataModel.dart';
 import './SpeedWidget.dart';
 import 'WindRequest.dart';
+import './model/bluetooth/BluetoothManager.dart';
 
 void main() => runApp(MyApp());
 
@@ -74,6 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
           _location = position;
         });
       });
+
+    BluetoothManager().printDevices();
   }
 
   @override

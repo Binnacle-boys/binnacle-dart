@@ -8,6 +8,7 @@ import './SpeedWidget.dart';
 import './CompassWidget.dart';
 import 'WindRequest.dart';
 import 'ListAngleWidget.dart';
+import './model/bluetooth/BluetoothManager.dart';
 
 void main() => runApp(MyApp());
 
@@ -82,6 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
           _location = position;
         });
       });
+
+    BluetoothManager().printDevices();
   }
 
   @override

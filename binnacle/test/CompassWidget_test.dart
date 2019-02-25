@@ -13,11 +13,25 @@ void main() {
       await tester.pumpWidget(
         DefaultAssetBundle(
             bundle: assetBundle,
-            child: CompassUI(direction: 0.0)
+            child: MaterialApp(
+              title: 'Binnacle',
+              home: Scaffold(
+                appBar: AppBar(
+                  title: Text("title"),
+                ),
+                body: Center(
+                  child: Column(
+                    children: <Widget>[
+                      CompassUI(direction: 0.0)
+                    ],
+                  ),
+                ),
+              )
+            )
           )
         
       );
-      await expectLater(find.byType(CompassUI), matchesGoldenFile('golden/goldenNorthCompass.png'));
+      await expectLater(find.byType(MaterialApp), matchesGoldenFile('golden/goldenNorthCompass.png'));
     }
   );
 }

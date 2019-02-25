@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'CompassFace.dart';
 
 class CompassBody extends StatelessWidget {
   CompassBody();
@@ -10,7 +11,6 @@ class CompassBody extends StatelessWidget {
         aspectRatio: 1.0,
         child: new Stack(
             children: <Widget>[
-              
               new Container(
                 width: double.infinity,
                 decoration: new BoxDecoration(
@@ -23,7 +23,7 @@ class CompassBody extends StatelessWidget {
                     )
                   ],
                 ),
-
+                child: new CompassFace(),
               )
             ]
         )

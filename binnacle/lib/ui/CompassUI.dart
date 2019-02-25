@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'compass/CompassBody.dart';
 import 'dart:math' as math;
 
 class CompassUI extends StatelessWidget {
@@ -9,7 +10,8 @@ class CompassUI extends StatelessWidget {
   Widget build(BuildContext context) {
     print("Building widget!");
     return new Transform.rotate(angle: ((direction ?? 0) * (math.pi / 180) * -1),
-            child: new Image.asset('assets/navigation/compass.png'));
+            child: new CompassBody());
+            //child: new Image.asset('assets/navigation/compass.png'));
   
   }
 }

@@ -11,24 +11,10 @@ void main() {
         () => DiskAssetBundle.loadGlob(['navigation/*.png']),
       );
       await tester.pumpWidget(
-        DefaultAssetBundle(
-            bundle: assetBundle,
-            child: MaterialApp(
+        MaterialApp(
               title: 'Binnacle',
-              home: Scaffold(
-                appBar: AppBar(
-                  title: Text("title"),
-                ),
-                body: Center(
-                  child: Column(
-                    children: <Widget>[
-                      CompassUI(direction: 0.0)
-                    ],
-                  ),
-                ),
-              )
+              home: CompassUI(direction: 0.0)
             )
-          )
         
       );
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('golden/goldenNorthCompass.png'));

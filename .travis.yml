@@ -18,7 +18,7 @@ notifications:
 # blocklist
 branches:
   except:
-  - /*-rp/
+  - /.*-rp/
 
 install:
 - echo 'Avoid default Travis CI install step' # this is to avoid an error with pub in Travis

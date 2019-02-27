@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sos/ui/CompassUI.dart';
 import 'package:flutter/material.dart';
-import 'DiskAssetBundle.dart';
-import 'package:sos/ui/compass/CompassFace.dart';
 
 void main() {
   testWidgets("Testing compass ui widget to see if it points north", 

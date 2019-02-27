@@ -8,10 +8,8 @@ class CompassUI extends StatelessWidget {
   final double direction;
 
   Widget build(BuildContext context) {
-    print("Building widget!");
     return new Transform.rotate(angle: ((direction ?? 0) * (math.pi / 180) * -1),
-            child: new CompassBody());
-            //child: new Image.asset('assets/navigation/compass.png'));
+             child: new CompassBody());
   
   }
 }

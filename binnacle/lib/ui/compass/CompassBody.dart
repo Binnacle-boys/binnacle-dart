@@ -10,22 +10,15 @@ class CompassBody extends StatelessWidget {
     return new AspectRatio(
         aspectRatio: 1.0,
         child: new Stack(
-            children: <Widget>[
-              new Container(
-                width: double.infinity,
-                decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.black,
-                  boxShadow: [
-                    new BoxShadow(
-                      offset: new Offset(0.0, 5.0),
-                      blurRadius: 5.0,
-                    )
-                  ],
-                ),
-                child: new CompassFace(),
-              )
-            ]
+          children: <Widget>[
+            new Container(
+              decoration: new BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.black,
+              ),
+            ),
+            new CompassFace()
+          ],
         )
 
     );

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'CompassDialPainter.dart';
 
 class CompassFace extends StatelessWidget {
   @override
@@ -18,7 +19,14 @@ class CompassFace extends StatelessWidget {
           child: new Stack(
             children: <Widget>[
               //dial and numbers go here
-         
+              new Container (
+                width: double.infinity,
+                height: double.infinity,
+                padding: const EdgeInsets.all(10.0),
+                child: new CustomPaint(
+                  painter: new CompassDialPainter(),
+                ),
+              ),
 
               //centerpoint
               new Center(
@@ -31,7 +39,6 @@ class CompassFace extends StatelessWidget {
                   ),
                 ),
               ),
-              //clock hands go here
             ],
           ),
         ),

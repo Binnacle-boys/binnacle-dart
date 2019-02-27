@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 void main() {
   testWidgets("Testing compass ui widget to see if it points north", 
     (WidgetTester tester) async {
-      
+      if (Platform.isLinux) {
+        return;
+      }
       //Setting up portrait style app
       tester.binding.renderView.configuration = new TestViewConfiguration(size: Size(1080, 2160));
       

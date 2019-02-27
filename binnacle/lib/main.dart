@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: Abstract this to a factory (down the line might be a builder)
     bool phoneModel = true;
     if (phoneModel) {
-      _model = new DataModel(SensorType.phone);
+      _model = new DataModel();
     } else {
       throw new Exception("Other data models not implemented");
     }

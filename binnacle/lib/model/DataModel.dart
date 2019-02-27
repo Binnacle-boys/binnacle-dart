@@ -12,20 +12,18 @@ enum SensorType {
 /// Data that sailing UI needs. Can be implemented for both a sensor package
 /// and a standalone UI.
 class DataModel {
+  static final DataModel instance = new DataModel._internal();
   Boat currentBoat;
   Boat idealBoat;
   Wind wind;
 
-  factory DataModel(SensorType type) {
-    if (type == SensorType.phone) {
-      Boat phoneBoat = new PhoneBoat();
-      Wind phoneWind = new PhoneWind(phoneBoat.positionStream);
-      Boat idealBoat = new IdealBoat(phoneBoat, phoneWind);
-      return DataModel._internal(phoneBoat, idealBoat, phoneWind);
-    } else {
-      throw new Exception("Other DataModels not implemented");
-    }
+  factory DataModel() {
+    return instance;
   }
 
-  DataModel._internal(this.currentBoat, this.idealBoat, this.wind);
+  DataModel._internal(){
+    currentBoat = new PhoneBoat();
+    wind = new PhoneWind(currentBoat.positionStream);
+    idealBoat = new IdealBoat(currentBoat, wind);
+  }
 }

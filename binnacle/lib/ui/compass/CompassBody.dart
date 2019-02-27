@@ -17,7 +17,8 @@ class CompassBody extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            new CompassFace()
+            new CompassFace(),
+            //Other widgets in stack go here
           ],
         )
 

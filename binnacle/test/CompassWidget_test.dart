@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 void main() {
   testWidgets("Testing compass ui widget to see if it points north", 
     (WidgetTester tester) async {
-      //await tester.pumpWidget(new CompassUI(direction: 0.0));
-      // final assetBundle = await tester.runAsync(
-      //   () => DiskAssetBundle.loadGlob(['navigation/*.png']),
-      // );
+      
+      //Setting up portrait style app
       tester.binding.renderView.configuration = new TestViewConfiguration(size: Size(1080, 2160));
+      
+      //Pumping similar app widget with compass UI
       await tester.pumpWidget(
         MaterialApp(
               title: 'Binnacle',
@@ -27,6 +27,8 @@ void main() {
             )
         
       );
+
+      // Don't want this to run on travis
       await expectLater(find.byType(CompassUI), 
         matchesGoldenFile('golden/goldenNorthCompass.png'),
         skip: !Platform.isLinux);

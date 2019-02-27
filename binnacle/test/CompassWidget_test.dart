@@ -31,7 +31,7 @@ void main() {
       // Don't want this to run on travis
       await expectLater(find.byType(CompassUI), 
         matchesGoldenFile('golden/goldenNorthCompass.png'),
-        skip: !Platform.isLinux);
+        skip: Platform.isLinux);
     }
   );
 }

@@ -18,7 +18,7 @@ class CompassBody extends StatelessWidget {
               ),
             ),
             new CompassFace(),
-            //Other widgets in stack go here
+            //Other widgets in stack go here like Wind arrows, etc.
           ],
         )
 

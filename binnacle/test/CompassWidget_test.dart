@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 void main() {
   testWidgets("Testing compass ui widget to see if it points north", 
     (WidgetTester tester) async {
+      
+      // Don't test on Travis
       if (Platform.isLinux) {
         return;
       }

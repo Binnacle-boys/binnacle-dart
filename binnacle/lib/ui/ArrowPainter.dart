@@ -50,8 +50,7 @@ class ArrowPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(ArrowPainter oldDelegate) {
-    return oldDelegate.color != color ||
-        oldDelegate.percentChange != percentChange;
+    return true;
   }
 }
 

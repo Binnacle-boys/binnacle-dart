@@ -21,20 +21,20 @@ class PhoneBoat extends Boat {
 
   void initListAngleStream() {
     listAngle = new StreamController<double>();
-    listAngle.addStream(accelerometerToRoll(accelerometerEvents));
+    listAngle.addStream(accelerometerToZRotate(accelerometerEvents));
   }
 
   // Converting acclerometer stream into a listAngle stream
   // listAngle/phoneRoll
-  Stream<double> accelerometerToRoll(Stream<AccelerometerEvent> sensorStream) async* {
-    double roll;
+  Stream<double> accelerometerToZRotate(Stream<AccelerometerEvent> sensorStream) async* {
+    double zRotation;
     await for (var event in sensorStream) {
-      // Conversion for getting the roll of the phone
-      // which will be the phone's way of calculating the
+      // Conversion for getting the z rotation when potrait
+      // from the accelerometer which will be the 
+      // phone's way of calculating the
       // angle of list
-      print("Got a sensor change!");
-      roll =  atan2(event.y, event.z);
-      yield roll;
+      zRotation =  atan2(event.x, event.y);
+      yield zRotation;
     }
   }
 

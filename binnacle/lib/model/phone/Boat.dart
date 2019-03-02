@@ -1,5 +1,7 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import '../Boat.dart';
+import 'dart:async';
 
 /// Interface for the data collected from a sailboat. Implemented for both
 /// the live sailboat and a mocked "ideal" sailboat (generated from algorithm).
@@ -11,6 +13,8 @@ class PhoneBoat extends Boat {
     int distanceFilter = 10;
     LocationOptions locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: distanceFilter);
     positionStream = geolocator.getPositionStream(locationOptions).asBroadcastStream();
+    compassHeading = StreamController<double>();
+    compassHeading.addStream(FlutterCompass.events);
     print("PhoneBoat()");
   }
 }

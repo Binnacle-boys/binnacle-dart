@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'CompassFace.dart';
 
-class CompassBody extends StatelessWidget {
-  CompassBody();
+class CompassBase extends StatelessWidget {
+  CompassBase();
 
   @override
   Widget build(BuildContext context) {

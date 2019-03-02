@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 
 import './model/DataModel.dart';
 import './SpeedWidget.dart';
+import './CompassWidget.dart';
 import 'WindRequest.dart';
 import 'Sensors/ListAngleWidget.dart';
 
@@ -59,6 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     print('Initializing the state');
     super.initState();
+    // Portrait orientation lock
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     // TODO: Abstract this to a factory (down the line might be a builder)
     bool phoneModel = true;
@@ -79,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -121,6 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _location == null ? 'Longitude unknown' : 'Longitude: ' + headingFormat.format(_location.longitude),
               style: Theme.of(context).textTheme.display1,
             ),
+            CompassWidget(directionStream: _model.currentBoat.compassHeading?.stream),
             FutureBuilder<WindRequest>(
                 future: fetchWind(_location),
                 builder: (context, snapshot) {

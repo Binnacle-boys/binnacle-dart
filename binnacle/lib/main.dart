@@ -7,6 +7,7 @@ import './model/DataModel.dart';
 import './SpeedWidget.dart';
 import './CompassWidget.dart';
 import 'WindRequest.dart';
+import 'ListAngleWidget.dart';
 
 void main() => runApp(MyApp());
 
@@ -123,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
               style: Theme.of(context).textTheme.display1,
             ),
+            ListAngleWidget(listAngleStream: _model.currentBoat.listAngle.stream.asBroadcastStream()),
             Text(
               _location == null ? 'Longitude unknown' : 'Longitude: ' + headingFormat.format(_location.longitude),
               style: Theme.of(context).textTheme.display1,

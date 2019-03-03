@@ -40,7 +40,9 @@ class PhoneBoat extends Boat {
       // from the accelerometer which will be the 
       // phone's way of calculating the
       // angle of list
-      listAngle =  eventToListAngle(event);
+      if (event != null) {
+        listAngle =  eventToListAngle(event);
+      }
       yield listAngle;
     }
   }

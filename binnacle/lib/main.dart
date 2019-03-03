@@ -7,7 +7,7 @@ import './model/DataModel.dart';
 import './SpeedWidget.dart';
 import './CompassWidget.dart';
 import 'WindRequest.dart';
-import 'Sensors/ListAngleWidget.dart';
+import 'ListAngleWidget.dart';
 
 void main() => runApp(MyApp());
 

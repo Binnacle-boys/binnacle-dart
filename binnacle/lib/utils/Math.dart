@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:async';
 import 'package:sensors/sensors.dart';
 
 double radiansToDegrees(double radians) {

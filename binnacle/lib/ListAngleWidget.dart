@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
-import 'dart:math';
+import 'package:sos/utils/Math.dart';
 import 'dart:ui' as dartui;
 
 class ListAngleWidget extends StatefulWidget {
@@ -41,10 +41,6 @@ class _ListAngleWidgetState extends State<ListAngleWidget> {
   }
   String listText(double radians) {
     return "List Angle: " + format.format(radiansToDegrees(radians)) + " deg";
-  }
-
-  double radiansToDegrees(double radians) {
-    return radians * 180 / pi;
   }
 
   @override

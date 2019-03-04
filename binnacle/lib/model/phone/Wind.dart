@@ -5,6 +5,7 @@ import 'dart:async';
 
 class PhoneWind extends Wind {
   static final PhoneWind instance = new PhoneWind._internal();
+  Stream<Position> positionStream;
   Timer requestTimer;
   Timer fallbackTimer;
 
@@ -14,6 +15,10 @@ class PhoneWind extends Wind {
 
   PhoneWind._internal(){
     setRequestTimer();
+  }
+
+  void setPositionStream(Stream<Position> positionStream){
+    this.positionStream = positionStream;
   }
 
   void setRequestTimer(){

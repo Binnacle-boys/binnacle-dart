@@ -23,7 +23,8 @@ class DataModel {
 
   DataModel._internal(){
     currentBoat = new PhoneBoat();
-    wind = new PhoneWind(currentBoat.positionStream);
+    wind = new PhoneWind();
+    wind.setPositionStream(currentBoat.positionStream);
     idealBoat = new IdealBoat(currentBoat, wind);
   }
 }

@@ -4,13 +4,21 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 
 class PhoneWind extends Wind {
+  static final PhoneWind instance = new PhoneWind._internal();
+  Stream<Position> positionStream;
   Timer requestTimer;
   Timer fallbackTimer;
-  Stream<Position> positionStream;
 
-  PhoneWind(Stream<Position> positionStream){
-    this.positionStream = positionStream;
+  factory PhoneWind(){
+    return instance;
+  }
+
+  PhoneWind._internal(){
     setRequestTimer();
+  }
+
+  void setPositionStream(Stream<Position> positionStream){
+    this.positionStream = positionStream;
   }
 
   void setRequestTimer(){
@@ -22,7 +30,7 @@ class PhoneWind extends Wind {
   }
 
   void requestCallback(Timer timer){
-    positionStream.last.then(fetchWind);
+//    positionStream.last.then(fetchWind);
   }
 
   fetchWind(Position location) async {

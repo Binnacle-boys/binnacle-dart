@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sos/SpeedWidget.dart';
-import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:geolocator/geolocator.dart';
 

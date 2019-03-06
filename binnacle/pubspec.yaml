@@ -20,11 +20,11 @@ dependencies:
   flutter_compass: ^0.1.0
   intl: ^0.15.7
   sensors: ^0.4.0
-  geolocator:
-    git:
-      url: https://github.com/BaseflowIT/flutter-geolocator.git
-      ref: develop
-  permission_handler: "^2.2.0"
+  geolocator: ^3.0.0
+    # git:
+    #   url: https://github.com/BaseflowIT/flutter-geolocator.git
+    #   ref: develop
+  permission_handler: ^2.2.0
   google_api_availability: "^1.0.6"
   flutter:
     sdk: flutter

@@ -3,7 +3,7 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 // /// A rudimentary class to handle Bluetooth device interactions.
 
-// class BluetoothManager{
+ class BluetoothManager{
 
   fb.FlutterBlue flutterBlue;
   FlutterBluetoothSerial flutterBluetoothSerial;

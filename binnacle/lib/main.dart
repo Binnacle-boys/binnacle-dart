@@ -4,12 +4,15 @@ import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 
 import './model/DataModel.dart';
-import './SpeedWidget.dart';
+import './ui/deck/DeckWidget.dart';
 import './CompassWidget.dart';
-import 'WindRequest.dart';
-import 'ListAngleWidget.dart';
+
+
+// import './SpeedWidget.dart';
+// import './CompassWidget.dart';
+// import 'WindRequest.dart';
+// import 'ListAngleWidget.dart';
 // import './model/bluetooth/BluetoothManager.dart';
-import './DeckWidget.dart';
 
 void main() => runApp(MyApp());
 
@@ -70,6 +73,29 @@ class _MyHomePageState extends State<MyHomePage> {
     // BluetoothManager().printDevices();
   }
 
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Alert Dialog title"),
+          content: new Text("Alert Dialog body"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -83,6 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      floatingActionButton: FloatingActionButton(),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -101,56 +128,68 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SpeedWidget(positionStream: _model.currentBoat.positionStream),
-            Text(
-              _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
-              style: Theme.of(context).textTheme.display1,
-            ),
-            ListAngleWidget(listAngleStream: _model.currentBoat.listAngle.stream.asBroadcastStream()),
-            Text(
-              _location == null ? 'Longitude unknown' : 'Longitude: ' + headingFormat.format(_location.longitude),
-              style: Theme.of(context).textTheme.display1,
-            ),
-            CompassWidget(directionStream: _model.currentBoat.compassHeading?.stream),
-            FutureBuilder<WindRequest>(
-                future: fetchWind(_location),
-                builder: (context, snapshot) {
-                  if(snapshot.connectionState == ConnectionState.done && snapshot.data != null){
-                    return Center(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                snapshot.data.wind.heading == null ? 'Wind Heading unknown' : 'Wind Heading: ' + snapshot.data.wind.heading,
-                                style: Theme.of(context).textTheme.display1,
-                              ),
-                              Text(
-                                snapshot.data.wind.speed == null ? 'Wind Speed unknown' : 'Wind Speed: ' + snapshot.data.wind.speed,
-                                style: Theme.of(context).textTheme.display1,
-                              ),
-                            ]
-                        )
-                    );
-                  }
-                  else if(snapshot.hasError){
-                    return Container(
-                      child: Text(snapshot.error.toString())
-                    );
-                  }
-                  else{
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CircularProgressIndicator()
-                        ],
-                      )
-                    );
-                  }
-                }
-            )
+
+            Stack(
+              children: <Widget>[
+                DeckWidget(),
+                Positioned(
+                  top: 100,
+                  child: CompassWidget()
+                  )
+              ]
+            ,)
+
+
+            // SpeedWidget(positionStream: _model.currentBoat.positionStream),
+            // Text(
+            //   _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
+            //   style: Theme.of(context).textTheme.display1,
+            // ),
+            // ListAngleWidget(listAngleStream: _model.currentBoat.listAngle.stream.asBroadcastStream()),
+            // Text(
+            //   _location == null ? 'Longitude unknown' : 'Longitude: ' + headingFormat.format(_location.longitude),
+            //   style: Theme.of(context).textTheme.display1,
+            // ),
+            // CompassWidget(directionStream: _model.currentBoat.compassHeading?.stream),
+            // FutureBuilder<WindRequest>(
+            //     future: fetchWind(_location),
+            //     builder: (context, snapshot) {
+            //       if(snapshot.connectionState == ConnectionState.done && snapshot.data != null){
+            //         return Center(
+            //             child: Column(
+            //                 mainAxisAlignment: MainAxisAlignment.center,
+            //                 children: <Widget>[
+            //                   Text(
+            //                     snapshot.data.wind.heading == null ? 'Wind Heading unknown' : 'Wind Heading: ' + snapshot.data.wind.heading,
+            //                     style: Theme.of(context).textTheme.display1,
+            //                   ),
+            //                   Text(
+            //                     snapshot.data.wind.speed == null ? 'Wind Speed unknown' : 'Wind Speed: ' + snapshot.data.wind.speed,
+            //                     style: Theme.of(context).textTheme.display1,
+            //                   ),
+            //                 ]
+            //             )
+            //         );
+            //       }
+            //       else if(snapshot.hasError){
+            //         return Container(
+            //           child: Text(snapshot.error.toString())
+            //         );
+            //       }
+            //       else{
+            //         return Center(
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.center,
+            //             children: <Widget>[
+            //               CircularProgressIndicator()
+            //             ],
+            //           )
+            //         );
+            //       }
+            //     }
+            // )
           ],
         ),
       

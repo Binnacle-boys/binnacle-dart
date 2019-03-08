@@ -9,8 +9,14 @@ import './CompassWidget.dart';
 import './WindDirectionWidget.dart';
 import 'WindRequest.dart';
 import 'ListAngleWidget.dart';
+import 'package:flutter/rendering.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // this is here for casey to debug art and ui and life
+//  debugPaintSizeEnabled = true;
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -68,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       DeviceOrientation.portraitDown,
     ]);
 
-    // TODO: Abstract this to a factory (down the line might be a builder)
+    // TODO: Abstract this to a builder
     bool phoneModel = true;
     if (phoneModel) {
       _model = new DataModel(SensorType.phone);
@@ -86,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -126,16 +131,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   : 'Latitude: ' + headingFormat.format(_location.latitude),
               style: Theme.of(context).textTheme.display1,
             ),
-            ListAngleWidget(listAngleStream: _model.currentBoat.listAngle.stream.asBroadcastStream()),
+            ListAngleWidget(
+                listAngleStream:
+                    _model.currentBoat.listAngle.stream.asBroadcastStream()),
             Text(
               _location == null
                   ? 'Longitude unknown'
                   : 'Longitude: ' + headingFormat.format(_location.longitude),
               style: Theme.of(context).textTheme.display1,
             ),
-            CompassWidget(
-                directionStream: _model.currentBoat.compassHeading?.stream),
-            WindDirectionWidget(directionStream: _model.wind.direction?.stream),
+            CompassWidget(model: _model),
             FutureBuilder<WindRequest>(
                 future: fetchWind(_location),
                 builder: (context, snapshot) {

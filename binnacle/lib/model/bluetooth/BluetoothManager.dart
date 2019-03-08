@@ -30,8 +30,27 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
         print("BtDevice: "+btd.name);
         print("Address: "+btd.address.toString());
         print("Connected State: "+btd.connected.toString()+"\n");
+        if(btd.name == "HC-05"){
+          connectAndRead(btd);
+        }
       });
     });
   }
 
-// }
+  void connectAndRead(BluetoothDevice btd){
+    flutterBluetoothSerial.isConnected.then((connected){
+      if(connected){
+        flutterBluetoothSerial.onRead().listen((data){
+          print(data);
+        });
+      }
+      else{
+        flutterBluetoothSerial.connect(btd);
+        flutterBluetoothSerial.onRead().listen((data){
+          print(data);
+        });
+      }
+    });
+  }
+
+}

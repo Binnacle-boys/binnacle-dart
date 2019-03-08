@@ -84,7 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       });
 
-    BluetoothManager().printDevices();
+    var btManager = BluetoothManager();
+    btManager.printDevices();
   }
 
   @override

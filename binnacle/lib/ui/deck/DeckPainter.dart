@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-class DeckWidget extends CustomPainter {
+class DeckPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint();

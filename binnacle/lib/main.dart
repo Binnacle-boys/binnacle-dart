@@ -9,7 +9,7 @@ import './CompassWidget.dart';
 import 'WindRequest.dart';
 import 'ListAngleWidget.dart';
 // import './model/bluetooth/BluetoothManager.dart';
-import './DeckWidget.dart';
+import './DeckWidget.dart';  //ignore: unused_import
 
 void main() => runApp(MyApp());
 

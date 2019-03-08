@@ -8,7 +8,7 @@ void main() {
     (WidgetTester tester) async {
       
       // Don't test on Travis
-      if (Platform.isLinux) {
+      if (Platform.isLinux || Platform.isMacOS) {
         return;
       }
       //Setting up portrait style app

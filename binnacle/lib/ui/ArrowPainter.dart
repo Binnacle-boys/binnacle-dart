@@ -67,9 +67,7 @@ class StockArrow extends StatelessWidget {
   }
 
   Color _colorForPercentChange(double percentChange) {
-    if (percentChange > 0)
-      return Colors.green[_colorIndexForPercentChange(percentChange)];
-    return Colors.red[_colorIndexForPercentChange(percentChange)];
+    return Colors.green[_colorIndexForPercentChange(percentChange)];
   }
 
   @override

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:sensors/sensors.dart';
 
 double radiansToDegrees(double radians) {
+  if (radians == null) return 0.0;
   return radians * 180 / pi;
 }
 

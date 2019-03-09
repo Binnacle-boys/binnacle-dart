@@ -14,11 +14,10 @@ class ListAngleWidget extends StatefulWidget {
 }
 
 class _ListAngleWidgetState extends State<ListAngleWidget> {
-  
   /// In case streamsubscription needs to be managed
   StreamSubscription<double> _listAngleSub;
   StreamSubscription<double> get doubleSub => _listAngleSub;
-  
+
   double _listAngle;
   NumberFormat format;
 
@@ -39,8 +38,11 @@ class _ListAngleWidgetState extends State<ListAngleWidget> {
       _listAngle = listAngle;
     });
   }
+
   String listText(double radians) {
-    return "List Angle: " + format.format(radiansToDegrees(radians)) + " deg";
+    return "List Angle: " +
+        format.format(radiansToDegrees(radians ?? 0)) +
+        " deg";
   }
 
   @override
@@ -48,4 +50,3 @@ class _ListAngleWidgetState extends State<ListAngleWidget> {
     return Text(listText(_listAngle), textDirection: dartui.TextDirection.ltr);
   }
 }
-

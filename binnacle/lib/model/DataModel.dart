@@ -27,7 +27,8 @@ class DataModel extends DataModelBase{
     if (type == SensorType.phone) {
       Boat phoneBoat = new PhoneBoat();
       Wind phoneWind = new PhoneWind();
-      phoneWind.setPositionStream(phoneBoat.positionStream);
+//      phoneWind.setPositionStream(phoneBoat.positionStream);
+      phoneWind.setBoat(phoneBoat);
       Boat idealBoat = new IdealBoat(phoneBoat, phoneWind);
       return DataModel._internal(phoneBoat, idealBoat, phoneWind);
     } else {

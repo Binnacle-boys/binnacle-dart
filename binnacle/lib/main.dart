@@ -40,7 +40,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   DataModel _model;
-  Position _location;
   NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
 
   @override
@@ -60,14 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       throw new Exception("Other data models not implemented");
     }
-
-    _model.currentBoat.positionStream.listen(
-      (Position position) {
-        setState(() {
-          print('PhoneModel position heard');
-          _location = position;
-        });
-      });
 
     // BluetoothManager().printDevices();
   }
@@ -105,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SpeedWidget(positionStream: _model.currentBoat.positionStream),
+//            SpeedWidget(positionStream: _model.currentBoat.positionStream),
             Text(
               _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
               style: Theme.of(context).textTheme.display1,
@@ -116,43 +107,43 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.display1,
             ),
             CompassWidget(directionStream: _model.currentBoat.compassHeading?.stream),
-//            FutureBuilder<WindRequest>(
-//                future: fetchWind(_location),
-//                builder: (context, snapshot) {
-//                  if(snapshot.connectionState == ConnectionState.done && snapshot.data != null){
-//                    return Center(
-//                        child: Column(
-//                            mainAxisAlignment: MainAxisAlignment.center,
-//                            children: <Widget>[
-//                              Text(
-//                                snapshot.data.wind.heading == null ? 'Wind Heading unknown' : 'Wind Heading: ' + snapshot.data.wind.heading,
-//                                style: Theme.of(context).textTheme.display1,
-//                              ),
-//                              Text(
-//                                snapshot.data.wind.speed == null ? 'Wind Speed unknown' : 'Wind Speed: ' + snapshot.data.wind.speed,
-//                                style: Theme.of(context).textTheme.display1,
-//                              ),
-//                            ]
-//                        )
-//                    );
-//                  }
-//                  else if(snapshot.hasError){
-//                    return Container(
-//                      child: Text(snapshot.error.toString())
-//                    );
-//                  }
-//                  else{
-//                    return Center(
-//                      child: Column(
-//                        mainAxisAlignment: MainAxisAlignment.center,
-//                        children: <Widget>[
-//                          CircularProgressIndicator()
-//                        ],
-//                      )
-//                    );
-//                  }
-//                }
-//            )
+            FutureBuilder<WindRequest>(
+                future: fetchWind(_location),
+                builder: (context, snapshot) {
+                  if(snapshot.connectionState == ConnectionState.done && snapshot.data != null){
+                    return Center(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                snapshot.data.wind.heading == null ? 'Wind Heading unknown' : 'Wind Heading: ' + snapshot.data.wind.heading,
+                                style: Theme.of(context).textTheme.display1,
+                              ),
+                              Text(
+                                snapshot.data.wind.speed == null ? 'Wind Speed unknown' : 'Wind Speed: ' + snapshot.data.wind.speed,
+                                style: Theme.of(context).textTheme.display1,
+                              ),
+                            ]
+                        )
+                    );
+                  }
+                  else if(snapshot.hasError){
+                    return Container(
+                      child: Text(snapshot.error.toString())
+                    );
+                  }
+                  else{
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          CircularProgressIndicator()
+                        ],
+                      )
+                    );
+                  }
+                }
+            )
           ],
         ),
       

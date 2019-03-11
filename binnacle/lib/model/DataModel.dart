@@ -1,5 +1,5 @@
-import 'phone/Boat.dart';
-import 'phone/Wind.dart';
+import 'phone/PhoneBoat.dart';
+import 'phone/PhoneWind.dart';
 import 'Wind.dart';
 import 'Boat.dart';
 import '../algorithm/Boat.dart';

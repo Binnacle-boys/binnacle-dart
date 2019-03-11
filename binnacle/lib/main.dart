@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-//            SpeedWidget(positionStream: _model.currentBoat.positionStream),
+            SpeedWidget(positionStream: _model.currentBoat.positionStream),
             Text(
               _location == null ? 'Latitude unknown' : 'Latitude: ' + headingFormat.format(_location.latitude),
               style: Theme.of(context).textTheme.display1,

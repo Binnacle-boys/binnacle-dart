@@ -7,8 +7,6 @@ import '../Boat.dart';
 
 class PhoneWind extends Wind {
   static final PhoneWind instance = new PhoneWind._internal();
-  Stream<Position> _positionStream;
-  bool _positionStreamSet = false;
   Timer requestTimer;
   Timer fallbackTimer;
   Boat _boat;
@@ -22,12 +20,6 @@ class PhoneWind extends Wind {
     requestTimer = Timer.periodic(Duration(days:99), requestCallback);
     requestTimer.cancel();
     fallbackTimer = Timer.periodic(Duration(seconds: 1), requestCallback);
-  }
-
-  void setPositionStream(Stream<Position> positionStream){
-    _positionStream = positionStream;
-    _positionStreamSet = true;
-    print("positionStream in PhoneWind set.");
   }
 
   void setBoat(Boat b){

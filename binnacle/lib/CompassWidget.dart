@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'ui/CompassUI.dart';
+import 'package:sos/ui/CompassUI.dart';
 import 'package:sos/model/DataModel.dart';
 
 class CompassWidget extends StatefulWidget {
@@ -26,7 +26,7 @@ class _CompassWidgetState extends State<CompassWidget> {
 
     /// Set call back to the listener
     _directionSubscription =
-        widget.model?.currentBoat.compassHeading.stream.listen(updateDirection);
+        widget.model.currentBoat.compassHeading.stream.listen(updateDirection);
   }
 
   /// Updates direction; callback for the direction stream subscription

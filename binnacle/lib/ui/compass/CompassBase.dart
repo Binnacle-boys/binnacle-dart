@@ -3,7 +3,7 @@ import 'CompassFace.dart';
 
 import 'package:sos/model/Wind.dart';
 import 'package:sos/model/Boat.dart';
-import 'package:sos/WindDirectionWidget.dart';
+import 'package:sos/CompassHeadingWidget.dart';
 
 class CompassBase extends StatelessWidget {
   final Boat currentBoat;
@@ -25,7 +25,15 @@ class CompassBase extends StatelessWidget {
               ),
             ),
             new CompassFace(),
-            new WindDirectionWidget(directionStream: wind.direction.stream)
+            new CompassHeadingWidget(
+                directionStream: wind.direction.stream,
+                color: Colors.lightBlue),
+//            new WindDirectionWidget(
+//                directionStream: idealBoat.compassHeading?.stream,
+//                color: Colors.green),
+//            new WindDirectionWidget(
+//                directionStream: currentBoat.compassHeading?.stream,
+//                color: Colors.black12),
             //Other widgets in stack go here like Wind arrows, etc.
           ],
         ));

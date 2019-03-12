@@ -6,7 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import './model/DataModel.dart';
 import './SpeedWidget.dart';
 import './CompassWidget.dart';
-import './WindDirectionWidget.dart';
 import 'WindRequest.dart';
 import 'ListAngleWidget.dart';
 import 'package:flutter/rendering.dart';
@@ -64,11 +63,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Position _location;
   NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
 
+  double _windHeading;
+
   @override
   void initState() {
     print('Initializing the state');
     super.initState();
-    // Portrait orientation lock
+
+    /// Portrait orientation lock
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -86,6 +88,13 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         print('PhoneModel position heard');
         _location = position;
+      });
+    });
+
+    _model.wind.direction.stream.listen((double windHeading) {
+      setState(() {
+        print('FUCK IT IN THE FOOT');
+        _windHeading = windHeading;
       });
     });
   }
@@ -141,38 +150,9 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.display1,
             ),
             CompassWidget(model: _model),
-            FutureBuilder<WindRequest>(
-                future: fetchWind(_location),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.data != null) {
-                    return Center(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                          Text(
-                            snapshot.data.wind.heading == null
-                                ? 'Wind Heading unknown'
-                                : 'Wind Heading: ' + snapshot.data.wind.heading,
-                            style: Theme.of(context).textTheme.display1,
-                          ),
-                          Text(
-                            snapshot.data.wind.speed == null
-                                ? 'Wind Speed unknown'
-                                : 'Wind Speed: ' + snapshot.data.wind.speed,
-                            style: Theme.of(context).textTheme.display1,
-                          ),
-                        ]));
-                  } else if (snapshot.hasError) {
-                    return Container(child: Text(snapshot.error.toString()));
-                  } else {
-                    return Center(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[CircularProgressIndicator()],
-                    ));
-                  }
-                })
+            Text(_windHeading == null
+                ? 'WIND HEADING NOT FOUND'
+                : 'Wind heading: ' + _windHeading.toString()),
           ],
         ),
       ),

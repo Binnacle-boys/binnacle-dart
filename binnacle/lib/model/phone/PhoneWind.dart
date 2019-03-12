@@ -3,14 +3,11 @@ import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'dart:convert';
-import '../Boat.dart';
 
 class PhoneWind extends Wind {
   static final PhoneWind instance = new PhoneWind._internal();
   Timer requestTimer;
   Timer fallbackTimer;
-  Boat _boat;
-  bool _boatSet = false;
 
   factory PhoneWind(){
     return instance;
@@ -20,11 +17,6 @@ class PhoneWind extends Wind {
     requestTimer = Timer.periodic(Duration(days:99), requestCallback);
     requestTimer.cancel();
     fallbackTimer = Timer.periodic(Duration(seconds: 1), requestCallback);
-  }
-
-  void setBoat(Boat b){
-    _boat = b;
-    _boatSet = true;
   }
 
   void setRequestTimer(){
@@ -40,15 +32,8 @@ class PhoneWind extends Wind {
   /// This callback is triggered every time a Timer completes and makes a
   /// request to the Wind API endpoint
   void requestCallback(Timer timer){
-    print("requestCallback triggered.");
-    print("Boat set: $_boatSet");
-    if(_boatSet){
-      print("Attempting to fetch wind.");
-      fetchWind(_boat.position);
-    }
-    else{
-      print("positionStream has not been set! Not making network request.");
-    }
+    print("requestCallback triggered, attempting to fetch wind.");
+    Geolocator().getLastKnownPosition().then(fetchWind);
   }
 
   fetchWind(Position position) async {

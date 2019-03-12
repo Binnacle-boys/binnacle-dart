@@ -19,9 +19,7 @@ class PhoneBoat extends Boat {
     geolocator = Geolocator();
     int distanceFilter = 10;
     LocationOptions locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: distanceFilter);
-    geolocator.getPositionStream(locationOptions).listen((Position p){
-      position = p;
-    });
+    positionStream = geolocator.getPositionStream(locationOptions).asBroadcastStream();
 
     // Setting up the accelerometer stream
     initListAngleStream();

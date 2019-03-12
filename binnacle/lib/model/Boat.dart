@@ -12,7 +12,7 @@ abstract class Boat {
   /// Position of the boat which includes, course heading,
   /// ground speed, and location (lat/long).
   /// Position stream, for listening on the positions values
-  Position position;
+  Stream<Position> positionStream;
 
   /// Compass heading which differs from the course heading. Determined magnetically,
   /// vs current course. This important to have two differing heading

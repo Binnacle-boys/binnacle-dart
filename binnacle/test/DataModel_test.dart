@@ -13,7 +13,7 @@ void main() {
     try {
       final dm = new DataModel(SensorType.bluetooth);
 
-      expect(dm == null, true);
+      expect(false, true);
     } catch (e) {
       expect(true, true); // should throw exception
     }

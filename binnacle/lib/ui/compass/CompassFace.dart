@@ -17,7 +17,7 @@ class CompassFace extends StatelessWidget {
 
           child: new Stack(
             children: <Widget>[
-              //dial and numbers go here
+              // dial and numbers go here
               new Container (
                 width: double.infinity,
                 height: double.infinity,
@@ -27,7 +27,7 @@ class CompassFace extends StatelessWidget {
                 ),
               ),
 
-              //centerpoint
+              // centerpoint
               new Center(
                 child: new Container(
                   width: 15.0,

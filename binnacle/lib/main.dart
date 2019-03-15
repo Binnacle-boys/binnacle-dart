@@ -8,14 +8,8 @@ import './SpeedWidget.dart';
 import './CompassWidget.dart';
 import 'WindRequest.dart';
 import 'ListAngleWidget.dart';
-import 'package:flutter/rendering.dart';
 
-void main() {
-  // this is here for casey to debug art and ui and life
-//  debugPaintSizeEnabled = true;
-
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -63,8 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Position _location;
   NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
 
-  double _windHeading;
-
   @override
   void initState() {
     print('Initializing the state');
@@ -84,23 +76,21 @@ class _MyHomePageState extends State<MyHomePage> {
       throw new Exception("Other data models not implemented");
     }
 
-    _model.currentBoat.positionStream.listen((Position position) {
-      setState(() {
-        print('PhoneModel position heard');
-        _location = position;
+    _model.currentBoat.positionStream.listen(
+      (Position position) {
+        setState(() {
+          print('PhoneModel position heard');
+          _location = position;
+        });
       });
-    });
 
-    _model.wind.direction.stream.listen((double windHeading) {
-      setState(() {
-        print('FUCK IT IN THE FOOT');
-        _windHeading = windHeading;
-      });
-    });
+    var btManager = BluetoothManager();
+    btManager.printDevices();
   }
 
   @override
   Widget build(BuildContext context) {
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //

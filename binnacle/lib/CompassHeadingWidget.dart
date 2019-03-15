@@ -33,7 +33,7 @@ class _CompassHeadingWidgetState extends State<CompassHeadingWidget> {
   /// Updates direction; callback for the direction stream subscription
   void updateDirection(double direction) {
     setState(() {
-      print("wind widget direction: " + direction.toString());
+      // TODO: If the stream is null, show a toast saying failed to display it
       _direction = direction;
     });
   }

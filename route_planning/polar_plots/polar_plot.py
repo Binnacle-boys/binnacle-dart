@@ -19,6 +19,16 @@ def bestAngle(plot, ideal_angle, windSpeed):
     print("Closest speed: ", closestSpeed)
     bestAngle = max(plot.keys(), key=lambda angle: plot[angle][closestSpeed] * math.cos(math.radians(angleDifference(ideal_angle, angle))))
     return bestAngle
+def findOptimalAngle(plot, wind_heading, wind_speed, ideal_heading):
+    plotideal_angle = angleDifference(ideal_heading, (wind_heading + 180) % 360)
+    print("plot ideal angle: ", plotideal_angle)
+    direction = 1
+    if (plotideal_angle < 0):
+        direction = -1
+    optimal_plot_angle = bestAngle(plot, abs(plotideal_angle), wind_speed)
+    print("Optimal plot angle: ", optimal_plot_angle)
+    optimal_angle = (optimal_plot_angle + direction * (wind_heading + 180)) % 360
+    return optimal_angle
 
 with open('data/test_plot.csv', newline='') as csvfile:
     plotreader = csv.reader(csvfile, delimiter=';', quotechar='|')
@@ -38,12 +48,12 @@ with open('data/test_plot.csv', newline='') as csvfile:
                 plot[angle][label] = float(value)
     for entry, value in plot.items():
         print(entry, ": ", value)
-    theAngle = bestAngle(plot, 0.0, 6)
-    print(theAngle) 
+    #theAngle = bestAngle(plot, 39.8, 16)
+    #print(theAngle)
+    optimal_angle = findOptimalAngle(plot, 180, 6, 90)
+    print(optimal_angle)
 
-#def findOptimalAngle(wind_heading, ideal_heading):
-    #plotideal_angle = angleDifference(ideal_heading, (wind_heading + 180) % 360)
-    #direction = 1 if plotideal_angle > 0  else direction = -1
+
     
     
 

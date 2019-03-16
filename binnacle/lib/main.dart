@@ -11,7 +11,7 @@ import './CompassWidget.dart';
 import './SpeedWidget.dart';
 import 'WindRequest.dart';
 import 'ListAngleWidget.dart';
-import './model/bluetooth/BluetoothManager.dart'; //ignore: unused_import
+// import './model/bluetooth/BluetoothManager.dart'; //ignore: unused_import
 
 void main() => runApp(MyApp());
 
@@ -69,8 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       });
 
-    var btManager = BluetoothManager();
-    btManager.printDevices();
+    // var btManager = BluetoothManager();
+    // btManager.printDevices();
   }
 
   @override

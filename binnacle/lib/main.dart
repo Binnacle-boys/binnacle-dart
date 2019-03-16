@@ -7,7 +7,6 @@ import './model/DataModel.dart';
 import './SpeedWidget.dart';
 import './CompassWidget.dart';
 import 'ListAngleWidget.dart';
-import 'package:sos/model/bluetooth/BluetoothManager.dart';
 
 void main() => runApp(MyApp());
 

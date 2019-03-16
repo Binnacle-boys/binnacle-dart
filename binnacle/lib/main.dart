@@ -6,8 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import './model/DataModel.dart';
 import './SpeedWidget.dart';
 import './CompassWidget.dart';
-import 'WindRequest.dart';
 import 'ListAngleWidget.dart';
+import 'package:sos/model/bluetooth/BluetoothManager.dart';
 
 void main() => runApp(MyApp());
 
@@ -76,21 +76,19 @@ class _MyHomePageState extends State<MyHomePage> {
       throw new Exception("Other data models not implemented");
     }
 
-    _model.currentBoat.positionStream.listen(
-      (Position position) {
-        setState(() {
-          print('PhoneModel position heard');
-          _location = position;
-        });
+    _model.currentBoat.positionStream.listen((Position position) {
+      setState(() {
+        print('PhoneModel position heard');
+        _location = position;
       });
+    });
 
-    var btManager = BluetoothManager();
-    btManager.printDevices();
+//    var btManager = BluetoothManager();
+//    btManager.printDevices();
   }
 
   @override
   Widget build(BuildContext context) {
-
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -140,9 +138,6 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.display1,
             ),
             CompassWidget(model: _model),
-            Text(_windHeading == null
-                ? 'WIND HEADING NOT FOUND'
-                : 'Wind heading: ' + _windHeading.toString()),
           ],
         ),
       ),

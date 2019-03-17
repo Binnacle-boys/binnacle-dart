@@ -26,14 +26,14 @@ class CompassBase extends StatelessWidget {
             ),
             new CompassFace(),
             new CompassHeadingWidget(
-                directionStream: wind.direction.stream,
+                directionStream: wind.direction?.stream,
                 color: Colors.lightBlue),
 //            new CompassHeadingWidget(
-//                directionStream: idealBoat.compassHeading?.stream,
+//                directionStream: idealBoat.compassHeading.stream,
 //                color: Colors.green),
 //            new CompassHeadingWidget(
 //                directionStream: currentBoat.compassHeading?.stream,
-//                color: Colors.black12),
+//                color: Colors.black12)
             //Other widgets in stack go here like Wind arrows, etc.
           ],
         ));

@@ -68,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         print('PhoneModel position heard');
         _location = position;
+        print(_location);
       });
     });
 
@@ -124,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: CompassWidget(
                         directionStream: _model
                             .currentBoat.compassHeading?.stream
-                            .asBroadcastStream()),
+                            ?.asBroadcastStream()),
                     padding: EdgeInsets.fromLTRB(0, 100.0, 0, 0),
                   )
                 ],

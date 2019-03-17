@@ -85,6 +85,9 @@ class PolarPlot:
             wind_speed (double) - speed of wind in knots
             ideal_heading (double) - direction of ideal heading in degrees from north, 
                 where the boat wants to go idealy
+        Returns:
+            (double) - optimal heading in degrees from north from various polar plot entries
+                Only returns possible polar plot angles. 
         """
         # Plot transform to compute in plot space
         plotideal_angle = angle_difference(

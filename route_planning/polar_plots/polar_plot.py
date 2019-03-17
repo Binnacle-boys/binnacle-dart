@@ -3,6 +3,10 @@ import math
 
 # Used to work with polar plots of sail boats
 # in order to compute optimal headings
+# How to use   
+# polar = PolarPlot('data/test_plot.csv')
+# angle = polar.findOptimalAngle(0, 8, 180)
+# print("Test angle", angle)
 class PolarPlot:
     
     def __init__(self, csv_file):
@@ -59,10 +63,7 @@ class PolarPlot:
         return optimal_angle
     
 
-# How to use   
-# polar = PolarPlot('data/test_plot.csv')
-# angle = polar.findOptimalAngle(0, 8, 180)
-# print("Test angle", angle)
+
 
 
     

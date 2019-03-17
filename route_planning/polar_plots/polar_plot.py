@@ -11,7 +11,14 @@ import math
 # Gets angle difference preserving sign
 # Doesn't use modulo in order to preserve negative sign of angle difference
 def angle_difference(firstangle, secondangle):
-    """Gets angle difference preserving sign (double, double) -> double"""
+    """
+    Args:
+        firstagle (double)
+        secondangle (double)
+    Returns:
+        (double) secondangle - first angle
+    Gets angle difference preserving sign (double, double) -> double
+    """
     difference = secondangle - firstangle
     while difference < -180:
         difference += 360
@@ -26,7 +33,13 @@ class PolarPlot:
 
     # updates plot with csv file
     def update_plot(self, csv_file):
-        """Change csv file to modify data model"""
+        """
+        Args:
+            csv_file (string) - file path to csv file
+        Returns:
+            nothing - updates internal plot
+        Change csv file to modify data model
+        """
         with open(csv_file, newline='') as csvfile:
             plotreader = csv.reader(csvfile, delimiter=';', quotechar='|')
             header = next(plotreader)
@@ -67,6 +80,11 @@ class PolarPlot:
         """
         Finds optimal angle in plot given wind heading,
         speed and ideal heading: (double, double, double) -> double
+        Args:
+            wind_heading (double) - direction of wind in degrees from north
+            wind_speed (double) - speed of wind in knots
+            ideal_heading (double) - direction of ideal heading in degrees from north, 
+                where the boat wants to go idealy
         """
         # Plot transform to compute in plot space
         plotideal_angle = angle_difference(
@@ -81,4 +99,3 @@ class PolarPlot:
         optimal_angle = (optimal_plot_angle + direction *
                          (wind_heading + 180)) % 360
         return optimal_angle
-        

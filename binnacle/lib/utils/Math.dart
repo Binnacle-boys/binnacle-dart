@@ -8,7 +8,7 @@ double radiansToDegrees(double radians) {
 }
 
 double degreesToRadians(double degrees) {
-  return degrees / (2 * pi);
+  return (degrees * pi) / 180;
 }
 
 // Converting acclerometer stream into a listAngle stream

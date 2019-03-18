@@ -3,14 +3,14 @@ import 'CompassFace.dart';
 
 import 'package:sos/model/Wind.dart';
 import 'package:sos/model/Boat.dart';
-import 'package:sos/CompassHeadingWidget.dart';
+import 'package:sos/BinnacleHeadingWidget.dart';
 
-class CompassBase extends StatelessWidget {
+class BinnacleBase extends StatelessWidget {
   final Boat currentBoat;
   final Boat idealBoat;
   final Wind wind;
 
-  CompassBase(this.currentBoat, this.idealBoat, this.wind);
+  BinnacleBase(this.currentBoat, this.idealBoat, this.wind);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class CompassBase extends StatelessWidget {
               ),
             ),
             new CompassFace(),
-            new CompassHeadingWidget(
+            new BinnacleHeadingWidget(
                 directionStream: wind.direction?.stream,
                 color: Colors.lightBlue),
 //            new CompassHeadingWidget(

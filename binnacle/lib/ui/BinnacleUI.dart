@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import 'compass/CompassBase.dart';
+import 'compass/BinnacleBase.dart';
 import 'package:sos/model/Wind.dart';
 import 'package:sos/model/Boat.dart';
 
-class CompassUI extends StatelessWidget {
-  CompassUI(
+class BinnacleUI extends StatelessWidget {
+  BinnacleUI(
       {Key key, this.currentBoat, this.idealBoat, this.wind, this.direction})
       : super(key: key);
 
@@ -18,6 +18,6 @@ class CompassUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Transform.rotate(
         angle: ((direction ?? 0) * (math.pi / 180) * -1),
-        child: new CompassBase(currentBoat, idealBoat, wind));
+        child: new BinnacleBase(currentBoat, idealBoat, wind));
   }
 }

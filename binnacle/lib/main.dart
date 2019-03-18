@@ -5,7 +5,7 @@ import 'package:geolocator/geolocator.dart';
 
 import './model/DataModel.dart';
 import './SpeedWidget.dart';
-import './CompassWidget.dart';
+import './BinnacleWidget.dart';
 import 'ListAngleWidget.dart';
 
 void main() => runApp(MyApp());
@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   : 'Longitude: ' + headingFormat.format(_location.longitude),
               style: Theme.of(context).textTheme.display1,
             ),
-            CompassWidget(model: _model),
+            BinnacleWidget(model: _model),
           ],
         ),
       ),

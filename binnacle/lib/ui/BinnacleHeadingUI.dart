@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sos/utils/Math.dart';
 import 'ArrowPainter.dart';
 
-class CompassHeadingUI extends StatelessWidget {
-  CompassHeadingUI({Key key, this.heading, this.color}) : super(key: key);
+class BinnacleHeadingUI extends StatelessWidget {
+  BinnacleHeadingUI({Key key, this.heading, this.color}) : super(key: key);
 
   final double radius = 100;
 

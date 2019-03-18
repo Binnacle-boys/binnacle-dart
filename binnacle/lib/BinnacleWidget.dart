@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:sos/ui/CompassUI.dart';
+import 'package:sos/ui/BinnacleUI.dart';
 import 'package:sos/model/DataModel.dart';
 
-class CompassWidget extends StatefulWidget {
-  CompassWidget({Key key, this.model}) : super(key: key);
+class BinnacleWidget extends StatefulWidget {
+  BinnacleWidget({Key key, this.model}) : super(key: key);
 
   final DataModel model;
 
   @override
-  _CompassWidgetState createState() => _CompassWidgetState();
+  _BinnacleWidgetState createState() => _BinnacleWidgetState();
 }
 
-class _CompassWidgetState extends State<CompassWidget> {
+class _BinnacleWidgetState extends State<BinnacleWidget> {
   /// Stream subscription for direction
   StreamSubscription<double> _directionSubscription;
   StreamSubscription<double> get directionSubscription =>
@@ -39,7 +39,7 @@ class _CompassWidgetState extends State<CompassWidget> {
   /// Building UI component for the compass
   @override
   Widget build(BuildContext context) {
-    return new CompassUI(
+    return new BinnacleUI(
         currentBoat: widget.model.currentBoat,
         idealBoat: widget.model.idealBoat,
         wind: widget.model.wind,

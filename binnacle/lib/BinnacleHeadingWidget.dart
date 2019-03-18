@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'ui/CompassHeadingUI.dart';
+import 'ui/BinnacleHeadingUI.dart';
 
-class CompassHeadingWidget extends StatefulWidget {
-  CompassHeadingWidget({Key key, this.directionStream, this.color})
+class BinnacleHeadingWidget extends StatefulWidget {
+  BinnacleHeadingWidget({Key key, this.directionStream, this.color})
       : super(key: key);
 
   final Stream<double> directionStream;
   final Color color;
 
   @override
-  _CompassHeadingWidgetState createState() => _CompassHeadingWidgetState();
+  _BinnacleHeadingWidgetState createState() => _BinnacleHeadingWidgetState();
 }
 
-class _CompassHeadingWidgetState extends State<CompassHeadingWidget> {
+class _BinnacleHeadingWidgetState extends State<BinnacleHeadingWidget> {
   /// Stream subscription for direction
   StreamSubscription<double> _directionSubscription;
   StreamSubscription<double> get directionSubscription =>
@@ -41,6 +41,6 @@ class _CompassHeadingWidgetState extends State<CompassHeadingWidget> {
   /// Building UI component for the compass
   @override
   Widget build(BuildContext context) {
-    return new CompassHeadingUI(heading: _direction, color: _color);
+    return new BinnacleHeadingUI(heading: _direction, color: _color);
   }
 }

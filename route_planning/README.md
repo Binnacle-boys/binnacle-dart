@@ -14,7 +14,7 @@ This is a two part process (so far.) If you have any questions about a command, 
 ### Generate data
 To generate bogus input, run:
 ```
-python3 gen_test_input.py [options] <output_path>
+python3 generate_bogus_input.py [options] <output_path>
 ```
 Consider using the -n flag to specify a number of entries, default is 10. For the sake of this example, lets say we called it example_input.yaml.
 

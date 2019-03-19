@@ -11,9 +11,9 @@ void main() {
 
   test('bluetooth data model throws not implemented', () {
     try {
-      final dm = new DataModel(SensorType.phone);
+      new DataModel(SensorType.phone);
 
-      expect(dm == null, true);
+      expect(false, true);
     } catch (e) {
       expect(true, true); // should throw exception
     }

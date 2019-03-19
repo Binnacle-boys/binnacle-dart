@@ -7,8 +7,7 @@ class DeckWidget extends StatelessWidget {
     // TODO: implement build
     return CustomPaint(
       painter: DeckPainter(),
-      child: Container(height:700),
+      child: Container(height: 600),
     );
   }
-
 }

@@ -15,6 +15,8 @@ class BinnacleHeadingWidget extends StatefulWidget {
 
 class _BinnacleHeadingWidgetState extends State<BinnacleHeadingWidget> {
   StreamSubscription<double> _directionSubscription;
+  StreamSubscription<double> get directionSubscription =>
+      _directionSubscription;
 
   double _direction = 0;
   Color _color;

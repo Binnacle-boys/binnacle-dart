@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     // CompassWidget(directionStream: _model.currentBoat.compassHeading?.stream)
                     Padding(
                       child: BinnacleWidget(model: _model),
-                      padding: EdgeInsets.fromLTRB(0, 100.0, 0, 0),
+                      padding: EdgeInsets.fromLTRB(10.0, 80.0, 10.0, 0),
                     )
                   ],
                 ),

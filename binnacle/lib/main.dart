@@ -97,6 +97,14 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
           elevation: 0.0,
         ),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add_location),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CoordInputRoute())
+              );
+            }),
         body: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.

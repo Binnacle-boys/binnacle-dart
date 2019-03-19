@@ -11,7 +11,7 @@ class BinnacleHeadingUI extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return new Transform.rotate(
-        angle: degreesToRadians((heading ?? 0) / 360),
+        angle: degreesToRadians(heading),
         child: new Align(
             alignment: Alignment.topCenter,
             child: CustomPaint(

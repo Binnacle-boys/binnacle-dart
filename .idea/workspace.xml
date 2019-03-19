@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c25035bf-2f41-4a64-ab23-9b3ead2f6c52" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/binnacle/lib/model/phone/PhoneWind.dart" afterDir="false" />
+    <list default="true" id="c25035bf-2f41-4a64-ab23-9b3ead2f6c52" name="Default Changelist" comment="Removed unused radius variable">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/binnacle/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/binnacle/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/binnacle/lib/model/DataModel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/model/DataModel.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/binnacle/lib/model/Wind.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/model/Wind.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/binnacle/lib/model/phone/Boat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/model/phone/PhoneBoat.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/binnacle/lib/model/phone/Wind.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/model/phone/Wind.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/binnacle/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/BinnacleHeadingWidget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/BinnacleHeadingWidget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/ui/BinnacleHeadingUI.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/ui/BinnacleHeadingUI.dart" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/build/" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,46 +18,64 @@
     </projectState>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/binnacle/lib/main.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="11" selection-start-column="11" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/binnacle/lib/model/phone/Wind.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="373">
-              <caret line="77" column="3" selection-start-line="77" selection-start-column="3" selection-end-line="77" selection-end-column="3" />
-              <folding>
-                <element signature="e#0#22#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/BinnacleUI.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="18" column="32" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/binnacle/lib/model/bluetooth/BluetoothManager.dart">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/BinnacleUI.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="306">
+                  <caret line="18" column="32" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
+                  <folding>
+                    <element signature="e#0#39#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/binnacle/lib/BinnacleWidget.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="204">
+                  <caret line="12" column="62" selection-start-line="12" selection-start-column="62" selection-end-line="12" selection-end-column="62" />
+                  <folding>
+                    <element signature="e#0#39#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/binnacle/lib/BinnacleHeadingWidget.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="238">
+                  <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
+                  <folding>
+                    <element signature="e#0#39#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/BinnacleHeadingUI.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="187">
+                  <caret line="11" column="38" lean-forward="true" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+                  <folding>
+                    <element signature="e#0#39#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -81,7 +93,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/binnacle/lib/ui/deck/DeckWidget.dart" />
         <option value="$PROJECT_DIR$/binnacle/lib/main.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/ui/BinnacleHeadingUI.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/BinnacleHeadingWidget.dart" />
       </list>
     </option>
   </component>
@@ -191,7 +206,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552962343437" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552972545086" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -218,35 +233,35 @@
       <workItem from="1550273599143" duration="161000" />
       <workItem from="1550273780248" duration="3547000" />
       <workItem from="1550278249186" duration="1172000" />
-      <workItem from="1552876299138" duration="3234000" />
+      <workItem from="1552876299138" duration="8111000" />
     </task>
-    <task id="LOCAL-00001" summary="Model split into components">
-      <created>1550274732908</created>
+    <task id="LOCAL-00001" summary="Merge remote-tracking branch 'origin/sprint4' into sp3_windUI&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;binnacle/lib/main.dart&#10;#&#9;binnacle/lib/model/phone/Wind.dart">
+      <created>1552962432420</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1550274732908</updated>
+      <updated>1552962432420</updated>
     </task>
-    <task id="LOCAL-00002" summary="DataModel Factory">
-      <created>1550275489089</created>
+    <task id="LOCAL-00002" summary="Deck sizing fixed for pixel display (no overflow)">
+      <created>1552964746130</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1550275489089</updated>
+      <updated>1552964746130</updated>
     </task>
-    <task id="LOCAL-00003" summary="DataModel smoke screen test">
-      <created>1550275762428</created>
+    <task id="LOCAL-00003" summary="Deck padding on sides">
+      <created>1552964771513</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1550275762428</updated>
+      <updated>1552964771513</updated>
     </task>
-    <task id="LOCAL-00004" summary="Added missing async package import">
-      <created>1550276443866</created>
+    <task id="LOCAL-00004" summary="Removed unused radius variable">
+      <created>1552964799260</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1550276443866</updated>
+      <updated>1552964799260</updated>
     </task>
     <task id="LOCAL-00005" summary="DataModel test for bluetooth">
       <created>1550276477830</created>
@@ -269,13 +284,15 @@
       <option name="project" value="LOCAL" />
       <updated>1552875695671</updated>
     </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="581000" />
+    <option name="totallyTimeSpent" value="5458000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1319" height="925" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26962727" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -322,7 +339,11 @@
     <MESSAGE value="Added missing async package import" />
     <MESSAGE value="DataModel test for bluetooth" />
     <MESSAGE value="Sprint 4 merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="Sprint 4 merge" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/sprint4' into sp3_windUI&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;binnacle/lib/main.dart&#10;#&#9;binnacle/lib/model/phone/Wind.dart" />
+    <MESSAGE value="Deck sizing fixed for pixel display (no overflow)" />
+    <MESSAGE value="Deck padding on sides" />
+    <MESSAGE value="Removed unused radius variable" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed unused radius variable" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/binnacle/lib/phone/PhoneModel.dart" />
@@ -332,25 +353,6 @@
     <entry file="file://$PROJECT_DIR$/binnacle/lib/phone/Wind.dart" />
     <entry file="file://$PROJECT_DIR$/binnacle/test/DataModel_test.dart" />
     <entry file="file://$PROJECT_DIR$/binnacle/lib/DataModel.dart" />
-    <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/deck/DeckWidget.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/binnacle/lib/BinnacleHeadingWidget.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="30" column="3" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/compass/BinnacleBase.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -367,49 +369,6 @@
           <caret line="24" column="39" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/BinnacleHeadingUI.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="15" column="10" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/BinnacleUI.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="18" column="32" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/binnacle/lib/model/bluetooth/BluetoothManager.dart">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/compass/CompassFace.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/binnacle/lib/BinnacleWidget.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="12" column="62" selection-start-line="12" selection-start-column="62" selection-end-line="12" selection-end-column="62" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -437,13 +396,6 @@
     <entry file="file://$PROJECT_DIR$/binnacle/lib/model/Wind.dart">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/binnacle/lib/main.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="11" selection-start-column="11" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -453,10 +405,83 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/binnacle/lib/model/phone/Wind.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="77" column="3" selection-start-line="77" selection-start-column="3" selection-end-line="77" selection-end-column="3" />
+        <state relative-caret-position="237">
+          <caret line="69" column="73" selection-start-line="69" selection-start-column="73" selection-end-line="69" selection-end-column="73" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/model/bluetooth/BluetoothManager.dart">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/compass/CompassFace.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/main.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="113" column="20" lean-forward="true" selection-start-line="113" selection-start-column="20" selection-end-line="113" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/deck/DeckWidget.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/BinnacleUI.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="32" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/BinnacleWidget.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="62" selection-start-line="12" selection-start-column="62" selection-end-line="12" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/ui/BinnacleHeadingUI.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="38" lean-forward="true" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/BinnacleHeadingWidget.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>

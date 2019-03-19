@@ -14,11 +14,9 @@ class BinnacleHeadingWidget extends StatefulWidget {
 }
 
 class _BinnacleHeadingWidgetState extends State<BinnacleHeadingWidget> {
-  /// Stream subscription for direction
   StreamSubscription<double> _directionSubscription;
-  StreamSubscription<double> get directionSubscription =>
-      _directionSubscription;
-  double _direction;
+
+  double _direction = 0;
   Color _color;
 
   @override
@@ -26,7 +24,8 @@ class _BinnacleHeadingWidgetState extends State<BinnacleHeadingWidget> {
     super.initState();
 
     /// Set call back to the listener
-    _directionSubscription = widget.directionStream?.listen(updateDirection);
+    _directionSubscription = widget.directionStream.listen(updateDirection);
+
     _color = widget.color;
   }
 
@@ -34,7 +33,7 @@ class _BinnacleHeadingWidgetState extends State<BinnacleHeadingWidget> {
   void updateDirection(double direction) {
     setState(() {
       // TODO: If the stream is null, show a toast saying failed to display it
-      _direction = direction;
+      this._direction = direction;
     });
   }
 

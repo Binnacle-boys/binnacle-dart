@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:geolocator/geolocator.dart';
 
+import './CoordInputRoute.dart'; //ignore: unused_import
 import './model/DataModel.dart';
 import './BinnacleWidget.dart';
 import './ui/deck/DeckWidget.dart'; //ignore: unused_import
+
+import './model/bluetooth/BluetoothManager.dart'; //ignore: unused_import
 
 void main() => runApp(MyApp());
 
@@ -52,7 +54,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   DataModel _model;
-  Position _location;
   NumberFormat headingFormat = new NumberFormat("##0.0#", "en_US");
 
   @override
@@ -74,15 +75,10 @@ class _MyHomePageState extends State<MyHomePage> {
       throw new Exception("Other data models not implemented");
     }
 
-    _model.currentBoat.positionStream.listen((Position position) {
-      setState(() {
-        print('PhoneModel position heard');
-        _location = position;
-        print(_location);
-      });
-    });
-//    var btManager = BluetoothManager();
-//    btManager.printDevices();
+    // BluetoothManager().printDevices();
+
+    // var btManager = BluetoothManager();
+    // btManager.printDevices();
   }
 
   @override

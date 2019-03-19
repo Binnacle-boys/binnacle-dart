@@ -1,5 +1,5 @@
-import 'phone/Boat.dart';
-import 'phone/Wind.dart';
+import 'phone/PhoneBoat.dart';
+import 'phone/PhoneWind.dart';
 import 'Wind.dart';
 import 'Boat.dart';
 import '../algorithm/Boat.dart';
@@ -27,7 +27,6 @@ class DataModel extends DataModelBase{
     if (type == SensorType.phone) {
       Boat phoneBoat = new PhoneBoat();
       Wind phoneWind = new PhoneWind();
-      phoneWind.setPositionStream(phoneBoat.positionStream);
       Boat idealBoat = new IdealBoat(phoneBoat, phoneWind);
       return DataModel._internal(phoneBoat, idealBoat, phoneWind);
     } else {

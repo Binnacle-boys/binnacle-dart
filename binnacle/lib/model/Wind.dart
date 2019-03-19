@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:geolocator/geolocator.dart';
 
 abstract class Wind {
   /// Current speed of the wind in current location in miles per hour.
@@ -10,6 +9,4 @@ abstract class Wind {
 
   /// DateTime when these values were last updated.
   DateTime lastUpdate;
-
-  void setPositionStream(Stream<Position> locationStream);
 }

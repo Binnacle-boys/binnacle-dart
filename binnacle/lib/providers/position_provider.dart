@@ -20,34 +20,39 @@ abstract class IPositionStrategy {
   // Stream<PositionModel> getPositionStream();
 
 }
-class DeviceStrategy implements IPositionStrategy {
-  var _geolocator = Geolocator();
-  var _locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
-  StreamSubscription<Position> _positionStreamSubscription;
+// class DeviceStrategy implements IPositionStrategy {
+//   var _geolocator = Geolocator();
+//   var _locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+//   PublishSubject<PositionModel> _positionStream;
 
-  DeviceStrategy();
+//   DeviceStrategy();
 
-  Stream<PositionModel> getPosition() {
-    if (_positionStreamSubscription == null) {
-      final Stream<Position> positionStream = Geolocator().getPositionStream(_locationOptions);
-      // _positionStreamSubscription = positionStream.listen();
-    }
-  }
-
-
-//  void _toggleListening() {
-//     if (_positionStreamSubscription == null) {
-
-//       const LocationOptions locationOptions =
-//           LocationOptions(accuracy: LocationAccuracy.best, distanceFilter: 10);
-//       final Stream<Position> positionStream =
-//           Geolocator().getPositionStream(locationOptions);
-//       _positionStreamSubscription = positionStream.listen(
-//           (Position position) => _positions.add(position));
-//       _positionStreamSubscription.pause();
-
+//   PublishSubject<PositionModel> getPosition() {
+//     if (_positionStream == null) {
+//       Stream<Position> positionStream = Geolocator().getPositionStream(_locationOptions);
+//       positionStream.map((Position position ) => toPositionModel(position)
+//       );
 //     }
+//     return _positionStream;
+//   }
 
-//  }
+//   <PositionModel> toPositionModel(Position position ) {
+//     return  PositionModel(position.latitude, position.longitude );
+//   }
 
-}
+// //  void _toggleListening() {
+// //     if (_positionStreamSubscription == null) {
+
+// //       const LocationOptions locationOptions =
+// //           LocationOptions(accuracy: LocationAccuracy.best, distanceFilter: 10);
+// //       final Stream<Position> positionStream =
+// //           Geolocator().getPositionStream(locationOptions);
+// //       _positionStreamSubscription = positionStream.listen(
+// //           (Position position) => _positions.add(position));
+// //       _positionStreamSubscription.pause();
+
+// //     }
+
+// //  }
+
+// }

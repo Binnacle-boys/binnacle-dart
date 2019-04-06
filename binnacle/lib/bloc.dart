@@ -3,11 +3,24 @@ import 'package:rxdart/rxdart.dart';
 import 'package:geolocator/geolocator.dart';
 import './repository.dart';
 import  'models/position_model.dart';
+import 'models/weather_model.dart';
 
 
 class Bloc extends Object {
 
   final _repository = Repository();
+  final _weatherFetcher = PublishSubject<WeatherModel>();
+
+  Observable<WeatherModel> get weather => _weatherFetcher.stream;
+  
+  fetchWeather() async {
+    WeatherModel weatherModel = await _repository.fetchWeather("52.386560", "1.671404");
+    print(weatherModel);
+    _weatherFetcher.sink.add(weatherModel);
+  }
+
+
+
 
   final _speedController = BehaviorSubject<Position>();
   final _headingController = BehaviorSubject<String>();
@@ -16,7 +29,6 @@ class Bloc extends Object {
   initPosition() {
       Stream<PositionModel> positionStream = _repository.getPositionStream();
       _positionController.stream.mergeWith([positionStream]);
-
     }
 
 
@@ -43,6 +55,7 @@ class Bloc extends Object {
     await _headingController?.close();
     await _positionController?.drain();
     await _positionController?.close();
+    await _weatherFetcher?.close();
 
   }
 

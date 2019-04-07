@@ -7,9 +7,9 @@ import 'package:rxdart/rxdart.dart';
 import '../models/weather_model.dart';
 import '../models/position_model.dart';
 import '../models/wind_model.dart';
-import 'wind_provider.dart';
+import '../providers/wind_provider.dart';
 
-class WeatherProvider extends IWindService {
+class WeatherService extends IWindService {
   Client client = Client();
   final _apiKey = "80823ccc590c29c76f3094869dcdbee9";
   final _apiURL = "https://api.openweathermap.org/data/2.5/weather";
@@ -17,7 +17,7 @@ class WeatherProvider extends IWindService {
   BehaviorSubject<PositionModel> _position;
 
 
-  WeatherProvider(BehaviorSubject<PositionModel> position) {
+  WeatherService(BehaviorSubject<PositionModel> position) {
     this._position = position;
     fetchWeather(_position.value);
   }

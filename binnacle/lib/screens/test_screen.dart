@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
-import '../providers/wind_provider.dart';
+import '../models/wind_model.dart';
 
 class TestScreen extends StatelessWidget {
   @override
@@ -25,7 +25,13 @@ Widget positionLabel(Bloc bloc) {
     stream: bloc.position,
     builder: (context, snapshot ) {
       if (snapshot.hasData) {
-        return Text('**POSISTION** Snapshot has data');
+        return Column(
+          children: <Widget>[
+            Text("Lat: " + snapshot.data.lat.toString()),
+            Text("Lon: " + snapshot.data.lon.toString()),
+            Text("Speed: " + snapshot.data.speed.toString()),
+          ]
+        );
       } else if (snapshot.hasError) {
         return Text('**POSISTION** Hmmm... something went wrong');
       } else {

@@ -3,7 +3,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:geolocator/geolocator.dart';
 import './repository.dart';
 import 'models/position_model.dart';
-import 'providers/wind_provider.dart';
+import 'models/wind_model.dart';
 
 
 class Bloc extends Object {
@@ -17,8 +17,9 @@ class Bloc extends Object {
 
   Bloc() {
     // * This line is just a dummy position -- delete it when Position works
-    _positionController.add(PositionModel(23.4, 121.12));
+    _positionController.add(PositionModel(lat: 89.4, lon: 121.12));
     this._repository = Repository(_positionController);
+    _positionController.addStream(this._repository.getPositionStream());
     _windContoller.addStream(_repository.getWindStream());
 
   }
@@ -37,7 +38,7 @@ class Bloc extends Object {
 
   Stream<Position> get speed => _speedController.stream;
   Stream<String> get heading => _headingController.stream;
-  BehaviorSubject<PositionModel> get position => _positionController; // .stream? 
+  BehaviorSubject<PositionModel> get position => _positionController.stream; // .stream? 
 
 
     // change data

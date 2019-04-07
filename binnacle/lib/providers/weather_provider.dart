@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
+
 import 'package:http/http.dart' show Client;
 import 'package:rxdart/rxdart.dart';
 
-import 'dart:convert';
 import '../models/weather_model.dart';
 import '../models/position_model.dart';
+import '../models/wind_model.dart';
 import 'wind_provider.dart';
 
 class WeatherProvider extends IWindService {
@@ -17,12 +19,8 @@ class WeatherProvider extends IWindService {
 
   WeatherProvider(BehaviorSubject<PositionModel> position) {
     this._position = position;
-    fetchWeather(position.value);
+    fetchWeather(_position.value);
   }
-
-  // void init(PositionModel position) {
-  //   fetchWeather(position);
-  // }
 
   void fetchWeather(PositionModel position) async {
     print("fetching weather....");

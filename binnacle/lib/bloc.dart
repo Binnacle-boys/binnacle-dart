@@ -17,7 +17,7 @@ class Bloc extends Object {
 
   Bloc() {
     // * This line is just a dummy position -- delete it when Position works
-    _positionController.add(PositionModel(83.4, 121.12));
+    _positionController.add(PositionModel(23.4, 121.12));
     this._repository = Repository(_positionController);
     _windContoller.addStream(_repository.getWindStream());
 

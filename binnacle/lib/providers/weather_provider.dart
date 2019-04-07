@@ -1,22 +1,28 @@
 import 'dart:async';
 import 'package:http/http.dart' show Client;
+import 'package:rxdart/rxdart.dart';
+
 import 'dart:convert';
 import '../models/weather_model.dart';
 import '../models/position_model.dart';
 import 'wind_provider.dart';
 
-class WeatherProvider implements IWind {
+class WeatherProvider extends IWindService {
   Client client = Client();
   final _apiKey = "80823ccc590c29c76f3094869dcdbee9";
   final _apiURL = "https://api.openweathermap.org/data/2.5/weather";
   var _windStream = StreamController<WindModel>();
+  BehaviorSubject<PositionModel> _position;
 
 
-  WeatherProvider();
-
-  void init(PositionModel position) {
-    fetchWeather(position);
+  WeatherProvider(BehaviorSubject<PositionModel> position) {
+    this._position = position;
+    fetchWeather(position.value);
   }
+
+  // void init(PositionModel position) {
+  //   fetchWeather(position);
+  // }
 
   void fetchWeather(PositionModel position) async {
     print("fetching weather....");

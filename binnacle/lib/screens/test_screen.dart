@@ -16,7 +16,7 @@ class TestScreen extends StatelessWidget {
        backgroundColor: Colors.blueGrey,
        title: Text("Test Screen")
      ),
-     body: Column( children: <Widget>[positionLabel(bloc), weatherLabel(bloc)],)
+     body: Column( children: <Widget>[positionLabel(bloc), weatherLabel(bloc), compassLabel(bloc)])
    );
   }
 }
@@ -39,6 +39,19 @@ Widget positionLabel(Bloc bloc) {
       }
     }
   );
+}
+Widget compassLabel(Bloc bloc) {
+  return StreamBuilder(
+    stream: bloc.compass,
+    builder: (context,  snapshot ) {
+      if (snapshot.hasData) {
+        return Text(snapshot.data.direction.toString());
+      } else if (snapshot.hasError) {
+        return Text('**COMPASS** Hmmm... something went wrong');
+      } else {
+        return Text('**COMPASS** No data yet');
+      }
+    });
 }
 
 Widget weatherLabel(Bloc bloc) {

@@ -74,7 +74,7 @@ class _Sys {
 }
 class _Main {
   double temp;
-  int pressure;
+  double pressure;
   int humidity;
   double temp_min;
   double temp_max;
@@ -87,7 +87,7 @@ class _Main {
     this.temp_min
   });
   factory _Main.fromJson(Map<String, dynamic> json) {
-    return _Main(temp: json['temp'], pressure: json['pressure'],
+    return _Main(temp: json['temp'].toDouble(), pressure: json['pressure'].toDouble(),
     humidity: json['humidity'], temp_max:json['temp_max'], temp_min: json['temp_min']
     );
   }  
@@ -129,44 +129,4 @@ class _Weather {
   }  
   
 }
-
-
-// class _Result {
-//   _Coord _coord;
-//   _Sys sys;
-//   // List<_Weather> weather; 
-//   _Main main;
-//   _Wind wind;
-//   _Clouds clouds;
-//   int dt;
-//   int id;
-//   String name;
-//   int cod;
-
-//   _Result({
-//     this.coord, this.sys, this.main, this.wind,  this.clouds,
-//     this.cod, this.dt, this.id, this.name
-//     // ,this.weather
-//   });
-
-//   // factory _Result.fromJson(Map<String, dynamic> parsedJson) {
-//   //   return _Result(
-//   //     coord: _Coord.fromJson(parsedJson['coord']),
-//   //     sys: _Sys.fromJson(parsedJson['sys']),
-//   //     main: _Main.fromJson(parsedJson['main']),
-//   //     wind: _Wind.fromJson(parsedJson['wind']),
-//   //     clouds: _Clouds.fromJson(parsedJson['clouds']),
-//   //     dt: parsedJson['dt'],
-//   //     id: parsedJson['id'],
-//   //     name: parsedJson['name'],
-//   //     cod:parsedJson['cod'],
-//   //   );
-//   // }
-    
-
-
-// }
-
-
-
 

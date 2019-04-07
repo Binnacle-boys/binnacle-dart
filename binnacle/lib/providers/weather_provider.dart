@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:http/http.dart' show Client;
 import 'dart:convert';
 import '../models/weather_model.dart';
+import '../models/position_model.dart';
 import 'wind_provider.dart';
 
 class WeatherProvider implements IWind {
@@ -13,17 +14,17 @@ class WeatherProvider implements IWind {
 
   WeatherProvider();
 
-  void init(lat, lon) {
-    fetchWeather(lat, lon);
+  void init(PositionModel position) {
+    fetchWeather(position);
   }
 
-  void fetchWeather(String lat, String lon) async {
+  void fetchWeather(PositionModel position) async {
     print("fetching weather....");
-    print(lat + ' ' + lon);
+    print(position.lat.toString() + ' ' + position.lon.toString());
     final response = await client
         .get((_apiURL 
-          + "?lat=" + lat 
-          + "&lon=" + lon 
+          + "?lat=" + position.lat.toString()
+          + "&lon=" + position.lon.toString() 
           + "&APPID="+_apiKey
         ));
 

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
-import '../models/weather_model.dart';
 import '../providers/wind_provider.dart';
 
 class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
-    // bloc.fetchWeather();
-    // bloc.initWind();
 
     
 

@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'weather_provider.dart';
+import '../models/position_model.dart';
+import 'package:rxdart/rxdart.dart';
 
 
 class WindProvider {
 
     final _weatherProvider = WeatherProvider();
+    BehaviorSubject<PositionModel> _positionStream;
     
-    WindProvider(){
-      _weatherProvider.init("84.044","121.066");
+    WindProvider(BehaviorSubject<PositionModel> position){
+      this._positionStream = position;
+      _weatherProvider.init(this._positionStream.value);
     }
     StreamController get wind => _weatherProvider.windStream;
 

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
 import '../models/weather_model.dart';
+import '../providers/wind_provider.dart';
 
 class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
-    bloc.fetchWeather();
+    // bloc.fetchWeather();
+    // bloc.initWind();
 
     
 
@@ -38,10 +40,10 @@ Widget positionLabel(Bloc bloc) {
 
 Widget weatherLabel(Bloc bloc) {
   return StreamBuilder(
-    stream: bloc.weather,
-    builder: (context,AsyncSnapshot<WeatherModel> snapshot ) {
+    stream: bloc.wind,
+    builder: (context, AsyncSnapshot<WindModel> snapshot ) {
       if (snapshot.hasData) {
-        return Text(snapshot.data.wind.speed.toString());
+        return Text(snapshot.data.speed.toString());
       } else if (snapshot.hasError) {
         return Text('**WEATHER** Hmmm... something went wrong');
       } else {

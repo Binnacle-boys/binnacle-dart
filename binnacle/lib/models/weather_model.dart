@@ -95,12 +95,12 @@ class _Main {
 
 class _Wind {
   double speed;
-  int deg;
+  double deg;
 
   _Wind({this.speed, this.deg});
   
   factory _Wind.fromJson(Map<String, dynamic> json) {
-    return _Wind(speed: json['speed'], deg: json['deg']
+    return _Wind(speed: json['speed'], deg: json['deg'].toDouble()
     );
   }
 }

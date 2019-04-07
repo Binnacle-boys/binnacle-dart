@@ -2,13 +2,22 @@ import 'dart:async';
 import 'package:http/http.dart' show Client;
 import 'dart:convert';
 import '../models/weather_model.dart';
+import 'wind_provider.dart';
 
-class WeatherProvider {
+class WeatherProvider implements IWind {
   Client client = Client();
   final _apiKey = "80823ccc590c29c76f3094869dcdbee9";
   final _apiURL = "https://api.openweathermap.org/data/2.5/weather";
+  var _windStream = StreamController<WindModel>();
 
-  Future<WeatherModel> fetchWeather(String lat, String lon) async {
+
+  WeatherProvider();
+
+  void init(lat, lon) {
+    fetchWeather(lat, lon);
+  }
+
+  void fetchWeather(String lat, String lon) async {
     print("fetching weather....");
     print(lat + ' ' + lon);
     final response = await client
@@ -21,10 +30,17 @@ class WeatherProvider {
     print(response.body.toString());
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
-      return WeatherModel.fromJson(json.decode(response.body));
+      var temp = WeatherModel.fromJson(json.decode(response.body));
+      WindModel wind = WindModel(temp.wind.speed, temp.wind.deg);
+      print("Temp:" + temp.toString());
+      print(temp.wind.speed.toString() + "   " +  temp.wind.deg.toString());
+      _windStream.sink.add(wind);
     } else {
       // If that call was not successful, throw an error.
       throw Exception('Failed to load weather');
     }
   }
+
+  StreamController<WindModel> get windStream => _windStream;
+
 }

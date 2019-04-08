@@ -19,25 +19,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
-      child: MaterialApp(
-        title: 'Binnacle Demo',
-        theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-          primarySwatch: Colors.blueGrey,
-        ),
-        home: TestScreen()
-      )
-      
-      // home: MyHomePage(title: 'Binnacle Demo (Main)'),
-    );
+        child: MaterialApp(
+            title: 'Binnacle Demo',
+            theme: ThemeData(
+              brightness: Brightness.dark,
+              primaryColor: Colors.yellow[100],
+              backgroundColor: Colors.grey[850],
+
+              textTheme: new TextTheme(
+                body1: new TextStyle(
+                    color: Colors.yellow[100],
+                    fontFamily: "Arial",
+                    fontWeight: FontWeight.bold),
+              ),
+
+              // This is the theme of your application.
+              //
+              // Try running your application with "flutter run". You'll see the
+              // application has a blue toolbar. Then, without quitting the app, try
+              // changing the primarySwatch below to Colors.green and then invoke
+              // "hot reload" (press "r" in the console where you ran "flutter run",
+              // or simply save your changes to "hot reload" in a Flutter IDE).
+              // Notice that the counter didn't reset back to zero; the application
+              // is not restarted.
+              primarySwatch: Colors.blueGrey,
+            ),
+            home: TestScreen())
+
+        // home: MyHomePage(title: 'Binnacle Demo (Main)'),
+        );
   }
 }
 

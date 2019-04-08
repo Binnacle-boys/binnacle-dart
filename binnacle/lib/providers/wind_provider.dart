@@ -3,12 +3,23 @@ import '../models/wind_model.dart';
 
 class WindProvider {
 
-    IWindService _windService;
+    IWindService _service;
+    StreamController<WindModel> _stream = StreamController();
     
-    WindProvider({IWindService windService}){
-      this._windService = windService;
+    WindProvider({IWindService service}){
+      this._service = service;
+      this._stream.addStream(this._service.windStream.stream);
+
     }
-    StreamController<WindModel> get wind => _windService.windStream;
+    changeService(IWindService service)  async {
+
+    await this._service.windStream.close();
+    
+    this._service = service;
+    await this._stream.addStream(this._service.windStream.stream);
+
+  }
+    StreamController<WindModel> get wind => _stream;
 
 
 }

@@ -16,10 +16,22 @@ class TestScreen extends StatelessWidget {
        backgroundColor: Colors.blueGrey,
        title: Text("Test Screen")
      ),
-     body: Column( children: <Widget>[positionLabel(bloc), weatherLabel(bloc), compassLabel(bloc)])
+     body: Column( children: <Widget>[positionLabel(bloc), weatherLabel(bloc), compassLabel(bloc), swapCompassButton(bloc)])
    );
   }
 }
+
+Widget swapCompassButton(Bloc bloc) {
+  return RaisedButton(
+    onPressed: () {
+      print("pushed button");
+      bloc.changeCompassSource();
+    },
+    child: Text("Click to change compass source"),
+    color: Colors.deepOrange,
+    );
+}
+
 Widget positionLabel(Bloc bloc) {
   return StreamBuilder(
     stream: bloc.position,

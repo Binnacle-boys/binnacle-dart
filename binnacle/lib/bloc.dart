@@ -38,12 +38,11 @@ class Bloc extends Object {
   Function(String) get changeHeading => _headingController.sink.add;
   Function(PositionModel) get changePosition => _positionController.sink.add;
 
+  changeCompassSource() {
+    this._repository.swapCompassStream();
+  }
+
   
-
-
-
-
-
   void dispose() async {
     await _headingController?.drain();
     await _headingController?.close();

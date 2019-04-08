@@ -21,7 +21,7 @@ class BinnacleBase extends StatelessWidget {
             new Container(
               decoration: new BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.black,
+                color: Theme.of(context).primaryColor,
               ),
             ),
             new CompassFace(),

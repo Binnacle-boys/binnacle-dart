@@ -17,8 +17,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Binnacle',
-      
       theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.yellow[100],
+        backgroundColor: Colors.grey[850],
+
+        textTheme: new TextTheme(
+          body1: new TextStyle(
+              color: Colors.yellow[100],
+              fontFamily: "Arial",
+              fontWeight: FontWeight.bold),
+        ),
+
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -91,19 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(widget.title),
-          elevation: 0.0,
-        ),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add_location),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CoordInputRoute())
-              );
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CoordInputRoute()));
             }),
         body: Center(
           // Center is a layout widget. It takes a single child and positions it

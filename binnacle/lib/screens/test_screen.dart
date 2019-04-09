@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../ui/app_drawer.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
 import '../models/wind_model.dart';
@@ -16,6 +17,7 @@ class TestScreen extends StatelessWidget {
        backgroundColor: Colors.blueGrey,
        title: Text("Test Screen")
      ),
+     drawer: AppDrawer(context).drawer,
      body: Column( children: <Widget>[positionLabel(bloc), weatherLabel(bloc), compassLabel(bloc), swapCompassButton(bloc)])
    );
   }

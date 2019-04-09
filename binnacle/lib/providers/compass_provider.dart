@@ -23,6 +23,7 @@ class CompassProvider {
 }
 abstract class ICompassService {
   StreamController <CompassModel> get compassStream;
+  String get name;
 
 }
 

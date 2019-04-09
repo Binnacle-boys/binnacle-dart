@@ -19,11 +19,14 @@ class Repository {
   PositionProvider _positionProvider;
   WindProvider _windProvider;
   CompassProvider _compassProvider;
+  
+
 
   Repository(BehaviorSubject<PositionModel> positionStream) {
     this._positionProvider = PositionProvider( service: new GeolocationService() );
     this._windProvider = WindProvider( service: new WeatherService(positionStream) );
     this._compassProvider = CompassProvider( service: new TestCompassService());
+
   }
 
   swapCompassStream() {

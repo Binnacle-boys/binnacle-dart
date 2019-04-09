@@ -3,6 +3,8 @@ import '../models/compass_model.dart';
 import  '../providers/compass_provider.dart';
 
 class TestCompassService extends ICompassService {
+
+  final String _name = 'Test Compass Service';
   
   StreamController<CompassModel> _compassStream = StreamController();
   List<CompassModel> _dummyData = [];
@@ -18,5 +20,6 @@ class TestCompassService extends ICompassService {
     }
   }
   StreamController<CompassModel> get compassStream => _compassStream;
+  String get name => _name;
 
 }

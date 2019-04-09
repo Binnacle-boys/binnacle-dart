@@ -6,6 +6,7 @@ import 'package:flutter_compass/flutter_compass.dart';
 class CompassService extends ICompassService {
   
   StreamController<CompassModel> _compassStream = StreamController();
+  final String _name = 'Compass Service';
 
   CompassService() {
     print('Initializing Compass Service');
@@ -14,5 +15,6 @@ class CompassService extends ICompassService {
     ; // Do I need to listen here?
   }
   StreamController<CompassModel> get compassStream => _compassStream;
+  String get name => _name;
 
 }

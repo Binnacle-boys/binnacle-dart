@@ -18,6 +18,6 @@ class BinnacleUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Transform.rotate(
         angle: ((direction ?? 0) * (math.pi / 180) * -1),
-        child: new BinnacleBase(currentBoat, idealBoat, wind));
+        child: new BinnacleBase(context));
   }
 }

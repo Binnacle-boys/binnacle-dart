@@ -15,23 +15,24 @@ import 'models/compass_model.dart';
 import 'models/wind_model.dart';
 
 class Repository {
-
   PositionProvider _positionProvider;
   WindProvider _windProvider;
   CompassProvider _compassProvider;
 
   Repository(BehaviorSubject<PositionModel> positionStream) {
-    this._positionProvider = PositionProvider( service: new GeolocationService() );
-    this._windProvider = WindProvider( service: new WeatherService(positionStream) );
-    this._compassProvider = CompassProvider( service: new TestCompassService());
+    this._positionProvider =
+        PositionProvider(service: new GeolocationService());
+    this._windProvider =
+        WindProvider(service: new WeatherService(positionStream));
+    this._compassProvider = CompassProvider(service: new CompassService());
   }
 
   swapCompassStream() {
-    this._compassProvider.changeService(new CompassService());
+    this._compassProvider.changeService(new TestCompassService());
   }
 
-
   Stream<WindModel> getWindStream() => _windProvider.wind.stream;
-  Stream<PositionModel> getPositionStream() => _positionProvider.position.stream;
+  Stream<PositionModel> getPositionStream() =>
+      _positionProvider.position.stream;
   Stream<CompassModel> getCompassStream() => _compassProvider.compass.stream;
 }

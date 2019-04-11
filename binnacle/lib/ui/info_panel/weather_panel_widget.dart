@@ -1,8 +1,12 @@
 import '../../bloc.dart';
 import 'package:flutter/material.dart';
 import '../../models/wind_model.dart';
+import '../../providers/app_provider.dart';
+import './../global_theme.dart';
 
-Widget weatherLabel(BuildContext context, Bloc bloc) {
+Widget weatherLabel(BuildContext context) {
+  final bloc = Provider.of(context);
+  final theme = GlobalTheme().get();
   return StreamBuilder(
       stream: bloc.wind,
       builder: (context, AsyncSnapshot<WindModel> snapshot) {
@@ -17,8 +21,7 @@ Widget weatherLabel(BuildContext context, Bloc bloc) {
                         flex: 2,
                         child: Container(
                           alignment: Alignment.bottomCenter,
-                          child: Text("Wind",
-                              style: Theme.of(context).textTheme.body1),
+                          child: Text("Wind", style: theme.textTheme.body1),
                         )),
                     Expanded(
                         flex: 5,
@@ -27,12 +30,12 @@ Widget weatherLabel(BuildContext context, Bloc bloc) {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(snapshot.data.speed.toString(),
-                                  style: Theme.of(context).textTheme.headline),
+                                  style: theme.textTheme.headline),
                               Container(
                                   height: 50,
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
-                                    "Kt",
+                                    "kt",
                                     textAlign: TextAlign.center,
                                   )),
                             ])),
@@ -40,9 +43,9 @@ Widget weatherLabel(BuildContext context, Bloc bloc) {
         } else if (snapshot.hasError) {
           print(
               "Error in weather_panel.dart -> weatherLabel, stream has error");
-          return Text(' ');
+          return Text("-.-", style: theme.textTheme.headline);
         } else {
-          return Text(' ');
+          return Text("-.-", style: theme.textTheme.headline);
         }
       });
 }

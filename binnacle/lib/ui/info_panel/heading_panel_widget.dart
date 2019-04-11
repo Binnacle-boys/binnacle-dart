@@ -1,8 +1,10 @@
-import '../../bloc.dart';
 import 'package:flutter/material.dart';
-import '../../models/compass_model.dart';
+import '../../providers/app_provider.dart';
+import './../global_theme.dart';
 
-Widget windHeadingLabel(BuildContext context, Bloc bloc) {
+Widget windHeadingLabel(BuildContext context) {
+  final bloc = Provider.of(context);
+  final theme = GlobalTheme().get();
   return StreamBuilder(
       stream: bloc.wind,
       builder: (context, snapshot) {
@@ -10,18 +12,20 @@ Widget windHeadingLabel(BuildContext context, Bloc bloc) {
           return Container(
               alignment: Alignment.center,
               child: Text(degreeToCardinalString(snapshot.data.deg.floor()),
-                  style: Theme.of(context).textTheme.body2));
+                  style: theme.textTheme.body2));
         } else if (snapshot.hasError) {
           print(
               "Error in heading_panel.dart -> windHeadingLabel, stream has error");
-          return Text(' ');
+          return Text("--", style: theme.textTheme.body2);
         } else {
-          return Text(' ');
+          return Text("--", style: theme.textTheme.body2);
         }
       });
 }
 
-Widget boatHeadingLabel(BuildContext context, Bloc bloc) {
+Widget boatHeadingLabel(BuildContext context) {
+  final bloc = Provider.of(context);
+  final theme = GlobalTheme().get();
   return StreamBuilder(
       stream: bloc.compass,
       builder: (context, snapshot) {
@@ -30,13 +34,13 @@ Widget boatHeadingLabel(BuildContext context, Bloc bloc) {
               alignment: Alignment.center,
               child: Text(
                   degreeToCardinalString((snapshot.data.direction.floor())),
-                  style: Theme.of(context).textTheme.body2));
+                  style: theme.textTheme.body2));
         } else if (snapshot.hasError) {
           print(
               "Error in heading_panel.dart -> boadHeadingLabel, stream has error");
-          return Text(' ');
+          return Text("-.-", style: theme.textTheme.body2);
         } else {
-          return Text(' ');
+          return Text("-.-", style: theme.textTheme.body2);
         }
       });
 }
@@ -60,6 +64,6 @@ String degreeToCardinalString(int heading) {
     'NW',
     'NNW'
   ];
-  int index = ((heading + 11.25) / 22.5).floor().abs();
+  int index = (((heading + 11.25) % 360) / 22.5).floor().abs();
   return l[index].toString(); // + " " + heading.toString() + '˚';
 }

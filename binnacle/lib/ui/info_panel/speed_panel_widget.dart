@@ -1,8 +1,12 @@
 import '../../bloc.dart';
 import 'package:flutter/material.dart';
 import '../../models/position_model.dart';
+import '../../providers/app_provider.dart';
+import './../global_theme.dart';
 
-Widget speedLabel(BuildContext context, Bloc bloc) {
+Widget speedLabel(BuildContext context) {
+  final bloc = Provider.of(context);
+  final theme = GlobalTheme().get();
   return StreamBuilder(
       stream: bloc.position,
       builder: (context, AsyncSnapshot<PositionModel> snapshot) {
@@ -18,7 +22,7 @@ Widget speedLabel(BuildContext context, Bloc bloc) {
                         child: Container(
                           alignment: Alignment.bottomCenter,
                           child: Text("Boat Velocity",
-                              style: Theme.of(context).textTheme.body1),
+                              style: theme.textTheme.body1),
                         )),
                     Expanded(
                         flex: 5,
@@ -27,19 +31,19 @@ Widget speedLabel(BuildContext context, Bloc bloc) {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(snapshot.data.speed.toStringAsPrecision(2),
-                                  style: Theme.of(context).textTheme.headline),
+                                  style: theme.textTheme.headline),
                               Container(
                                 height: 50,
                                 alignment: Alignment.bottomLeft,
                                 child: Text(
-                                  "Kt",
+                                  "kt",
                                   textAlign: TextAlign.center,
                                 ),
                               )
                             ]))
                   ]));
         } else {
-          return Text('**WEATHER** Hmmm... something went wrong');
+          return Text("-.-", style: theme.textTheme.headline);
         }
       });
 }

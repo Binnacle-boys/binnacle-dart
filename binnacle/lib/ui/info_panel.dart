@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import '../bloc.dart';
-import '../providers/app_provider.dart';
-import '../models/wind_model.dart';
 
+import './global_theme.dart';
 import './info_panel/weather_panel_widget.dart';
 import './info_panel/heading_panel_widget.dart';
 import './info_panel/speed_panel_widget.dart';
@@ -10,20 +8,20 @@ import './info_panel/speed_panel_widget.dart';
 class InfoPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of(context);
+    final theme = GlobalTheme().get();
 
     return Scaffold(
-        backgroundColor: Theme.of(context).bottomAppBarColor,
+        backgroundColor: theme.bottomAppBarColor,
         body: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Expanded(
                   flex: 5,
                   child: Column(children: <Widget>[
-                    Expanded(flex: 5, child: speedLabel(context, bloc)),
+                    Expanded(flex: 5, child: speedLabel(context)),
                     Expanded(
                       flex: 5,
-                      child: boatHeadingLabel(context, bloc),
+                      child: boatHeadingLabel(context),
                     ),
                   ])),
               Expanded(
@@ -32,16 +30,16 @@ class InfoPanel extends StatelessWidget {
                       decoration: new BoxDecoration(
                           border: new Border(
                               left: new BorderSide(
-                                  color: Theme.of(context).backgroundColor))),
+                                  color: theme.backgroundColor))),
                       padding: EdgeInsets.only(right: 1),
                       child: Column(children: <Widget>[
                         Expanded(
                           flex: 5,
-                          child: weatherLabel(context, bloc),
+                          child: weatherLabel(context),
                         ),
                         Expanded(
                           flex: 5,
-                          child: windHeadingLabel(context, bloc),
+                          child: windHeadingLabel(context),
                         ),
                       ]))),
             ]));

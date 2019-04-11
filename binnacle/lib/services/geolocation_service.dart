@@ -8,7 +8,7 @@ class GeolocationService extends IPositionService {
   final Geolocator _geolocator = Geolocator();
   // TODO possibly change distance filter and accuracy (this weekend in don's car)
   final LocationOptions _locationOptions =
-      LocationOptions(accuracy: LocationAccuracy.best, distanceFilter: 1);
+      LocationOptions(accuracy: LocationAccuracy.best, distanceFilter: 2);
   StreamController<PositionModel> _positionStream = StreamController();
 
   GeolocationService() {

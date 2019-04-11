@@ -16,29 +16,35 @@ class WeatherService extends IWindService {
   var _windStream = StreamController<WindModel>();
   BehaviorSubject<PositionModel> _position;
 
-
   WeatherService(BehaviorSubject<PositionModel> position) {
     this._position = position;
-    fetchWeather(_position.value);
-  }
 
-  void fetchWeather(PositionModel position) async {
+    fetchWeather(_position);
+  }
+  Future<PositionModel> lastNonNull(Stream<PositionModel> stream) =>
+      stream.firstWhere((x) => x != null);
+
+  void fetchWeather(BehaviorSubject<PositionModel> positionStream) async {
+    PositionModel position = await lastNonNull(positionStream);
+    print("___ pos const: " + position.lat.toString());
     print("fetching weather....");
     print(position.lat.toString() + ' ' + position.lon.toString());
-    final response = await client
-        .get((_apiURL 
-          + "?lat=" + position.lat.toString()
-          + "&lon=" + position.lon.toString() 
-          + "&APPID="+_apiKey
-        ));
+    final response = await client.get((_apiURL +
+        "?lat=" +
+        position.lat.toString() +
+        "&lon=" +
+        position.lon.toString() +
+        "&APPID=" +
+        _apiKey));
 
     print(response.body.toString());
     if (response.statusCode == 200) {
+      // TODO remove this debugging code
       // If the call to the server was successful, parse the JSON
       var temp = WeatherModel.fromJson(json.decode(response.body));
       WindModel wind = WindModel(temp.wind.speed, temp.wind.deg);
       print("Temp:" + temp.toString());
-      print(temp.wind.speed.toString() + "   " +  temp.wind.deg.toString());
+      print(temp.wind.speed.toString() + "   " + temp.wind.deg.toString());
       _windStream.sink.add(wind);
     } else {
       // If that call was not successful, throw an error.
@@ -47,5 +53,4 @@ class WeatherService extends IWindService {
   }
 
   StreamController<WindModel> get windStream => _windStream;
-
 }

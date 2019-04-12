@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sos/ui/BinnacleHeadingUI.dart';
 import 'CompassDialPainter.dart';
 
 class CompassFace extends StatelessWidget {
@@ -25,7 +26,7 @@ class CompassFace extends StatelessWidget {
                   painter: new CompassDialPainter(td: Theme.of(context)),
                 ),
               ),
-
+              new BinnacleHeadingUI(),
               // centerpoint
               new Center(
                 child: new Container(

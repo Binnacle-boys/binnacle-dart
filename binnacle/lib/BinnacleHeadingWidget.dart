@@ -42,6 +42,6 @@ class _BinnacleHeadingWidgetState extends State<BinnacleHeadingWidget> {
   /// Building UI component for the compass
   @override
   Widget build(BuildContext context) {
-    return new BinnacleHeadingUI(heading: _direction, color: _color);
+    return new BinnacleHeadingUI(); //heading: _direction, color: _color);
   }
 }

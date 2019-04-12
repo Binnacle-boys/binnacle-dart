@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'providers/app_provider.dart';
 import 'ui/info_panel.dart';
+import 'ui/compass/BinnacleBase.dart';
 import './ui/global_theme.dart';
 
 void main() => runApp(MyApp());
@@ -41,8 +42,8 @@ class BinnacleState extends State<Binnacle> {
     return Container(
       padding: const EdgeInsets.all(20),
       alignment: Alignment.center,
-      child: Text('Binnacle will go here',
-          style: GlobalTheme().get().textTheme.body1),
+      child: BinnacleBase(context),
+      //Text('Binnacle will go here', style: GlobalTheme().get().textTheme.body1),
     );
   }
 }

@@ -43,7 +43,7 @@ Widget weatherLabel(BuildContext context) {
         } else if (snapshot.hasError) {
           print(
               "Error in weather_panel.dart -> weatherLabel, stream has error");
-          return Text("-.-", style: theme.textTheme.headline);
+          return Text("Error", style: theme.textTheme.headline);
         } else {
           return Text("-.-", style: theme.textTheme.headline);
         }

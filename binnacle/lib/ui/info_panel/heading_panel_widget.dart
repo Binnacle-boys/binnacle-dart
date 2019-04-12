@@ -16,7 +16,7 @@ Widget windHeadingLabel(BuildContext context) {
         } else if (snapshot.hasError) {
           print(
               "Error in heading_panel.dart -> windHeadingLabel, stream has error");
-          return Text("--", style: theme.textTheme.body2);
+          return Text("Error", style: theme.textTheme.body2);
         } else {
           return Text("--", style: theme.textTheme.body2);
         }
@@ -38,9 +38,9 @@ Widget boatHeadingLabel(BuildContext context) {
         } else if (snapshot.hasError) {
           print(
               "Error in heading_panel.dart -> boadHeadingLabel, stream has error");
-          return Text("-.-", style: theme.textTheme.body2);
+          return Text("Error", style: theme.textTheme.body2);
         } else {
-          return Text("-.-", style: theme.textTheme.body2);
+          return Text("--", style: theme.textTheme.body2);
         }
       });
 }

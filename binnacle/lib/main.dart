@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sos/ui/ArrowPainter.dart';
 import 'providers/app_provider.dart';
 import 'ui/info_panel.dart';
 import 'ui/compass/BinnacleBase.dart';
@@ -42,7 +43,10 @@ class BinnacleState extends State<Binnacle> {
     return Container(
       padding: const EdgeInsets.all(20),
       alignment: Alignment.center,
+
+      //CustomPaint(painter: ArrowPainter2()),
       child: BinnacleBase(context),
+
       //Text('Binnacle will go here', style: GlobalTheme().get().textTheme.body1),
     );
   }

@@ -5,6 +5,7 @@ class GlobalTheme extends Object {
     return new ThemeData(
       brightness: Brightness.dark,
       primaryColor: Colors.yellow[100],
+      accentColor: Colors.deepOrange,
       backgroundColor: Colors.grey[850],
       bottomAppBarColor: Colors.grey[900],
       textTheme: new TextTheme(

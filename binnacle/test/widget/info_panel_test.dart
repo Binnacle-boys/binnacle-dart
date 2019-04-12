@@ -1,43 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sos/providers/app_provider.dart';
+import 'package:sos/ui/global_theme.dart';
 import 'package:sos/ui/info_panel.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:geolocator/geolocator.dart';
-import '../../lib/bloc.dart';
 
 void main() {
-  Bloc _bloc;
-  setUp() {
-    _bloc = new Bloc();
-  }
-
-  ;
-  testWidgets("Heading cardinal string", (WidgetTester tester) async {
-    await tester.pumpWidget(InfoPanel());
-    expect(find.text(" "), findsOneWidget);
+  testWidgets(
+      "__Info_panel UI: Proper initializing ui elements with empty streams",
+      (WidgetTester tester) async {
+    await tester.pumpWidget(new Provider(
+        child: MaterialApp(
+            title: 'Binnacle Demo',
+            theme: new GlobalTheme().get(),
+            home: InfoPanel())));
+    expect(find.text("-.-"), findsNWidgets(2));
+    expect(find.text("--"), findsNWidgets(2));
   });
-  // });
-  // testWidgets("Testing position stream", (WidgetTester tester) async {
-  //   final positionSubject = new BehaviorSubject<Position>();
-  //   await tester
-  //       .pumpWidget(SpeedWidget(positionStream: positionSubject.stream));
-  //   positionSubject.stream.listen((Position pos) {
-  //     print("Speed:" + pos.speed.toString());
-  //   });
-  //   expect(find.text("Loading speed"), findsOneWidget);
-  //   //Making mock position of speed 0 for testing
-  //   Position mockPosition = new Position(speed: 0.0);
-
-  //   //Update stream
-  //   positionSubject.add(mockPosition);
-
-  //   // Waiting for the listen emission
-  //   await tester.pump(Duration.zero);
-  //   expect(find.text("0.0 mph"), findsOneWidget);
-
-  //   mockPosition = new Position(speed: 2.0);
-  //   positionSubject.add(mockPosition);
-
-  //   await tester.pump(Duration.zero);
-  //   expect(find.text("4.47 mph"), findsOneWidget);
-  // });
 }

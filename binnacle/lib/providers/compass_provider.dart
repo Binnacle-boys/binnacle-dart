@@ -8,11 +8,13 @@ class CompassProvider {
   CompassProvider({ICompassService service}) {
     this._service = service;
     this._stream.addStream(this._service.compassStream.stream);
+    //this._service.compassStream.sink.add(CompassModel(direction: 0.0));
   }
   changeService(ICompassService service) async {
     await this._service.compassStream.close();
     this._service = service;
     await this._stream.addStream(this._service.compassStream.stream);
+    //
   }
 
   StreamController<CompassModel> get compass => this._stream;

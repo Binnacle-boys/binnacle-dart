@@ -42,6 +42,8 @@ Widget speedLabel(BuildContext context) {
                               )
                             ]))
                   ]));
+        } else if (snapshot.hasError) {
+          return Text("Error", style: theme.textTheme.headline);
         } else {
           return Text("-.-", style: theme.textTheme.headline);
         }

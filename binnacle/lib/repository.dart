@@ -7,7 +7,6 @@ import './providers/compass_provider.dart';
 
 import './services/geolocation_service.dart';
 import './services/weather_service.dart';
-import './services/compass_service.dart';
 import './services/test_compass_service.dart';
 
 import 'models/position_model.dart';
@@ -24,7 +23,7 @@ class Repository {
         PositionProvider(service: new GeolocationService());
     this._windProvider =
         WindProvider(service: new WeatherService(positionStream));
-    this._compassProvider = CompassProvider(service: new CompassService());
+    this._compassProvider = CompassProvider(service: new TestCompassService());
   }
 
   swapCompassStream() {

@@ -10,7 +10,7 @@ class BinnacleHeadingUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
-    final theme = GlobalTheme().get();
+
     return StreamBuilder(
         stream: bloc.wind,
         builder: (context, AsyncSnapshot<WindModel> snapshot) {
@@ -18,15 +18,17 @@ class BinnacleHeadingUI extends StatelessWidget {
             return new Transform.rotate(
                 angle: degreesToRadians(snapshot.data.deg),
                 child: new Align(
-                    alignment: Alignment.topCenter,
-                    child: CustomPaint(
-                        painter: ArrowPainter(
-                            color: theme.accentColor, percentChange: 0.5))));
+                  alignment: Alignment.topCenter,
+                  child: CustomPaint(painter: ArrowPainter(percentChange: 0.5)),
+                ));
           } else if (snapshot.hasError) {
             print("Error in BinnacleHeading, stream has error");
-            return Text("Bad wind data", style: theme.textTheme.headline);
+            return Text("");
           } else {
-            return Text("Bad wind data", style: theme.textTheme.headline);
+            return new Align(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator());
+            //return Text("Bad wind data", style: theme.textTheme.headline);
           }
         });
   }

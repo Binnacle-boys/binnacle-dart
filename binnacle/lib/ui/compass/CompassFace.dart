@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sos/ui/ArrowPainter.dart';
 import 'package:sos/ui/BinnacleHeadingUI.dart';
 import 'CompassDialPainter.dart';
 
@@ -18,6 +19,7 @@ class CompassFace extends StatelessWidget {
           child: new Stack(
             children: <Widget>[
               // dial and numbers go here
+              //new CustomPaint(painter: ArrowPainter2()),
               new Container(
                 width: double.infinity,
                 height: double.infinity,

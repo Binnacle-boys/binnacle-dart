@@ -25,7 +25,15 @@ class WeatherService extends IWindService {
       stream.firstWhere((x) => x != null);
 
   void fetchWeather(BehaviorSubject<PositionModel> positionStream) async {
-    PositionModel position = await lastNonNull(positionStream);
+    var position;
+    try {
+      position = await lastNonNull(positionStream);
+    } catch (e) {
+      print(e);
+      print(
+          "From weather_service: If you aren't in the ios simulator, location is messing up and threw this ^^^");
+      position = new PositionModel(lat: 0.0, lon: 0.0, speed: 0.0);
+    }
     print("___ pos const: " + position.lat.toString());
     print("fetching weather....");
     print(position.lat.toString() + ' ' + position.lon.toString());

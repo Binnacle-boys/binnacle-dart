@@ -18,7 +18,7 @@ class InfoPanel extends StatelessWidget {
               Expanded(
                   flex: 5,
                   child: Column(children: <Widget>[
-                    Expanded(flex: 5, child: speedLabel(context)),
+                    Expanded(flex: 5, child: boatSpeedLabel(context)),
                     Expanded(
                       flex: 5,
                       child: boatHeadingLabel(context),

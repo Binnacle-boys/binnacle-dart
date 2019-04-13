@@ -46,6 +46,7 @@ Widget boatHeadingLabel(BuildContext context) {
 }
 
 String degreeToCardinalString(int heading) {
+  // Given a degree, this func returns cardinal arc it's in e.g. 180 => 'S'
   List l = [
     'N',
     'NNE',
@@ -65,5 +66,5 @@ String degreeToCardinalString(int heading) {
     'NNW'
   ];
   int index = (((heading + 11.25) % 360) / 22.5).floor().abs();
-  return l[index].toString(); // + " " + heading.toString() + '˚';
+  return l[index].toString();
 }

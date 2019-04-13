@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sos/ui/ArrowPainter.dart';
+import 'package:flutter/services.dart';
+
+import 'package:sos/ui/list_angle_widget.dart';
 import 'providers/app_provider.dart';
 import 'ui/info_panel.dart';
 import 'ui/compass/BinnacleBase.dart';
 import './ui/global_theme.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -20,48 +25,28 @@ class MyApp extends StatelessWidget {
                     child: Container(
                         child: Column(children: <Widget>[
               Expanded(
-                flex: 7,
-                child: Binnacle(),
-              ),
+                  flex: 6,
+                  child: new Stack(children: <Widget>[
+                    ListUIState(context),
+                    Binnacle(),
+                  ])),
               Expanded(
                 flex: 3,
                 child: Container(
                   color: Colors.grey[900],
                   padding: EdgeInsets.all(10),
-                  child: InfoPanelState(context),
+                  child: InfoPanel(),
                 ),
               )
             ]))))));
   }
 }
 
-class BinnacleState extends State<Binnacle> {
-  // #enddocregion RWS-class-only
-  @override
-  Widget build(BuildContext context) {
-    final bloc = Provider.of(context);
-    return Container(
-      padding: const EdgeInsets.all(20),
-      alignment: Alignment.center,
-
-      //CustomPaint(painter: ArrowPainter2()),
-      child: BinnacleBase(context),
-
-      //Text('Binnacle will go here', style: GlobalTheme().get().textTheme.body1),
-    );
-  }
-}
-
-class Binnacle extends StatefulWidget {
-  @override
-  BinnacleState createState() => new BinnacleState();
-}
-
-Widget InfoPanelState(BuildContext context) {
+Widget ListUIState(BuildContext context) {
   // #enddocregion RWS-class-only
   return Container(
     child: Center(
-      child: InfoPanel(),
+      child: ListUI(),
     ),
   );
 }

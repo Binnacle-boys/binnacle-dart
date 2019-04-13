@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
+import 'package:sos/services/compass_service.dart';
 
 import './providers/position_provider.dart';
 import './providers/wind_provider.dart';
@@ -23,7 +24,7 @@ class Repository {
         PositionProvider(service: new GeolocationService());
     this._windProvider =
         WindProvider(service: new WeatherService(positionStream));
-    this._compassProvider = CompassProvider(service: new TestCompassService());
+    this._compassProvider = CompassProvider(service: new CompassService());
   }
 
   swapCompassStream() {

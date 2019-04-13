@@ -96,7 +96,13 @@ class _Wind {
   _Wind({this.speed, this.deg});
 
   factory _Wind.fromJson(Map<String, dynamic> json) {
-    return _Wind(speed: json['speed'], deg: json['deg'].toDouble());
+    if (json.containsKey('deg')) {
+      return _Wind(speed: json['speed'], deg: json['deg'].toDouble());
+    } else {
+      print(
+          "No wind degree provided, this isnt good but I'm just  defaulting to 0.0");
+      return _Wind(speed: json['speed'], deg: 0.0);
+    }
   }
 }
 

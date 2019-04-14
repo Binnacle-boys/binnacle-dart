@@ -15,7 +15,7 @@ class SensorService implements Comparable<SensorService> {
 
   String _name = 'SensorServiceDefaultName';
 
-  SensorService(this._name, this._accuracy, this.stream) {
+  SensorService(this._name, this._accuracy) {
     workingStream = new StreamController.broadcast();
     working = false;
     workingStream.stream.listen((work) {

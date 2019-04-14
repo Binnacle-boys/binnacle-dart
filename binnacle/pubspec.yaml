@@ -15,20 +15,20 @@ environment:
 dependencies:
   # flutter_blue: ^0.5.0
   # flutter_bluetooth_serial: ^0.0.4
-  rxdart: ^0.20.0
-  mockito: ^4.0.0
-  glob: ^1.1.7
   convert: ^2.1.1
-  http: ^0.12.0+1
   flutter_compass: ^0.2.0
-  intl: ^0.15.7
-  sensors: ^0.4.0
-  geolocator: ^3.0.1
-  permission_handler: "^3.0.0"
-  google_api_availability: "^2.0.0"
   flutter:
     sdk: flutter
-
+  geolocator: ^3.0.1
+  glob: ^1.1.7
+  google_api_availability: "^2.0.0"
+  http: ^0.12.0+1
+  intl: ^0.15.7
+  mockito: ^4.0.0
+  observable: ^0.22.2
+  permission_handler: "^3.0.0"
+  rxdart: ^0.20.0
+  sensors: ^0.4.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -45,7 +45,6 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/icon/icon.png"
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

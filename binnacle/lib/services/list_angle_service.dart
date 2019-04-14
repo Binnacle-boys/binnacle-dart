@@ -11,16 +11,13 @@ class ListAngleService extends IListAngleService {
   ListAngleService() {
     print('Initializing ListAngle Service');
 
-    _listAngleStream.addStream(accelerometerEvents.take(5).map(
+    _listAngleStream.addStream(accelerometerEvents.map(
         (AccelerometerEvent ae) =>
             ListAngleModel.fromAccelerometerEvent(accelerometerEvent: ae)));
-    ; // Do I need to listen here?
   }
   Stream<ListAngleModel> get listAngleStream => _listAngleStream.stream;
 
   dispose() {
-    // this._compassStream.stream.drain();
-    // this._compassStream.close();
     this._listAngleStream = null;
     FlutterCompass.events.drain();
   }

@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
               Expanded(
                   flex: 6,
                   child: new Stack(children: <Widget>[
-                    ListUI(),
                     Binnacle(),
+                    ListUI(),
                   ])),
               Expanded(
                 flex: 3,

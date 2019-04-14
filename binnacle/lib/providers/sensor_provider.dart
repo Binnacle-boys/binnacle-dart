@@ -4,7 +4,9 @@ import 'dart:developer';
 import 'package:sos/services/sensor_service.dart';
 
 class SensorProvider {
-  List<SensorService> children;
+  List<SensorService> workingChildren;
+  List<SensorService> inactiveChildren;
+
   SensorService active;
 
   Stream<dynamic> stream;
@@ -14,49 +16,51 @@ class SensorProvider {
   bool _manual = false;
 
   SensorProvider() {
-    children = new List();
-  }
-
-  List<SensorService> getWorkingList() {
-    List<SensorService> services = children.toList();
-
-    List<SensorService> workingServices = new List();
-    for (SensorService service in services) {
-      service.working.stream.last.then((working) {
-        if (working) {
-          workingServices.add(service);
-        }
-      });
-    }
-
-    return workingServices;
+    workingChildren = new List();
+    inactiveChildren = new List();
   }
 
   void add(SensorService child) {
-    children.add(child);
-    children.sort((a, b) => a.accuracy.compareTo(b.accuracy));
+    log('$child added');
 
-    active = getActive();
+    if (child.working) {
+      workingChildren.add(child);
+      workingChildren.sort();
+    } else {
+      inactiveChildren.add(child);
+    }
+
+    child.workingStream.stream.listen((working) {
+      log('child $child working variable updated to $working');
+      if (working) {
+        inactiveChildren.remove(child);
+        workingChildren.add(child);
+        workingChildren.sort();
+      } else {
+        workingChildren.remove(child);
+        inactiveChildren.add(child);
+      }
+
+      updateActive();
+    });
+
+    updateActive();
+  }
+
+  void updateActive() {
+    if (workingChildren.isEmpty) {
+      active = null;
+      stream = null;
+      log('no good children able to take over');
+      return;
+    }
+    active = workingChildren.first;
     stream = active.stream;
   }
 
-  SensorService getActive() {
-    List<SensorService> services = children.toList();
-
-    for (SensorService service in services) {
-      service.working.stream.last.then((working) {
-        if (working) {
-          return service;
-        }
-      });
-    }
-
-    return null;
-  }
-
   void set(SensorService service) {
-    if (!children.contains(service)) {
-      throw new Exception('$service was not found');
+    if (!workingChildren.contains(service)) {
+      throw new Exception('$service was not found as a working child');
     }
 
     _manual = true;
@@ -66,7 +70,7 @@ class SensorProvider {
   }
 
   void reset() {
-    stream = getActive().stream;
+    updateActive();
     _manual = false;
 
     log('Reset the SensorModule');

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
               Expanded(
                   flex: 6,
                   child: new Stack(children: <Widget>[
-                    ListUIState(context),
+                    ListUI(),
                     Binnacle(),
                   ])),
               Expanded(
@@ -40,13 +40,4 @@ class MyApp extends StatelessWidget {
               )
             ]))))));
   }
-}
-
-Widget ListUIState(BuildContext context) {
-  // #enddocregion RWS-class-only
-  return Container(
-    child: Center(
-      child: ListUI(),
-    ),
-  );
 }

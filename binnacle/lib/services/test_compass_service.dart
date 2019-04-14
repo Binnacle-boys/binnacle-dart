@@ -17,6 +17,6 @@ class TestCompassService extends ICompassService {
       this._dummyData.add(new CompassModel(direction: i));
     }
   }
-  StreamController<CompassModel> get compassStream => _compassStream;
+  Stream<CompassModel> get compassStream => _compassStream.stream;
 
 }

@@ -8,11 +8,17 @@ class CompassService extends ICompassService {
 
   CompassService() {
     print('Initializing Compass Service');
-    FlutterCompass.events.listen((data) => print(data.toString()));
+    //FlutterCompass.events.listen((data) => print(data.toString()));
     _compassStream.addStream(FlutterCompass.events
         .map((double d) => new CompassModel(direction: d)));
-    //_compassStream.sink.add(new CompassModel(direction: 0.0));
-    // Do I need to listen here?
+    ; // Do I need to listen here?
   }
-  StreamController<CompassModel> get compassStream => _compassStream;
+  Stream<CompassModel> get compassStream => _compassStream.stream;
+
+  dispose() {
+    // this._compassStream.stream.drain();
+    // this._compassStream.close();
+    this._compassStream = null;
+    FlutterCompass.events.drain();
+  }
 }

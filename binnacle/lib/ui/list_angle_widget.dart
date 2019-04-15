@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/ui/global_theme.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
@@ -19,13 +20,14 @@ class ListUI extends StatelessWidget {
 Widget listAngleStreamBuilder(BuildContext context) {
   Bloc bloc = Provider.of(context);
   return StreamBuilder(
-      stream: bloc.listAngle,
+      stream: bloc
+          .listAngle, //take(5).reduce((x,y) => ListAngleModel(x.angle + y.angle))),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Center(
               child: new Transform.rotate(
                   // TODO still gittery and needs ui work
-                  angle: (snapshot.data.angle) * 0.0174 + 7 * pi / 8,
+                  angle: (snapshot.data.angle * 0.0174 + 7 * pi / 8),
                   child: Container(
                       height: 50.0,
                       width: 50.0,

@@ -8,7 +8,7 @@ class ListAngleProvider {
   ListAngleProvider({IListAngleService service}) {
     this._service = service;
     print(this._service.runtimeType);
-    this._stream.addStream(this._service.listAngleStream);
+    this._stream.addStream(this._service.listAngleStream.asBroadcastStream());
   }
   changeService(IListAngleService service) async {
     await this._service.listAngleStream.drain();

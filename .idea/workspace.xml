@@ -3,6 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="a757c0c6-e970-4bf5-8cd0-4154ed0be423" name="Default Changelist" comment="Docs + Icons Assets Files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/models/compass_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/models/compass_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/providers/compass_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/providers/compass_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/providers/sensor_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/providers/sensor_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/screens/test_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/screens/test_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/services/compass_service.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/services/list_angle_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/services/list_angle_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/lib/services/sensor_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/lib/services/sensor_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binnacle/test/provider_tests/sensor_provider_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/binnacle/test/provider_tests/sensor_provider_test.dart" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/build/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -22,46 +33,100 @@
     </projectState>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/binnacle/lib/main.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="41" column="1" lean-forward="true" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/binnacle/lib/providers/sensor_provider.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="46" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
-              <folding>
-                <element signature="e#0#24#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/binnacle/lib/services/sensor_service.dart">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/binnacle/test/provider_tests/sensor_provider_test.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/binnacle/lib/services/compass/phone_compass_service.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="153">
+                  <caret line="9" column="62" selection-start-line="9" selection-start-column="62" selection-end-line="9" selection-end-column="62" />
+                  <folding>
+                    <element signature="e#0#20#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/binnacle/lib/screens/test_screen.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="17">
+                  <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+                  <folding>
+                    <element signature="e#0#39#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/binnacle/lib/bloc.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="410">
+                  <caret line="39" column="3" selection-start-line="39" selection-start-column="3" selection-end-line="39" selection-end-column="3" />
+                  <folding>
+                    <element signature="e#0#20#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/binnacle/lib/repository.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="255">
+                  <caret line="30" column="42" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
+                  <folding>
+                    <element signature="e#0#20#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/binnacle/lib/services/sensor_service.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="274">
+                  <caret line="32" selection-start-line="32" selection-end-line="32" />
+                  <folding>
+                    <element signature="e#0#20#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/binnacle/lib/providers/sensor_provider.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="340">
+                  <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
+                  <folding>
+                    <element signature="e#0#19#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/binnacle/lib/providers/compass_provider.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="119">
+                  <caret line="7" selection-start-line="7" selection-end-line="7" />
+                  <folding>
+                    <element signature="e#0#20#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -69,6 +134,17 @@
         <option value="Dart File" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>dispose</find>
+    </findStrings>
+    <replaceStrings>
+      <replace />
+    </replaceStrings>
+    <dirStrings>
+      <dir>C:\Users\chillers\Documents\GitHub\binnacle-dart\binnacle\lib\services</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -87,21 +163,30 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/binnacle/lib/ui/deck/DeckWidget.dart" />
-        <option value="$PROJECT_DIR$/binnacle/lib/main.dart" />
         <option value="$PROJECT_DIR$/binnacle/lib/ui/BinnacleHeadingUI.dart" />
         <option value="$PROJECT_DIR$/binnacle/lib/BinnacleHeadingWidget.dart" />
         <option value="$PROJECT_DIR$/binnacle/pubspec.yaml" />
         <option value="$PROJECT_DIR$/binnacle/lib/SensorModuleDemo/SensorModule.dart" />
-        <option value="$PROJECT_DIR$/binnacle/lib/providers/sensor_provider.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/services/compass/phone_compass.dart" />
         <option value="$PROJECT_DIR$/binnacle/test/provider_tests/sensor_provider_test.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/main.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/services/list_angle_service.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/screens/test_screen.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/repository.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/models/model.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/models/compass_model.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/providers/compass_provider.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/services/compass/phone_compass_service.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/bloc.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/services/sensor_service.dart" />
+        <option value="$PROJECT_DIR$/binnacle/lib/providers/sensor_provider.dart" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1510" />
-    <option name="y" value="288" />
-    <option name="width" value="1390" />
-    <option name="height" value="926" />
+    <option name="x" value="-10" />
+    <option name="width" value="1328" />
+    <option name="height" value="1836" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -157,7 +242,36 @@
               <item name="binnacle-dart" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="binnacle" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="binnacle-dart" type="b2602c69:ProjectViewProjectNode" />
+              <item name="binnacle-dart" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="binnacle" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="phone" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="binnacle-dart" type="b2602c69:ProjectViewProjectNode" />
+              <item name="binnacle-dart" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="binnacle" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="binnacle-dart" type="b2602c69:ProjectViewProjectNode" />
+              <item name="binnacle-dart" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="binnacle" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
               <item name="providers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="binnacle-dart" type="b2602c69:ProjectViewProjectNode" />
+              <item name="binnacle-dart" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="binnacle" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="binnacle-dart" type="b2602c69:ProjectViewProjectNode" />
@@ -170,38 +284,37 @@
               <item name="binnacle-dart" type="b2602c69:ProjectViewProjectNode" />
               <item name="binnacle-dart" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="binnacle" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+              <item name="compass" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="binnacle-dart" type="b2602c69:ProjectViewProjectNode" />
               <item name="binnacle-dart" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="binnacle" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="provider_tests" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="binnacle-dart" type="b2602c69:ProjectViewProjectNode" />
               <item name="binnacle-dart" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="binnacle" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="service_tests" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="binnacle-dart" type="b2602c69:ProjectViewProjectNode" />
-              <item name="binnacle-dart" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+              <item name="compass" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554963424559" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555392110990" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../sensormodules" />
     <property name="show.migrate.to.gradle.popup" value="false" />
@@ -246,6 +359,8 @@
       <workItem from="1554349360808" duration="1252000" />
       <workItem from="1554697311350" duration="912000" />
       <workItem from="1554962868128" duration="552000" />
+      <workItem from="1555277774237" duration="11519000" />
+      <workItem from="1555374139152" duration="9065000" />
     </task>
     <task id="LOCAL-00001" summary="Merge remote-tracking branch 'origin/sprint4' into sp3_windUI&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;binnacle/lib/main.dart&#10;#&#9;binnacle/lib/model/phone/Wind.dart">
       <created>1552962432420</created>
@@ -296,17 +411,76 @@
       <option name="project" value="LOCAL" />
       <updated>1553023495138</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="SensorService no longer has stream passed to it">
+      <created>1555222011269</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1555222011269</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12994000" />
+    <option name="totallyTimeSpent" value="44312000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1319" height="925" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28786677" />
+      <window_info id="Build Variants" side_tool="true" />
+      <window_info id="Captures" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15860428" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info anchor="bottom" id="Android Profiler" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Logcat" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32955974" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32955974" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.3299748" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49801746" visible="true" weight="0.32830188" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50198257" side_tool="true" weight="0.32830188" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32955974" />
+      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="12" weight="0.32955974" />
+      <window_info anchor="bottom" id="Dart Analysis" order="13" weight="0.32955974" />
+      <window_info anchor="bottom" id="Flutter Performance" order="14" side_tool="true" />
+      <window_info anchor="bottom" id="Docker" order="15" show_stripe_button="false" />
+      <window_info anchor="right" id="Device File Explorer" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Maven Projects" order="5" />
+      <window_info anchor="right" id="Gradle" order="6" />
+      <window_info anchor="right" id="Database" order="7" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+      <window_info anchor="right" id="Theme Preview" order="9" />
+      <window_info anchor="right" id="Flutter Inspector" order="10" />
+      <window_info anchor="right" id="Flutter Outline" order="11" />
+      <window_info anchor="right" id="Maven" order="12" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2180809" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -314,14 +488,14 @@
       <window_info id="Favorites" order="5" side_tool="true" />
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32955974" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.3299748" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32830188" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32830188" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32955974" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
@@ -342,7 +516,7 @@
       <window_info anchor="right" id="Flutter Inspector" order="10" />
       <window_info anchor="right" id="Flutter Outline" order="11" />
       <window_info anchor="right" id="Maven" order="12" />
-    </layout>
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -361,7 +535,8 @@
     <MESSAGE value="Last fixes" />
     <MESSAGE value="readded getter" />
     <MESSAGE value="Docs + Icons Assets Files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Docs + Icons Assets Files" />
+    <MESSAGE value="SensorService no longer has stream passed to it" />
+    <option name="LAST_COMMIT_MESSAGE" value="SensorService no longer has stream passed to it" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/binnacle/lib/phone/PhoneModel.dart" />
@@ -514,38 +689,200 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/binnacle/lib/SensorModuleDemo/SensorModule.dart">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/binnacle/lib/main.dart">
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/SensorModuleDemo/SensorModule.dart" />
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/model/phone/PhoneBoat.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="41" column="1" lean-forward="true" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
+        <state relative-caret-position="221">
+          <caret line="13" column="23" lean-forward="true" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/services/compass_service.dart" />
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/providers/app_provider.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/services/list_angle_service.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="69" selection-start-line="15" selection-start-column="69" selection-end-line="15" selection-end-column="69" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/test/provider_tests/sensor_provider_test.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="668">
+          <caret line="143" selection-start-line="112" selection-end-line="143" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/services/weather_service.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/services/geolocation_service.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/providers/list_angle_provider.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="28" lean-forward="true" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/providers/position_provider.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/models/model.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="9" selection-start-column="9" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/models/compass_model.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/services/test_compass_service.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/screens/test_screen.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/binnacle/lib/providers/sensor_provider.dart">
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/main.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="46" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
+        <state relative-caret-position="17">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/repository.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="30" column="42" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/bloc.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="39" column="3" selection-start-line="39" selection-start-column="3" selection-end-line="39" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/providers/compass_provider.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/binnacle/lib/services/sensor_service.dart">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/binnacle/test/provider_tests/sensor_provider_test.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+        <state relative-caret-position="274">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/services/compass/phone_compass_service.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="62" selection-start-line="9" selection-start-column="62" selection-end-line="9" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binnacle/lib/providers/sensor_provider.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

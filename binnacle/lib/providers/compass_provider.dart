@@ -1,29 +1,12 @@
 import 'dart:async';
-import '../models/compass_model.dart';
 
+import 'sensor_provider.dart';
+import 'package:sos/services/compass/phone_compass_service.dart';
 
-class CompassProvider {
-  ICompassService _service;
-  StreamController<CompassModel> _stream = StreamController();
-
-  CompassProvider({ICompassService service}){
-    this._service = service;
-    print(this._service.runtimeType);
-    this._stream.addStream(this._service.compassStream);
+class CompassProvider extends SensorProvider {
+  CompassProvider() : super() {
+    print('compass provider constructor');
+    add(new PhoneCompassService());
+    print('added phone compass service');
   }
-  changeService(ICompassService service)  async {
-    
-    await this._service.compassStream.drain();
-    this._service = service;
-    await this._stream.addStream(this._service.compassStream);
-
-  }
-
-  StreamController<CompassModel> get compass => this._stream;
-
 }
-abstract class ICompassService {
-  Stream <CompassModel> get compassStream;
-
-}
-

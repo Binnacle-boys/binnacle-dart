@@ -1,7 +1,9 @@
 import 'dart:core';
 import 'dart:developer';
+import 'dart:async';
 
 import 'package:sos/services/sensor_service.dart';
+import 'package:sos/models/model.dart';
 
 class SensorProvider {
   List<SensorService> workingChildren;
@@ -9,13 +11,14 @@ class SensorProvider {
 
   SensorService active;
 
-  Stream<dynamic> stream;
+  StreamController<Model> controller;
 
-  /// Should we be auto-updating priorities?
   bool get manual => _manual;
   bool _manual = false;
 
   SensorProvider() {
+    controller = new StreamController.broadcast();
+
     workingChildren = new List();
     inactiveChildren = new List();
   }
@@ -33,6 +36,10 @@ class SensorProvider {
     child.workingStream.stream.listen((working) {
       log('child $child working variable updated to $working');
       if (working) {
+        if (active == child) {
+          return;
+        }
+
         inactiveChildren.remove(child);
         workingChildren.add(child);
         workingChildren.sort();
@@ -48,14 +55,22 @@ class SensorProvider {
   }
 
   void updateActive() {
+    clean();
+
     if (workingChildren.isEmpty) {
-      active = null;
-      stream = null;
-      log('no good children able to take over');
+      print('no good children able to take over');
       return;
     }
+
+    print('updating the current active service');
     active = workingChildren.first;
-    stream = active.stream;
+    controller.addStream(active.stream);
+  }
+
+  // Cleans the controller of old streams
+  void clean() {
+    active?.stream?.drain();
+    active = null;
   }
 
   void set(SensorService service) {
@@ -63,8 +78,11 @@ class SensorProvider {
       throw new Exception('$service was not found as a working child');
     }
 
+    clean();
+
     _manual = true;
-    stream = service.stream;
+    active = service;
+    controller.addStream(active.stream);
 
     log('Manually set $service as the SensorModule service');
   }

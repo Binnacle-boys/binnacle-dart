@@ -20,10 +20,10 @@ void main() {
 
     test('add SensorService', () async {
       SensorProvider testModule = new SensorProvider();
-      var dumStream =
+
+      SensorService testService = new SensorService("Test Service", 5);
+      testService.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 100).take(5);
-      SensorService testService =
-          new SensorService("Test Service", 5, dumStream);
       testService.workingStream.add(true);
 
       await Future.delayed(const Duration(microseconds: 100), () {});
@@ -44,24 +44,22 @@ void main() {
 
     test('prioritization', () async {
       SensorProvider testModule = new SensorProvider();
-      var dumStreamA =
+
+      SensorService testServiceA = new SensorService("Test Service A", 5);
+      testServiceA.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 100).take(5);
-      SensorService testServiceA =
-          new SensorService("Test Service A", 5, dumStreamA);
       testModule.add(testServiceA);
       testServiceA.workingStream.add(true);
 
-      var dumStreamB =
+      SensorService testServiceB = new SensorService("Test Service B", 1);
+      testServiceB.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 250).take(5);
-      SensorService testServiceB =
-          new SensorService("Test Service B", 1, dumStreamB);
       testModule.add(testServiceB);
       testServiceB.workingStream.add(true);
 
-      var dumStreamC =
+      SensorService testServiceC = new SensorService("Test Service C", 3);
+      testServiceC.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 500).take(5);
-      SensorService testServiceC =
-          new SensorService("Test Service C", 3, dumStreamC);
       testModule.add(testServiceC);
       testServiceC.workingStream.add(true);
 
@@ -77,24 +75,22 @@ void main() {
 
     test('prioritization with no longer active', () async {
       SensorProvider testModule = new SensorProvider();
-      var dumStreamA =
+
+      SensorService testServiceA = new SensorService("Test Service A", 5);
+      testServiceA.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 100).take(5);
-      SensorService testServiceA =
-          new SensorService("Test Service A", 5, dumStreamA);
       testModule.add(testServiceA);
       testServiceA.workingStream.add(true);
 
-      var dumStreamB =
+      SensorService testServiceB = new SensorService("Test Service B", 1);
+      testServiceB.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 300).take(5);
-      SensorService testServiceB =
-          new SensorService("Test Service B", 1, dumStreamB);
       testModule.add(testServiceB);
       testServiceB.workingStream.add(true);
 
-      var dumStreamC =
+      SensorService testServiceC = new SensorService("Test Service C", 3);
+      testServiceC.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 500).take(5);
-      SensorService testServiceC =
-          new SensorService("Test Service C", 3, dumStreamC);
       testModule.add(testServiceC);
       testServiceC.workingStream.add(true);
 
@@ -115,24 +111,22 @@ void main() {
 
     test('manually set service', () async {
       SensorProvider testModule = new SensorProvider();
-      var dumStreamA =
+
+      SensorService testServiceA = new SensorService("Test Service A", 5);
+      testServiceA.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 100).take(5);
-      SensorService testServiceA =
-          new SensorService("Test Service A", 5, dumStreamA);
       testModule.add(testServiceA);
       testServiceA.workingStream.add(true);
 
-      var dumStreamB =
+      SensorService testServiceB = new SensorService("Test Service B", 1);
+      testServiceB.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 300).take(5);
-      SensorService testServiceB =
-          new SensorService("Test Service B", 1, dumStreamB);
       testModule.add(testServiceB);
       testServiceB.workingStream.add(true);
 
-      var dumStreamC =
+      SensorService testServiceC = new SensorService("Test Service C", 3);
+      testServiceC.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 500).take(5);
-      SensorService testServiceC =
-          new SensorService("Test Service C", 3, dumStreamC);
       testModule.add(testServiceC);
       testServiceC.workingStream.add(true);
 
@@ -151,19 +145,18 @@ void main() {
 
     test('stream changes when its service stops working', () async {
       SensorProvider testModule = new SensorProvider();
-      var dumStreamA =
+
+      SensorService testServiceA = new SensorService("Test Service A", 5);
+      testServiceA.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 100)
-              .take(15);
-      SensorService testServiceA =
-          new SensorService("Test Service A", 5, dumStreamA);
+              .take(10);
       testModule.add(testServiceA);
       testServiceA.workingStream.add(true);
 
-      var dumStreamB =
+      SensorService testServiceB = new SensorService("Test Service B", 1);
+      testServiceB.stream =
           Stream<int>.periodic(Duration(microseconds: 100), (x) => 300)
-              .take(15);
-      SensorService testServiceB =
-          new SensorService("Test Service B", 1, dumStreamB);
+              .take(10);
       testModule.add(testServiceB);
       testServiceB.workingStream.add(true);
 

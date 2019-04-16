@@ -17,21 +17,9 @@ class TestScreen extends StatelessWidget {
           listAngleLabel(bloc),
           positionLabel(bloc),
           weatherLabel(bloc),
-          compassLabel(bloc),
-          swapCompassButton(bloc)
+          compassLabel(bloc)
         ]));
   }
-}
-
-Widget swapCompassButton(Bloc bloc) {
-  return RaisedButton(
-    onPressed: () {
-      print("pushed button");
-      bloc.changeCompassSource();
-    },
-    child: Text("Click to change compass source"),
-    color: Colors.deepOrange,
-  );
 }
 
 Widget positionLabel(Bloc bloc) {

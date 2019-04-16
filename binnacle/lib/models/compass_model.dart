@@ -1,8 +1,9 @@
-class CompassModel extends Object{
+import 'model.dart';
 
+class CompassModel extends Model {
   double _direction;
 
-  CompassModel({double direction}){
+  CompassModel({double direction}) {
     this._direction = direction;
   }
 

@@ -1,13 +1,18 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:sos/models/model.dart';
+
 class SensorService implements Comparable<SensorService> {
   /// Used in the PriorityQueue for getting the most accurate SensorService
   int get accuracy => _accuracy;
   int _accuracy;
 
+  /// NOTE: This is public for its child
+  StreamController<Model> controller;
+
   /// The data from the service
-  Stream<dynamic> stream;
+  Stream<Model> get stream => controller.stream;
 
   /// Is this Service currently giving valid data?
   StreamController<bool> workingStream;
@@ -16,6 +21,7 @@ class SensorService implements Comparable<SensorService> {
   String _name = 'SensorServiceDefaultName';
 
   SensorService(this._name, this._accuracy) {
+    controller = new StreamController.broadcast();
     workingStream = new StreamController.broadcast();
     working = false;
     workingStream.stream.listen((work) {

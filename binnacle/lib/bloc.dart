@@ -3,6 +3,7 @@ import 'package:rxdart/rxdart.dart';
 import './repository.dart';
 import 'models/position_model.dart';
 import 'models/wind_model.dart';
+import 'models/service_data.dart';
 
 
 class Bloc extends Object {
@@ -13,6 +14,8 @@ class Bloc extends Object {
   final _positionController = BehaviorSubject<PositionModel>();
   final _windContoller = PublishSubject<WindModel>();
   final _compassController = PublishSubject();
+  final _availableServices = BehaviorSubject();
+  final _activeServices = BehaviorSubject();
 
   //? Should this contructor be refactored in to an aync factory?
   Bloc() {
@@ -22,7 +25,8 @@ class Bloc extends Object {
     this._positionController.addStream(this._repository.getPositionStream());
     this._windContoller.addStream(_repository.getWindStream());
     this._compassController.addStream(_repository.getCompassStream());
-    
+    this._availableServices.addStream(_repository.getAvailableServices());
+    this._activeServices.addStream(_repository.getActiveServices());
 
   }
 
@@ -30,6 +34,8 @@ class Bloc extends Object {
   Stream<WindModel> get wind => _windContoller;
   PublishSubject get compass => _compassController.stream; 
   BehaviorSubject<PositionModel> get position => _positionController.stream; // .stream? 
+  BehaviorSubject get availableServices => _availableServices.stream;
+  BehaviorSubject get activeServices => _activeServices.stream;
 
 
     // change data
@@ -38,8 +44,8 @@ class Bloc extends Object {
   Function(String) get changeHeading => _headingController.sink.add;
   Function(PositionModel) get changePosition => _positionController.sink.add;
 
-  changeCompassSource() {
-    this._repository.swapCompassStream();
+  setActiveService(ServiceData serviceData) {
+    this._repository.setActiveService(serviceData);
   }
 
   

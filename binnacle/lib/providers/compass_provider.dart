@@ -1,10 +1,18 @@
 import 'dart:async';
 import '../models/compass_model.dart';
+import '../models/compass_service_interface.dart';
+
+class ProviderData {
+  final String provides;
+
+  ProviderData(this.provides);
+}
 
 
 class CompassProvider {
   ICompassService _service;
   StreamController<CompassModel> _stream = StreamController();
+  final ProviderData providerData = ProviderData('compass');
 
   CompassProvider({ICompassService service}){
     this._service = service;
@@ -21,9 +29,3 @@ class CompassProvider {
   StreamController<CompassModel> get compass => this._stream;
 
 }
-abstract class ICompassService {
-  StreamController <CompassModel> get compassStream;
-  String get name;
-
-}
-

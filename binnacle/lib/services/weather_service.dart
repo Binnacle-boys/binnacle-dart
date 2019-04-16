@@ -8,6 +8,9 @@ import '../models/weather_model.dart';
 import '../models/position_model.dart';
 import '../models/wind_model.dart';
 import '../providers/wind_provider.dart';
+import '../models/service_data.dart';
+
+
 
 class WeatherService extends IWindService {
   Client client = Client();
@@ -15,6 +18,7 @@ class WeatherService extends IWindService {
   final _apiURL = "https://api.openweathermap.org/data/2.5/weather";
   var _windStream = StreamController<WindModel>();
   BehaviorSubject<PositionModel> _position;
+  final ServiceData serviceData = ServiceData('wind', 'name');
 
 
   WeatherService(BehaviorSubject<PositionModel> position) {
@@ -29,7 +33,7 @@ class WeatherService extends IWindService {
         .get((_apiURL 
           + "?lat=" + position.lat.toString()
           + "&lon=" + position.lon.toString() 
-          + "&APPID="+_apiKey
+          + "&APPID="+ _apiKey
         ));
 
     print(response.body.toString());
@@ -42,6 +46,7 @@ class WeatherService extends IWindService {
       _windStream.sink.add(wind);
     } else {
       // If that call was not successful, throw an error.
+      // !TODO  Don't throw the error. Add the error into the stream
       throw Exception('Failed to load weather');
     }
   }

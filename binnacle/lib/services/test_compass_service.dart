@@ -1,11 +1,10 @@
 import 'dart:async';
 import '../models/compass_model.dart';
-import  '../providers/compass_provider.dart';
-
+import '../models/compass_service_interface.dart';
+import '../models/service_data.dart';
 class TestCompassService extends ICompassService {
 
-  final String _name = 'Test Compass Service';
-  
+  final ServiceData _serviceData = ServiceData('compass', 'mock');
   StreamController<CompassModel> _compassStream = StreamController();
   List<CompassModel> _dummyData = [];
 
@@ -20,6 +19,5 @@ class TestCompassService extends ICompassService {
     }
   }
   StreamController<CompassModel> get compassStream => _compassStream;
-  String get name => _name;
-
+  ServiceData get serviceData => _serviceData;
 }

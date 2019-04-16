@@ -13,7 +13,7 @@ class CompassService extends ICompassService {
         .map((double d) => new CompassModel(direction: d)));
     ; // Do I need to listen here?
   }
-  Stream<CompassModel> get compassStream => _compassStream.stream;
+  StreamController<CompassModel> get compassStream => _compassStream;
 
   dispose() {
     // this._compassStream.stream.drain();

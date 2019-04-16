@@ -8,17 +8,17 @@ class CompassProvider {
   CompassProvider({ICompassService service}) {
     this._service = service;
     print(this._service.runtimeType);
-    this._stream.addStream(this._service.compassStream);
+    this._stream.addStream(this._service.compassStream.stream);
   }
   changeService(ICompassService service) async {
-    await this._service.compassStream.drain();
+    await this._service.compassStream.stream.drain();
     this._service = service;
-    await this._stream.addStream(this._service.compassStream);
+    await this._stream.addStream(this._service.compassStream.stream);
   }
 
   StreamController<CompassModel> get compass => this._stream;
 }
 
 abstract class ICompassService {
-  Stream<CompassModel> get compassStream;
+  StreamController<CompassModel> get compassStream;
 }

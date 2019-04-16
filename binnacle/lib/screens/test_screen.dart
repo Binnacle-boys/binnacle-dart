@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rxdart/src/subjects/behavior_subject.dart';
 import 'package:sos/models/list_angle_model.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
@@ -16,7 +17,7 @@ class TestScreen extends StatelessWidget {
         body: Column(children: <Widget>[
           listAngleLabel(bloc),
           positionLabel(bloc),
-          weatherLabel(bloc),
+          //weatherLabel(bloc),
           compassLabel(bloc),
           swapCompassButton(bloc)
         ]));
@@ -62,20 +63,6 @@ Widget compassLabel(Bloc bloc) {
           return Text('**COMPASS** Hmmm... something went wrong');
         } else {
           return Text('**COMPASS** No data yet');
-        }
-      });
-}
-
-Widget weatherLabel(Bloc bloc) {
-  return StreamBuilder(
-      stream: bloc.wind,
-      builder: (context, AsyncSnapshot<WindModel> snapshot) {
-        if (snapshot.hasData) {
-          return Text(snapshot.data.speed.toString());
-        } else if (snapshot.hasError) {
-          return Text('**WEATHER** Hmmm... something went wrong');
-        } else {
-          return Text('**WEATHER** No data yet');
         }
       });
 }

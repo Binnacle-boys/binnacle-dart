@@ -27,7 +27,7 @@ class ListAngleService extends IListAngleService {
 
       if (c > delta) {
         _listAngleStream.sink.add(a);
-        print("_______________" + a.angle.toString());
+        // print("_______________" + a.angle.toString());
       }
     });
     //if (! _listAngleStream.stream.isEmpty )

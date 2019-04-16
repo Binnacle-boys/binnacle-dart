@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sos/providers/app_provider.dart';
 
 import './global_theme.dart';
 import './info_panel/weather_panel_widget.dart';
@@ -9,6 +10,7 @@ class InfoPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = GlobalTheme().get();
+    final bloc = Provider.of(context);
 
     return Scaffold(
         backgroundColor: theme.bottomAppBarColor,
@@ -18,10 +20,12 @@ class InfoPanel extends StatelessWidget {
               Expanded(
                   flex: 5,
                   child: Column(children: <Widget>[
-                    Expanded(flex: 5, child: boatSpeedLabel(context)),
+                    Expanded(
+                        flex: 5,
+                        child: boatSpeedLabel(positionStream: bloc.position)),
                     Expanded(
                       flex: 5,
-                      child: boatHeadingLabel(context),
+                      child: boatHeadingLabel(compassStream: bloc.compass),
                     ),
                   ])),
               Expanded(
@@ -35,11 +39,13 @@ class InfoPanel extends StatelessWidget {
                       child: Column(children: <Widget>[
                         Expanded(
                           flex: 5,
-                          child: weatherLabel(context),
+                          child: weatherLabel(windStream: bloc.wind),
                         ),
                         Expanded(
                           flex: 5,
-                          child: windHeadingLabel(context),
+                          child: windHeadingLabel(
+                            windStream: bloc.wind,
+                          ),
                         ),
                       ]))),
             ]));

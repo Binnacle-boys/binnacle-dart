@@ -1,29 +1,57 @@
 import 'package:flutter/material.dart';
-import '../../providers/app_provider.dart';
+import 'package:sos/models/compass_model.dart';
+import 'package:sos/models/wind_model.dart';
 import './../global_theme.dart';
 
-Widget windHeadingLabel(BuildContext context) {
-  final bloc = Provider.of(context);
-  final theme = GlobalTheme().get();
-  return StreamBuilder(
-      stream: bloc.wind,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Container(
-              alignment: Alignment.center,
-              child: Text(degreeToCardinalString(snapshot.data.deg.floor()),
-                  style: theme.textTheme.body2));
-        } else if (snapshot.hasError) {
-          print(
-              "Error in heading_panel.dart -> windHeadingLabel, stream has error");
-          return Text("Error", style: theme.textTheme.body2);
-        } else {
-          return Text("--", style: theme.textTheme.body2);
-        }
-      });
+class windHeadingLabel extends StatelessWidget {
+  final windStream;
+  const windHeadingLabel({Key key, this.windStream}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final theme = GlobalTheme().get();
+
+    return StreamBuilder(
+        stream: windStream.stream,
+        builder: (context, AsyncSnapshot<WindModel> snapshot) {
+          if (snapshot.hasData) {
+            return Text(degreeToCardinalString(snapshot.data.deg),
+                style: theme.textTheme.headline);
+          } else if (snapshot.hasError) {
+            print(
+                "Error in weather_panel.dart -> weatherLabel, stream has error");
+            return Text("Error", style: theme.textTheme.headline);
+          } else {
+            return Text("-.-", style: theme.textTheme.headline);
+          }
+        });
+  }
 }
 
-Widget boatHeadingLabel(BuildContext context) {
+class boatHeadingLabel extends StatelessWidget {
+  final compassStream;
+  const boatHeadingLabel({Key key, this.compassStream}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final theme = GlobalTheme().get();
+
+    return StreamBuilder(
+        stream: compassStream.stream,
+        builder: (context, AsyncSnapshot<CompassModel> snapshot) {
+          if (snapshot.hasData) {
+            return Text(degreeToCardinalString(snapshot.data.direction),
+                style: theme.textTheme.headline);
+          } else if (snapshot.hasError) {
+            print(
+                "Error in weather_panel.dart -> weatherLabel, stream has error");
+            return Text("Error", style: theme.textTheme.headline);
+          } else {
+            return Text("-.-", style: theme.textTheme.headline);
+          }
+        });
+  }
+}
+
+/*
   final bloc = Provider.of(context);
   final theme = GlobalTheme().get();
   return StreamBuilder(
@@ -44,8 +72,8 @@ Widget boatHeadingLabel(BuildContext context) {
         }
       });
 }
-
-String degreeToCardinalString(int heading) {
+*/
+String degreeToCardinalString(double heading) {
   // Given a degree, this func returns cardinal arc it's in e.g. 180 => 'S'
   List l = [
     'N',

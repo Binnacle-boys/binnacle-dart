@@ -13,29 +13,9 @@ class ListAngleService extends IListAngleService {
 
   ListAngleService() {
     print('Initializing ListAngle Service');
-    // _listAngleStream.addStream(Lista)
-    double delta = 1.0;
-    accelerometerEvents.listen((data) async {
-      var a =
-          await ListAngleModel.fromAccelerometerEvent(accelerometerEvent: data);
-      //print("_______________" + a.angle.toString());
-      var b = await this._listAngleStream.stream.value;
-      // print("___" + b.angle.toString());
-      double c = (a.angle - b.angle) > 0
-          ? a.angle - b.angle
-          : (a.angle - b.angle) * -1;
-
-      if (c > delta) {
-        _listAngleStream.sink.add(a);
-        // print("_______________" + a.angle.toString());
-      }
-    });
-    //if (! _listAngleStream.stream.isEmpty )
-
-    // _listAngleStream.addStream(accelerometerEvents.map(
-    //     (AccelerometerEvent ae) =>
-
-    //         ListAngleModel.fromAccelerometerEvent(accelerometerEvent: ae)));
+    _listAngleStream.addStream(accelerometerEvents.map(
+        (AccelerometerEvent ae) =>
+            ListAngleModel.fromAccelerometerEvent(accelerometerEvent: ae)));
   }
   Stream<ListAngleModel> get listAngleStream => _listAngleStream.stream;
 

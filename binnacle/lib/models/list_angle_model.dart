@@ -11,7 +11,7 @@ class ListAngleModel extends Object {
   ListAngleModel.fromAccelerometerEvent(
       {AccelerometerEvent accelerometerEvent}) {
     double radians = atan2(accelerometerEvent.x, accelerometerEvent.y);
-    this._angle = (radians * 180) / pi;
+    this._angle = radians;
   }
 
   double get angle => _angle;

@@ -18,31 +18,38 @@ import 'models/service_data.dart';
 class ServiceList {
 
   final String type;
-  List<dynamic> _list = [CompassServiceWrapper(), MockCompassServiceWrapper()];
+  List<dynamic> _list ;
   
 
-  ServiceList(this.type);
+  ServiceList(this.type, this._list);
 
   List<dynamic> get serviceList => _list;
   
   dynamic service(ServiceData data) => _list.firstWhere((wrapper) => 
-    identical(wrapper.serviceData, data)).service;
+    identical(wrapper.serviceData, data));
 
-  dynamic get defaultService => _list.firstWhere((wrapper) => wrapper.isDefault == true);
+  ServiceWrapper get defaultService => _list.firstWhere((wrapper) => wrapper.isDefault == true);
 
 }
 abstract class ServiceWrapper {
-  //! This isn't working???
-  ServiceWrapper(); 
+
+  //! dynamic get service should be Service get service
+  //! but there is no Service type
+  //! All services should implement a new Service interface
+  dynamic get service;
+  ServiceData get serviceData;
+  bool get isDefault;
 }
-class CompassServiceWrapper extends ServiceWrapper{
+
+
+class CompassServiceWrapper implements ServiceWrapper{
   final ServiceData _serviceData = ServiceData('compass', 'flutter compass');
   final bool _default = true;
 
   CompassServiceWrapper();
 
-  get service => CompassService();
-  get serviceData => this._serviceData;
+  get service =>  CompassService();
+  ServiceData get serviceData => this._serviceData;
   bool get isDefault => this._default;
 
 }
@@ -52,7 +59,7 @@ class MockCompassServiceWrapper extends ServiceWrapper{
 
   MockCompassServiceWrapper();
 
-  get service => TestCompassService();
+  get service =>  TestCompassService();
   ServiceData get serviceData => this._serviceData;
   bool get isDefault => this._default;
 }
@@ -67,25 +74,28 @@ class Repository {
   CompassProvider _compassProvider;
   StreamController<ServiceData> _activeServices = StreamController();
   StreamController<dynamic> _availableServices = StreamController();
-  final List<ProviderData> _providers = [];
+  StreamController<List<ServiceList>> _providerTypes = StreamController();
   ServiceList compassServiceList;
+  ServiceList windServiceList;
+  ServiceList positionServiceList;
 
 
   Repository(BehaviorSubject<PositionModel> positionStream) {
     
-    // compassServiceList = ServiceList('compass', {
-    //   ServiceData('compass', 'geolocation') : () => new CompassService(),
-    //   ServiceData('compass', 'mock') : () => new TestCompassService()
-    // });
-    compassServiceList = ServiceList('compass');
+    compassServiceList = ServiceList('compass',[CompassServiceWrapper(), MockCompassServiceWrapper()]);
+    windServiceList = ServiceList('wind', []);
+    positionServiceList = ServiceList('position', []);
+
+    _providerTypes.sink.add([compassServiceList, windServiceList, positionServiceList]);
+    
+    
 
     this._positionProvider = PositionProvider( service: new GeolocationService() );
     this._windProvider = WindProvider( service: new WeatherService(positionStream) );
     var temp = compassServiceList.defaultService;
     _activeServices.sink.add(temp.serviceData);
-    this._compassProvider = CompassProvider( service: temp.service );
+    this._compassProvider = CompassProvider(service: temp.service );
     
-    this._providers.add(this._compassProvider.providerData);
 
 
     _availableServices.sink.add(compassServiceList);
@@ -104,8 +114,9 @@ class Repository {
   setActiveService(ServiceData serviceData) {
     var wrapper = compassServiceList.service(serviceData);
     print("!!!" +wrapper.toString());
-    // _compassProvider.changeService( wrapper.service);
-    _activeServices.sink.add(serviceData);
+    print("####"+wrapper.service.toString());
+    this._compassProvider.changeService(wrapper.service);
+    this._activeServices.sink.add(serviceData);
 
   }
 
@@ -115,5 +126,6 @@ class Repository {
   Stream<CompassModel> getCompassStream() => _compassProvider.compass.stream;
   Stream<ServiceData> getActiveServices() => _activeServices.stream;
   Stream<dynamic> getAvailableServices() => _availableServices.stream;
+  Stream<List<ServiceList>> getProviderTypes() => _providerTypes.stream;
   
 }

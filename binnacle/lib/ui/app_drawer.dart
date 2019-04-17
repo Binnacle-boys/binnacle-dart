@@ -25,7 +25,7 @@ Widget providerList(Bloc bloc) {
 
 
   return StreamBuilder(
-    stream: _providers.stream,
+    stream: bloc.providerTypes.stream,
     builder: (context, snapshot) {
       if(snapshot.hasData) {
         return ListView.builder(

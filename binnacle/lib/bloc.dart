@@ -16,6 +16,7 @@ class Bloc extends Object {
   final _compassController = PublishSubject();
   final _availableServices = BehaviorSubject();
   final _activeServices = BehaviorSubject();
+  final _providerTypes = BehaviorSubject();
 
   //? Should this contructor be refactored in to an aync factory?
   Bloc() {
@@ -28,6 +29,8 @@ class Bloc extends Object {
     this._availableServices.addStream(_repository.getAvailableServices());
     this._activeServices.addStream(_repository.getActiveServices());
 
+    this._providerTypes.addStream(_repository.getProviderTypes());
+
   }
 
 
@@ -36,6 +39,7 @@ class Bloc extends Object {
   BehaviorSubject<PositionModel> get position => _positionController.stream; // .stream? 
   BehaviorSubject get availableServices => _availableServices.stream;
   BehaviorSubject get activeServices => _activeServices.stream;
+  BehaviorSubject get providerTypes => _providerTypes.stream;
 
 
     // change data

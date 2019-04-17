@@ -19,9 +19,12 @@ class CompassProvider {
     this._stream.addStream(this._service.compassStream.stream);
   }
   changeService(ICompassService service)  async {
-    
-    await this._service.compassStream.close();
+    await this._service.dispose();
+    // await this._service.compassStream.stream.drain();
+    // await this._service.compassStream.close();
+
     this._service = service;
+    
     await this._stream.addStream(this._service.compassStream.stream);
 
   }

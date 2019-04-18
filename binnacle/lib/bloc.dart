@@ -4,6 +4,7 @@ import './repository.dart';
 import 'models/position_model.dart';
 import 'models/wind_model.dart';
 import 'models/service_data.dart';
+import 'models/provider_data.dart';
 
 
 class Bloc extends Object {
@@ -16,7 +17,9 @@ class Bloc extends Object {
   final _compassController = PublishSubject();
   final _availableServices = BehaviorSubject();
   final _activeServices = BehaviorSubject();
-  final _providerTypes = BehaviorSubject();
+  final _providerTypes = BehaviorSubject(); //! this should be depricated
+  final _providerData = BehaviorSubject();
+  
 
   Bloc() {
     // * This line is just a dummy position -- delete it when Position works
@@ -28,17 +31,20 @@ class Bloc extends Object {
     this._availableServices.addStream(_repository.getAvailableServices());
     this._activeServices.addStream(_repository.getActiveServices());
 
-    this._providerTypes.addStream(_repository.getProviderTypes());
+    this._providerTypes.addStream(_repository.getProviderTypes()); //! this should be depricated
+
+    this._providerData.addStream(_repository.getProviderData());
 
   }
 
 
   Stream<WindModel> get wind => _windContoller;
   PublishSubject get compass => _compassController.stream; 
-  BehaviorSubject<PositionModel> get position => _positionController.stream; // .stream? 
+  BehaviorSubject<PositionModel> get position => _positionController.stream; 
   BehaviorSubject get availableServices => _availableServices.stream;
   BehaviorSubject get activeServices => _activeServices.stream;
-  BehaviorSubject get providerTypes => _providerTypes.stream;
+  BehaviorSubject get providerTypes => _providerTypes.stream; //! this should be depricated
+  BehaviorSubject get providerData => _providerData.stream;
 
 
     // change data
@@ -49,6 +55,9 @@ class Bloc extends Object {
 
   setActiveService(ServiceData serviceData) {
     this._repository.setActiveService(serviceData);
+  }
+  toggleMode(ProviderData providerData) {
+    _repository.toggleMode(providerData);
   }
 
   

@@ -2,20 +2,10 @@ import 'dart:async';
 import '../models/compass_model.dart';
 import '../models/compass_service_interface.dart';
 import '../models/service_data.dart';
+import '../models/provider_data.dart';
 
 import '../repository.dart';
 
-class ProviderData {
-  final String _provides;
-  String _mode;
-
-  ProviderData(this._provides, this._mode);
-
-  set mode(String newMode) => this._mode = newMode;
-  String get mode => this._mode;
-  String get provides => this._provides;
-  
-}
 
 
 class CompassProvider {
@@ -24,16 +14,23 @@ class CompassProvider {
   ServiceList _serviceList; 
   StreamController<CompassModel> _stream = StreamController();
   StreamController<ServiceData> _activeService = StreamController();
-  ProviderData providerData = ProviderData('compass', 'manual');
   StreamSubscription _subscription;
   StreamController<ServiceList> _availableServices = StreamController();
+
+
+  ProviderData _providerData = ProviderData('compass', 'manual');
+  StreamController _providerDataStream = StreamController();
+  
 
   CompassProvider(ServiceList serviceList){
     this._serviceList = serviceList;
     _availableServices.sink.add(_serviceList);
+    _providerDataStream.sink.add(this._providerData);
+
   
     setUpService(this._serviceList.defaultService);
   }
+
   setUpService(ServiceWrapper serviceWrapper) {
     
     this._currentService = serviceWrapper.service; 
@@ -55,9 +52,22 @@ class CompassProvider {
 
     // await this._stream.addStream(this._currentService.compassStream.stream);
   }
+  toggleMode(ProviderData providerData) {
+    ProviderData temp;
+    if( providerData.mode == "manual") {
+      temp = ProviderData(_providerData.type, 'auto');
+    }
+    if( providerData.mode == "auto") {
+      temp = ProviderData(_providerData.type, 'manual');
+    }
+    this._providerData = temp;
+    this._providerDataStream.sink.add(this._providerData);
+
+  }
 
   StreamController<CompassModel> get compass => this._stream;
   StreamController<ServiceData> get activeService => this._activeService;
   StreamController<ServiceList> get availableServices => _availableServices;
+  StreamController get providerData => _providerDataStream;
 
 }

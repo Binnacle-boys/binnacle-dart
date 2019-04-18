@@ -5,6 +5,7 @@ import '../models/service_data.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
 import '../repository.dart';
+import '../models/provider_data.dart';
 
 
 class AppDrawer extends Drawer {
@@ -20,10 +21,10 @@ class AppDrawer extends Drawer {
 }
 
 Widget providerList(Bloc bloc) {
-
   return StreamBuilder(
-    stream: bloc.providerTypes.stream,
+    stream: bloc.providerData.stream,
     builder: (context, snapshot) {
+
       if(snapshot.hasData) {
         return ListView.builder(
           itemCount: snapshot.data.length,
@@ -38,10 +39,9 @@ Widget providerList(Bloc bloc) {
                 fontStyle: FontStyle.italic
               ),
             ),
+            leading:  modeToggleSwitch(bloc, snapshot.data[i]),
 
-            children: <Widget>[
-              serviceList(bloc, snapshot.data[i].type)
-            ],
+            children:  <Widget>[ serviceList(bloc, snapshot.data[i].type, snapshot.data[i])],
           );
           }
         );
@@ -55,7 +55,19 @@ Widget providerList(Bloc bloc) {
 }
 
 
-Widget serviceList(Bloc bloc, type) {
+Widget modeToggleSwitch(Bloc bloc, ProviderData providerData) {
+  return Switch(
+    value: ((providerData.mode == 'auto') ? true : false),
+    activeTrackColor: Colors.lightGreenAccent, 
+    activeColor: Colors.green,
+    onChanged: (value) {
+      bloc.toggleMode(providerData);
+    },
+  );
+
+}
+
+Widget serviceList(Bloc bloc, type, providerData) {
   return StreamBuilder(
     stream: bloc.availableServices.where((value) => value.type == type),
     builder: (context, snapshot) {
@@ -68,15 +80,19 @@ Widget serviceList(Bloc bloc, type) {
       else if (snapshot.hasData) {
         print("!!!!!!!!!!!!!!!!!!"+ snapshot.data.serviceList.toString());
 
+        //TODO change this from dynamic to some Wrapper class for type safety
         for (dynamic wrapper in snapshot.data.serviceList) {
           columnContent.add(
             ListTile(
+              enabled: (providerData.mode == 'manual') ? true : false,
               title: Text(wrapper.serviceData.name, style: new TextStyle(fontSize: 18.0)),
               onTap: () {
                 print('tapping');
                 bloc.setActiveService(wrapper.serviceData);
               },
-              trailing: activeIndicator(bloc, wrapper.serviceData),
+              trailing: (providerData.mode == 'manual') 
+                ? activeIndicator(bloc, wrapper.serviceData) 
+                : Icon(Icons.android)
             )
           );
         }
@@ -89,26 +105,18 @@ Widget serviceList(Bloc bloc, type) {
       
     }
   );
-    
-    
-
 }
 Widget activeIndicator(Bloc bloc, ServiceData data) {
   return StreamBuilder(
-    stream: bloc.activeServices, //.where((serviceData) => identical(serviceData, data)),
+    stream: bloc.activeServices,
     builder: (context, snapshot) {
       if(!snapshot.hasData) {
-        print('ACTIVE INDICATOR ---- NO DATA');
         return  Icon(Icons.clear)
         ;
       } 
       else if(snapshot.hasError) {
-        print('ACTIVE INDICATOR --- ERROR');
         return Icon(Icons.error_outline);
       } else {
-        print('ACTIVE INDICATOR --- '+ snapshot.data.name);
-        print('ACTIVE INDICATOR ---'+ (identical(data, snapshot.data).toString()));
-        print('ACTIVE INDICATOR ---' + data.name.toString() + '    ' +snapshot.data.name.toString());
         return Opacity(
           opacity: (identical(data, snapshot.data) ? 1.0 :0),
           child: Icon(Icons.check),

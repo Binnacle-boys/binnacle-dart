@@ -14,6 +14,7 @@ import 'models/position_model.dart';
 import 'models/compass_model.dart';
 import 'models/wind_model.dart';
 import 'models/service_data.dart';
+import 'models/provider_data.dart';
 
 class ServiceList {
 
@@ -80,6 +81,9 @@ class Repository {
   ServiceList positionServiceList;
 
 
+  BehaviorSubject _providerData = BehaviorSubject();
+
+
   Repository(BehaviorSubject<PositionModel> positionStream) {
     
     compassServiceList = ServiceList('compass',[CompassServiceWrapper(), MockCompassServiceWrapper()]);
@@ -90,27 +94,30 @@ class Repository {
     
     this._positionProvider = PositionProvider( service: new GeolocationService() );
     this._windProvider = WindProvider( service: new WeatherService(positionStream) );
-    
-    // var temp = compassServiceList.defaultService;
-    // _activeServices.sink.add(temp.serviceData);
-
     this._compassProvider = CompassProvider(compassServiceList);
-    
+
+
     _availableServices.sink.addStream(_compassProvider.availableServices.stream);
     _activeServices.addStream(_compassProvider.activeService.stream);
+
+
+    // _compassProvider.providerData.stream.listen((data) => print("FROM REPOSITORY -- compassData" +data.toString()));
+    // _positionProvider.providerData.stream.listen((data) => print("FROM REPOSITORY -- positionData" +data.toString()));
+
+
+    _providerData.addStream(CombineLatestStream.list([
+      _compassProvider.providerData.stream, 
+      _positionProvider.providerData.stream
+      ]
+      ),
+    );
   }
 
-
-
-  //! I think I want to modify this to take some kind of ProviderData  as well
-  // setActiveService(ServiceData serviceData) {
-  //   var wrapper = compassServiceList.service(serviceData);
-  //   print("!!!" +wrapper.toString());
-  //   print("####"+wrapper.service.toString());
-  //   this._compassProvider.changeService(wrapper.service);
-  //   this._activeServices.sink.add(serviceData);
-
-  // }
+  toggleMode(ProviderData providerData) {
+        if (providerData.type == "compass") {
+      _compassProvider.toggleMode(providerData);
+    }
+  }
 
   setActiveService(ServiceData serviceData) {
     if (serviceData.serviceCategory == "compass") {
@@ -125,5 +132,6 @@ class Repository {
   Stream<ServiceData> getActiveServices() => _activeServices.stream;
   Stream<ServiceList> getAvailableServices() => _availableServices.stream;
   Stream<List<ServiceList>> getProviderTypes() => _providerTypes.stream;
+  Stream getProviderData() => _providerData.stream;
   
 }

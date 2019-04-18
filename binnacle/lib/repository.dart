@@ -18,17 +18,17 @@ import 'models/service_data.dart';
 class ServiceList {
 
   final String type;
-  List<dynamic> _list ;
-  
+  List <ServiceWrapper> _list; 
 
   ServiceList(this.type, this._list);
 
-  List<dynamic> get serviceList => _list;
+  List<ServiceWrapper> get serviceList => _list;
   
   dynamic service(ServiceData data) => _list.firstWhere((wrapper) => 
     identical(wrapper.serviceData, data));
 
-  ServiceWrapper get defaultService => _list.firstWhere((wrapper) => wrapper.isDefault == true);
+  ServiceWrapper get defaultService => _list.firstWhere((wrapper) => 
+    wrapper.isDefault == true);
 
 }
 abstract class ServiceWrapper {
@@ -73,7 +73,7 @@ class Repository {
   WindProvider _windProvider;
   CompassProvider _compassProvider;
   StreamController<ServiceData> _activeServices = StreamController();
-  StreamController<dynamic> _availableServices = StreamController();
+  StreamController<ServiceList> _availableServices = StreamController();
   StreamController<List<ServiceList>> _providerTypes = StreamController();
   ServiceList compassServiceList;
   ServiceList windServiceList;
@@ -88,36 +88,34 @@ class Repository {
 
     _providerTypes.sink.add([compassServiceList, windServiceList, positionServiceList]);
     
-    
-
     this._positionProvider = PositionProvider( service: new GeolocationService() );
     this._windProvider = WindProvider( service: new WeatherService(positionStream) );
-    var temp = compassServiceList.defaultService;
-    _activeServices.sink.add(temp.serviceData);
-    this._compassProvider = CompassProvider(service: temp.service );
     
+    // var temp = compassServiceList.defaultService;
+    // _activeServices.sink.add(temp.serviceData);
 
-
-    _availableServices.sink.add(compassServiceList);
+    this._compassProvider = CompassProvider(compassServiceList);
+    
+    _availableServices.sink.addStream(_compassProvider.availableServices.stream);
+    _activeServices.addStream(_compassProvider.activeService.stream);
   }
 
-  //? I think passing in ServiceData here would be better
-  // swapCompassStream(String serviceName) {
-  //   if(!compassServiceList.serviceFactory.containsKey(serviceName)) {
-  //     this._activeServices.sink.addError("Attemping to start a service that does not exist");
-  //     return;
-  //   }
-  //   var service = this.compassServiceList.serviceFactory[serviceName]();
-  //   this._compassProvider.changeService(service);
-  //   this._activeServices.sink.add(service.serviceData);
-  // }
-  setActiveService(ServiceData serviceData) {
-    var wrapper = compassServiceList.service(serviceData);
-    print("!!!" +wrapper.toString());
-    print("####"+wrapper.service.toString());
-    this._compassProvider.changeService(wrapper.service);
-    this._activeServices.sink.add(serviceData);
 
+
+  //! I think I want to modify this to take some kind of ProviderData  as well
+  // setActiveService(ServiceData serviceData) {
+  //   var wrapper = compassServiceList.service(serviceData);
+  //   print("!!!" +wrapper.toString());
+  //   print("####"+wrapper.service.toString());
+  //   this._compassProvider.changeService(wrapper.service);
+  //   this._activeServices.sink.add(serviceData);
+
+  // }
+
+  setActiveService(ServiceData serviceData) {
+    if (serviceData.serviceCategory == "compass") {
+      _compassProvider.changeService(serviceData);
+    }
   }
 
 
@@ -125,7 +123,7 @@ class Repository {
   Stream<PositionModel> getPositionStream() => _positionProvider.position.stream;
   Stream<CompassModel> getCompassStream() => _compassProvider.compass.stream;
   Stream<ServiceData> getActiveServices() => _activeServices.stream;
-  Stream<dynamic> getAvailableServices() => _availableServices.stream;
+  Stream<ServiceList> getAvailableServices() => _availableServices.stream;
   Stream<List<ServiceList>> getProviderTypes() => _providerTypes.stream;
   
 }

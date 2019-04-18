@@ -18,7 +18,6 @@ class Bloc extends Object {
   final _activeServices = BehaviorSubject();
   final _providerTypes = BehaviorSubject();
 
-  //? Should this contructor be refactored in to an aync factory?
   Bloc() {
     // * This line is just a dummy position -- delete it when Position works
     this._positionController.add(PositionModel(lat: 89.4, lon: 121.12));

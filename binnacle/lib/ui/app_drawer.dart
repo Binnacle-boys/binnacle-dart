@@ -20,9 +20,6 @@ class AppDrawer extends Drawer {
 }
 
 Widget providerList(Bloc bloc) {
-  BehaviorSubject<dynamic> _providers = BehaviorSubject();
-  _providers.add(providers);
-
 
   return StreamBuilder(
     stream: bloc.providerTypes.stream,
@@ -41,6 +38,7 @@ Widget providerList(Bloc bloc) {
                 fontStyle: FontStyle.italic
               ),
             ),
+
             children: <Widget>[
               serviceList(bloc, snapshot.data[i].type)
             ],
@@ -97,7 +95,7 @@ Widget serviceList(Bloc bloc, type) {
 }
 Widget activeIndicator(Bloc bloc, ServiceData data) {
   return StreamBuilder(
-    stream: bloc.activeServices ,//.where((serviceData) => identical(serviceData, data)),
+    stream: bloc.activeServices, //.where((serviceData) => identical(serviceData, data)),
     builder: (context, snapshot) {
       if(!snapshot.hasData) {
         print('ACTIVE INDICATOR ---- NO DATA');
@@ -109,6 +107,8 @@ Widget activeIndicator(Bloc bloc, ServiceData data) {
         return Icon(Icons.error_outline);
       } else {
         print('ACTIVE INDICATOR --- '+ snapshot.data.name);
+        print('ACTIVE INDICATOR ---'+ (identical(data, snapshot.data).toString()));
+        print('ACTIVE INDICATOR ---' + data.name.toString() + '    ' +snapshot.data.name.toString());
         return Opacity(
           opacity: (identical(data, snapshot.data) ? 1.0 :0),
           child: Icon(Icons.check),
@@ -118,29 +118,6 @@ Widget activeIndicator(Bloc bloc, ServiceData data) {
     }
   );
 }
-class _Provider {
-  String _type;
-  IconData _icon;
-
-  _Provider({String type, icon}) {
-    this._type = type;
-    this._icon = icon;
-  }
-  String get type => this._type;
-  IconData get icon => this._icon;
-}
-
-
-List<_Provider> providers = [
-  new _Provider(
-    type:'compass',
-    icon: Icons.motorcycle,
-  ),
-  new _Provider(
-    type: 'wind',
-    icon: Icons.directions_car,
-  ),
-];
 
 
 

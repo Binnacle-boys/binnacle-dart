@@ -10,8 +10,6 @@ import '../models/wind_model.dart';
 import '../providers/wind_provider.dart';
 import '../models/service_data.dart';
 
-
-
 class WeatherService extends IWindService {
   Client client = Client();
   final _apiKey = "80823ccc590c29c76f3094869dcdbee9";
@@ -19,7 +17,6 @@ class WeatherService extends IWindService {
   var _windStream = StreamController<WindModel>();
   BehaviorSubject<PositionModel> _position;
   final ServiceData serviceData = ServiceData('wind', 'name', 1);
-
 
   WeatherService(BehaviorSubject<PositionModel> position) {
     this._position = position;
@@ -42,10 +39,13 @@ class WeatherService extends IWindService {
     } else {
       // If that call was not successful, throw an error.
       // !TODO  Don't throw the error. Add the error into the stream
-      throw Exception('Failed to load weather');
+      print("RESPONSE status code: " +
+          response.statusCode.toString() +
+          " RESPONSE BODY:  " +
+          response.body.toString());
+      //throw Exception('Failed to load weather');
     }
   }
 
   StreamController<WindModel> get windStream => _windStream;
-
 }

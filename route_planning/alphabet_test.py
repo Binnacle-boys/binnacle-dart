@@ -109,8 +109,8 @@ def main(input_path, output_path, group_name):
 
     plt.plot()
     plt.legend(loc='upper left')
-    plt.ylim(-150, 150)
-    plt.xlim(-50, 150)
+    plt.ylim(-120, 220)
+    plt.xlim(-150, 150)
     plt.show()
 
 if __name__ == '__main__':

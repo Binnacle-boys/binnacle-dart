@@ -65,12 +65,28 @@ class PolarPlot:
     
     # Gets closest angle boat can go to into the wind
     def tightest_heading (self, wind_speed) :
+        """ 
+        Checks if direction is in nogo zone
+        Args:
+            wind_speed (float) - Wind speed in knots
+        Returns:
+            (double) - Tightest heading course into the wind
+        """
         closest_speed =  self._closest_speed(wind_speed)
         tightest_angle = min(angle for angle in self.plot.keys() if self.plot[angle][closest_speed] != 0)
         return tightest_angle
     
     # Returns true or false of whether or not the direction is in the nogo zone
     def in_nogo_zone(self, direction, wind_direction, wind_speed) :
+        """ 
+        Checks if direction is in nogo zone
+        Args:
+            direction (float) - Cardinal direction in degrees - where boat wants to go
+            wind_direction (float) - Cardinal direction in degrees - where wind is heading
+            wind_speed (float) - Wind speed in knots
+        Returns:
+            (boolean) - true - direction is in nogo zone
+        """
         closest_heading = self.tightest_heading(wind_speed)
         plot_angle = abs(angle_difference((wind_direction + 180) % 360, direction))
         if plot_angle < closest_heading : 

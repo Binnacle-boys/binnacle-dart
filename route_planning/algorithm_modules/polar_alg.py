@@ -6,6 +6,8 @@ from polar_plot import angle_difference
 
 
 print(dir(sys))
+# Angle of error, best to change based on largest difference in polar plot
+# interval. However it is really an experimental value
 PLOT_ERROR_ANGLE = 20
 
 def find_intersection(p1, p2, p3, p4):
@@ -36,9 +38,15 @@ def find_intersection(p1, p2, p3, p4):
     return [px, py]
 
 def cardinal_transform (angle) :
+    """
+    Converts cardinal degrees to polar angle degrees and vice versa
+    """
     return (90 + (360 - angle)) % 360
 
 def radians_to_cardinal (angle) :
+    """ 
+    Converts radians to degrees then returns the cardinal transform
+    """
     return cardinal_transform(angle * 180 / m.pi)
  
 def get_route(start_pt, end_pt, wind_direction, speed, plot_file) :

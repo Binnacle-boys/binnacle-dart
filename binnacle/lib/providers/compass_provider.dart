@@ -8,7 +8,6 @@ import '../services/service_wrapper_interface.dart';
 import '../repository.dart';
 
 
-
 class CompassProvider {
   ICompassService _currentService;
 

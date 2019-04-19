@@ -1,5 +1,9 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
+import 'package:sos/services/compass_service.dart';
+import 'package:sos/models/list_angle_model.dart';
+import 'package:sos/providers/list_angle_provider.dart';
+import 'package:sos/services/list_angle_service.dart';
 
 import './providers/position_provider.dart';
 import './providers/wind_provider.dart';
@@ -7,7 +11,6 @@ import './providers/compass_provider.dart';
 
 import './services/geolocation_service.dart';
 import './services/weather_service.dart';
-import './services/compass_service.dart';
 import './services/test_compass_service.dart';
 import './services/service_wrapper_interface.dart';
 
@@ -21,11 +24,10 @@ class ServiceList {
 
   final String type;
   List <ServiceWrapper> _list; 
-
   ServiceList(this.type, this._list);
-
   List<ServiceWrapper> get serviceList => _list;
   
+  //TODO type this function
   dynamic service(ServiceData data) => _list.firstWhere((wrapper) => 
     identical(wrapper.serviceData, data));
 
@@ -40,10 +42,11 @@ class ServiceList {
 }
 
 class Repository {
-
   PositionProvider _positionProvider;
   WindProvider _windProvider;
   CompassProvider _compassProvider;
+  ListAngleProvider _listAngleProvider;
+
   StreamController<ServiceData> _activeServices = StreamController();
   StreamController<ServiceList> _availableServices = StreamController();
   StreamController<List<ServiceList>> _providerTypes = StreamController();
@@ -65,6 +68,7 @@ class Repository {
     
     this._positionProvider = PositionProvider( service: new GeolocationService() );
     this._windProvider = WindProvider( service: new WeatherService(positionStream) );
+    this._listAngleProvider = ListAngleProvider(service: new ListAngleService());
     this._compassProvider = CompassProvider(compassServiceList);
 
 
@@ -100,5 +104,5 @@ class Repository {
   Stream<ServiceList> getAvailableServices() => _availableServices.stream;
   Stream<List<ServiceList>> getProviderTypes() => _providerTypes.stream;
   Stream getProviderData() => _providerData.stream;
-  
+  Stream<ListAngleModel> getListAngleStream() => _listAngleProvider.listAngle.stream;
 }

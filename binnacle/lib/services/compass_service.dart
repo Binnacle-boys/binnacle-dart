@@ -6,7 +6,6 @@ import '../models/service_data.dart';
 import './service_wrapper_interface.dart';
 
 class CompassService extends ICompassService {
-  
   StreamController<CompassModel> _compassStream = StreamController();
   StreamSubscription _subscription;
 

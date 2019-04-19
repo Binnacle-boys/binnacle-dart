@@ -20,18 +20,35 @@ class WeatherService extends IWindService {
 
   WeatherService(BehaviorSubject<PositionModel> position) {
     this._position = position;
-    fetchWeather(_position.value);
-  }
 
-  void fetchWeather(PositionModel position) async {
-    final response = await client
-        .get((_apiURL 
-          + "?lat=" + position.lat.toString()
-          + "&lon=" + position.lon.toString() 
-          + "&APPID="+ _apiKey
-        ));
+    fetchWeather(_position);
+  }
+  Future<PositionModel> lastNonNull(Stream<PositionModel> stream) =>
+      stream.firstWhere((x) => x != null);
+
+  void fetchWeather(BehaviorSubject<PositionModel> positionStream) async {
+    var position;
+    try {
+      position = await lastNonNull(positionStream);
+    } catch (e) {
+      print(e);
+      print(
+          "From weather_service: If you aren't in the ios simulator, location is messing up and threw this ^^^");
+      position = new PositionModel(lat: 0.0, lon: 0.0, speed: 0.0);
+    }
+    print("___ pos const: " + position.lat.toString());
+    print("fetching weather....");
+    print(position.lat.toString() + ' ' + position.lon.toString());
+    final response = await client.get((_apiURL +
+        "?lat=" +
+        position.lat.toString() +
+        "&lon=" +
+        position.lon.toString() +
+        "&APPID=" +
+        _apiKey));
 
     if (response.statusCode == 200) {
+      // TODO remove this debugging code
       // If the call to the server was successful, parse the JSON
       var temp = WeatherModel.fromJson(json.decode(response.body));
       WindModel wind = WindModel(temp.wind.speed, temp.wind.deg);

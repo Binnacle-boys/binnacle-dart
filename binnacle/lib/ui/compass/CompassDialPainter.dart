@@ -3,14 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class CompassDialPainter extends CustomPainter {
-
-  // Varying stroke dimensions to indicate 
+  // Varying stroke dimensions to indicate
   // Cardinal directions
-  final double degreeTickLength = 3.0;
+  final double degreeTickLength = 5.0;
   final double cardinalTickLength = 10.0;
 
   final double degreeTickMarkWidth = 1.0;
-  final double cardinalTickMarkWidth = 3.0;
+  final double cardinalTickMarkWidth = 2.0;
 
   final Paint tickPaint;
   final TextPainter textPainter;
@@ -23,20 +22,15 @@ class CompassDialPainter extends CustomPainter {
   double angle;
   double cardinalInterval;
 
-  CompassDialPainter() 
-    :tickPaint= new Paint(),
-        textPainter= new TextPainter(
+  CompassDialPainter({ThemeData td})
+      : tickPaint = new Paint(),
+        textPainter = new TextPainter(
           textAlign: TextAlign.center,
           textDirection: TextDirection.rtl,
         ),
-        textStyle= const TextStyle(
-          color: Colors.black,
-          fontFamily: 'Times New Roman',
-          fontSize: 15.0,
-        )
-  {
-    tickPaint.color= Colors.blueGrey;
-    angle= 2 * pi / numberOfTicks;
+        textStyle = td.textTheme.body1 {
+    tickPaint.color = td.primaryColor;
+    angle = 2 * pi / numberOfTicks;
   }
   @override
   void paint(Canvas canvas, Size size) {
@@ -50,8 +44,7 @@ class CompassDialPainter extends CustomPainter {
 
     // drawing
     canvas.translate(radius, radius);
-    for (var i = 0; i< numberOfTicks; i++ ) {
-
+    for (var i = 0; i < numberOfTicks; i++) {
       //make the length and stroke of the tick marker longer and thicker depending
       if (i % cardinalUnit == 0) {
         // it's a cardinal direction (N, NE, .. etc.)
@@ -61,18 +54,15 @@ class CompassDialPainter extends CustomPainter {
         tickMarkLength = degreeTickLength;
         tickPaint.strokeWidth = degreeTickMarkWidth;
       }
-      canvas.drawLine(
-          new Offset(0.0, -radius), new Offset(0.0, -radius+tickMarkLength), tickPaint);
-
+      canvas.drawLine(new Offset(0.0, -radius),
+          new Offset(0.0, -radius + tickMarkLength), tickPaint);
 
       // draw the text
-      if (i % cardinalUnit==0){
+      if (i % cardinalUnit == 0) {
         canvas.save();
-        canvas.translate(0.0, -radius+20.0);
-        textPainter.text= new TextSpan(
-          text: 
-          '${cardinalDirections[i~/numberOfCardinals]}'
-          ,
+        canvas.translate(0.0, -radius + 20.0);
+        textPainter.text = new TextSpan(
+          text: '${cardinalDirections[i ~/ numberOfCardinals]}',
           style: textStyle,
         );
 
@@ -80,11 +70,10 @@ class CompassDialPainter extends CustomPainter {
 
         textPainter.layout();
 
-
-        textPainter.paint(canvas, new Offset(-(textPainter.width/2), -(textPainter.height/2)));
+        textPainter.paint(canvas,
+            new Offset(-(textPainter.width / 2), -(textPainter.height / 2)));
 
         canvas.restore();
-
       }
       // Rotate for next tick
       canvas.rotate(angle);
@@ -97,10 +86,4 @@ class CompassDialPainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) {
     return false;
   }
-} 
-
-  
-
-
-
-
+}

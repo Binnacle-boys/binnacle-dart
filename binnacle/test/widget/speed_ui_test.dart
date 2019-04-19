@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sos/models/compass_model.dart';
 import 'package:sos/models/position_model.dart';
 import 'package:sos/models/wind_model.dart';
-import 'package:sos/screens/test_screen.dart';
-import 'package:sos/ui/info_panel/heading_panel_widget.dart';
 import 'package:sos/ui/info_panel/speed_panel_widget.dart';
 import 'package:sos/ui/info_panel/weather_panel_widget.dart';
 

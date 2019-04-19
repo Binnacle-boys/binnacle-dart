@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/services/compass_service.dart';
+import 'package:sos/services/compass_service.dart';
 
 void main() {
   CompassService _service;
 
-  setUp( (){
+  setUp(() {
     _service = CompassService();
   });
-  
+
   test('compass service is instantiated', () {
     expect(_service.runtimeType, CompassService);
   });

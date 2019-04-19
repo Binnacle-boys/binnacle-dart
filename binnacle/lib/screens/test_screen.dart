@@ -18,7 +18,7 @@ class TestScreen extends StatelessWidget {
        backgroundColor: Colors.blueGrey,
        title: Text("Test Screen")
      ),
-     drawer: AppDrawer(context).drawer,
+     drawer: AppDrawer(),
      body: Column( children: <Widget>[positionLabel(bloc), compassLabel(bloc)])
    );
   }

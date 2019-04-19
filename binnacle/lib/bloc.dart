@@ -15,7 +15,6 @@ class Bloc extends Object {
   final _positionController = BehaviorSubject<PositionModel>();
   final _availableServices = BehaviorSubject();
   final _activeServices = BehaviorSubject();
-  final _providerTypes = BehaviorSubject(); //! this should be depricated
   final _providerData = BehaviorSubject();
   
 

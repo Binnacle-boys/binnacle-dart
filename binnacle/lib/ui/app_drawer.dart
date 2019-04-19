@@ -6,15 +6,16 @@ import '../models/provider_data.dart';
 import '../services/service_wrapper_interface.dart';
 
 class AppDrawer extends Drawer {
-  Drawer _drawer;
-  Bloc bloc;
-  AppDrawer(BuildContext context) {
-    bloc = Provider.of(context);
-    this._drawer = new Drawer(
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = Provider.of(context);
+  
+    return new Drawer(
       child: providerList(bloc)
     );
   }
-  Drawer get drawer => this._drawer;
+  // Drawer get drawer => _drawer;
 }
 
 Widget providerList(Bloc bloc) {
@@ -43,7 +44,7 @@ Widget providerList(Bloc bloc) {
       } else if (snapshot.hasError) {
         return Text(snapshot.error.toString());
       } else {
-        return Text("no data yet");
+        return Text("No data yet");
       }
     },
   );
@@ -86,6 +87,10 @@ Widget serviceList(Bloc bloc, type, providerData) {
             )
           );
         }
+        return Column(children: columnContent);
+      } else {
+        columnContent.add(Text('No data yet'));
+        return Column(children: columnContent);
       }
       });
 }

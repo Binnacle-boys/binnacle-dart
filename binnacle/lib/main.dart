@@ -6,6 +6,7 @@ import 'providers/app_provider.dart';
 import 'ui/info_panel.dart';
 import 'ui/compass/BinnacleBase.dart';
 import './ui/global_theme.dart';
+import './ui/app_drawer.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -20,7 +21,9 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
             title: 'Binnacle Demo',
             theme: new GlobalTheme().get(),
+
             home: Scaffold(
+                drawer: AppDrawer(),
                 body: Center(
                     child: Container(
                         child: Column(children: <Widget>[

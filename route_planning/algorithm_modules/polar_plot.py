@@ -53,14 +53,33 @@ class PolarPlot:
                         self.plot[angle] = dict()
                     else:
                         self.plot[angle][label] = float(value)
-
-    # Gets best angle based on relative ideal heading from wind heading
-    def __best_angle(self, ideal_angle, wind_speed):
+    
+    # Gets closest speed to actual wind speed
+    def _closest_speed(self, wind_speed) :
         wind_speeds = [key for key in next(iter(self.plot.values()))]
         # Gets closest match for speed
         closest_speed = min(
             wind_speeds, key=lambda speed: abs(
                 wind_speed - float(speed)))
+        return closest_speed
+    
+    # Gets closest angle boat can go to into the wind
+    def tightest_heading (self, wind_speed) :
+        closest_speed =  self._closest_speed(wind_speed)
+        tightest_angle = min(angle for angle in self.plot.keys() if self.plot[angle][closest_speed] != 0)
+        return tightest_angle
+    
+    # Returns true or false of whether or not the direction is in the nogo zone
+    def in_nogo_zone(self, direction, wind_direction, wind_speed) :
+        closest_heading = self.tightest_heading(wind_speed)
+        plot_angle = abs(angle_difference((wind_direction + 180) % 360, direction))
+        if plot_angle < closest_heading : 
+            return True
+        return False
+
+    # Gets best angle based on relative ideal heading from wind heading
+    def __best_angle(self, ideal_angle, wind_speed):
+        closest_speed = self._closest_speed(wind_speed)
         print('Closest wind speed', closest_speed)
         # Checks max cosine of angle difference for ideal and plot entry
         best_angle = max(

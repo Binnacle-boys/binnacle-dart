@@ -40,10 +40,6 @@ def cardinal_transform (angle) :
 
 def radians_to_cardinal (angle) :
     return cardinal_transform(angle * 180 / m.pi)
-
-def is_best_upangle(plot, speed, angle, desired_angle) :
-    #TODO: check to make sure it's not in no go zone
-    return False
  
 def get_route(start_pt, end_pt, wind_direction, speed, plot_file) :
     """ Polar OST algorithm caller.
@@ -59,18 +55,17 @@ def get_route(start_pt, end_pt, wind_direction, speed, plot_file) :
     plot = PolarPlot(plot_file)
     # Gets the unit circle direction of the desired direction
     desired_angle = m.atan2(end_pt[1] - start_pt[1], end_pt[0] - start_pt[0])
-    print('Desired Angle: ', desired_angle)
     # Makes it a cardinal direction (bearings)
     desired_direction = radians_to_cardinal(desired_angle)
-    print("Desired direction: ", desired_direction)
-
+    # Finds vmg for route to destination
     vmg_direction = plot.find_optimal_angle(wind_direction, speed, desired_direction)
-    print("VMG direction: ", vmg_direction)
+    # Route always includes start point
     route = [start_pt]
+    # Evaluates if vmg is within degree of error in the plot
+    # Also, if desired route is in no go zone, you must tack
     desired_diff = abs(angle_difference(vmg_direction, desired_direction)) 
-    print('Wind Direction: ', wind_direction)
-    print('Angle difference: ', desired_diff)
-    if desired_diff > PLOT_ERROR_ANGLE:
+    if desired_diff > PLOT_ERROR_ANGLE or plot.in_nogo_zone(desired_direction, wind_direction, speed):
+        # Construct vectors
         start = Vec2(start_pt[0], start_pt[1])
         end = Vec2(end_pt[0], end_pt[1])
         # Taking a Tack is optimal
@@ -83,10 +78,9 @@ def get_route(start_pt, end_pt, wind_direction, speed, plot_file) :
         wind_vec = Vec2.polar(wind_angle, 1.0)
         # Needed for reflection
         perpwind_vec = wind_vec.perpendicular()
-        reverse_wind = wind_vec.rotated(180)
 
         # Reflect vmg along wind to get second tack line
-        reflectvmg_vec = vmg_vec.reflect(wind_vec)
+        reflectvmg_vec = vmg_vec.reflect(perpwind_vec)
         #reflectvmg_vec = vmg_vec.reflect(reverse_wind)
         reflectvmg_vec = reflectvmg_vec.normalized()
 

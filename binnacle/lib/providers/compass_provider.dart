@@ -3,6 +3,7 @@ import '../models/compass_model.dart';
 import '../models/compass_service_interface.dart';
 import '../models/service_data.dart';
 import '../models/provider_data.dart';
+import '../services/service_wrapper_interface.dart';
 
 import '../repository.dart';
 
@@ -16,7 +17,6 @@ class CompassProvider {
   StreamController<ServiceData> _activeService = StreamController();
   StreamSubscription _subscription;
   StreamController<ServiceList> _availableServices = StreamController();
-
 
   ProviderData _providerData = ProviderData('compass', 'manual');
   StreamController _providerDataStream = StreamController();
@@ -37,10 +37,10 @@ class CompassProvider {
     this._activeService.sink.add(serviceWrapper.serviceData); 
 
     this._subscription = this._currentService.compassStream.stream.listen((data) => this._stream.add(data));
-    _subscription.onError((error) => {
-      //* I want to get the next the service and call change servce again
-      print(error.toString())
-
+    _subscription.onError((error)  {
+      if(_providerData.mode == 'auto') {
+        changeService( _serviceList.nextPriority( serviceWrapper.serviceData ).serviceData);
+      }
     });
   }
 
@@ -49,15 +49,13 @@ class CompassProvider {
     ServiceWrapper serviceWrapper = this._serviceList.service(serviceData);
     setUpService(serviceWrapper);
 
-
-    // await this._stream.addStream(this._currentService.compassStream.stream);
   }
   toggleMode(ProviderData providerData) {
     ProviderData temp;
-    if( providerData.mode == "manual") {
+    if ( providerData.mode == "manual" ) {
       temp = ProviderData(_providerData.type, 'auto');
     }
-    if( providerData.mode == "auto") {
+    if( providerData.mode == "auto" ) {
       temp = ProviderData(_providerData.type, 'manual');
     }
     this._providerData = temp;

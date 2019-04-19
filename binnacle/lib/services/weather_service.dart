@@ -18,7 +18,7 @@ class WeatherService extends IWindService {
   final _apiURL = "https://api.openweathermap.org/data/2.5/weather";
   var _windStream = StreamController<WindModel>();
   BehaviorSubject<PositionModel> _position;
-  final ServiceData serviceData = ServiceData('wind', 'name');
+  final ServiceData serviceData = ServiceData('wind', 'name', 1);
 
 
   WeatherService(BehaviorSubject<PositionModel> position) {
@@ -27,8 +27,6 @@ class WeatherService extends IWindService {
   }
 
   void fetchWeather(PositionModel position) async {
-    print("fetching weather....");
-    print(position.lat.toString() + ' ' + position.lon.toString());
     final response = await client
         .get((_apiURL 
           + "?lat=" + position.lat.toString()
@@ -36,13 +34,10 @@ class WeatherService extends IWindService {
           + "&APPID="+ _apiKey
         ));
 
-    print(response.body.toString());
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
       var temp = WeatherModel.fromJson(json.decode(response.body));
       WindModel wind = WindModel(temp.wind.speed, temp.wind.deg);
-      print("Temp:" + temp.toString());
-      print(temp.wind.speed.toString() + "   " +  temp.wind.deg.toString());
       _windStream.sink.add(wind);
     } else {
       // If that call was not successful, throw an error.

@@ -18,20 +18,9 @@ class TestScreen extends StatelessWidget {
        title: Text("Test Screen")
      ),
      drawer: AppDrawer(context).drawer,
-     body: Column( children: <Widget>[positionLabel(bloc), weatherLabel(bloc), compassLabel(bloc), swapCompassButton(bloc)])
+     body: Column( children: <Widget>[positionLabel(bloc), weatherLabel(bloc), compassLabel(bloc)])
    );
   }
-}
-
-Widget swapCompassButton(Bloc bloc) {
-  return RaisedButton(
-    // onPressed: () {
-    //   print("pushed button");
-    //   bloc.changeCompassSource();
-    // },
-    child: Text("Click to change compass source"),
-    color: Colors.deepOrange,
-    );
 }
 
 Widget positionLabel(Bloc bloc) {

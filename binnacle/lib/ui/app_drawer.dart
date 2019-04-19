@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:async'; // shouldn't actually need this when done
-import 'package:rxdart/rxdart.dart';
 import '../models/service_data.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
-import '../repository.dart';
 import '../models/provider_data.dart';
+import '../services/service_wrapper_interface.dart';
 
 
 class AppDrawer extends Drawer {
@@ -15,7 +13,7 @@ class AppDrawer extends Drawer {
     bloc = Provider.of(context);
     this._drawer = new Drawer(
       child: providerList(bloc)
-      );
+    );
   }
   Drawer get drawer => this._drawer;
 }
@@ -78,16 +76,13 @@ Widget serviceList(Bloc bloc, type, providerData) {
         return Column(children: columnContent,);
       }  
       else if (snapshot.hasData) {
-        print("!!!!!!!!!!!!!!!!!!"+ snapshot.data.serviceList.toString());
 
-        //TODO change this from dynamic to some Wrapper class for type safety
-        for (dynamic wrapper in snapshot.data.serviceList) {
+        for (ServiceWrapper wrapper in snapshot.data.serviceList) {
           columnContent.add(
             ListTile(
               enabled: (providerData.mode == 'manual') ? true : false,
               title: Text(wrapper.serviceData.name, style: new TextStyle(fontSize: 18.0)),
               onTap: () {
-                print('tapping');
                 bloc.setActiveService(wrapper.serviceData);
               },
               trailing: (providerData.mode == 'manual') 

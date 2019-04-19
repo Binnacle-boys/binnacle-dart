@@ -9,6 +9,7 @@ import './services/geolocation_service.dart';
 import './services/weather_service.dart';
 import './services/compass_service.dart';
 import './services/test_compass_service.dart';
+import './services/service_wrapper_interface.dart';
 
 import 'models/position_model.dart';
 import 'models/compass_model.dart';
@@ -31,42 +32,12 @@ class ServiceList {
   ServiceWrapper get defaultService => _list.firstWhere((wrapper) => 
     wrapper.isDefault == true);
 
-}
-abstract class ServiceWrapper {
-
-  //! dynamic get service should be Service get service
-  //! but there is no Service type
-  //! All services should implement a new Service interface
-  dynamic get service;
-  ServiceData get serviceData;
-  bool get isDefault;
-}
-
-
-class CompassServiceWrapper implements ServiceWrapper{
-  final ServiceData _serviceData = ServiceData('compass', 'flutter compass');
-  final bool _default = true;
-
-  CompassServiceWrapper();
-
-  get service =>  CompassService();
-  ServiceData get serviceData => this._serviceData;
-  bool get isDefault => this._default;
+  ServiceWrapper nextPriority(ServiceData serviceData) => 
+    _list.firstWhere((wrapper) => 
+      ((wrapper.serviceData.priority > serviceData.priority)  
+      && !identical(serviceData, wrapper.serviceData)));
 
 }
-class MockCompassServiceWrapper extends ServiceWrapper{
-  final ServiceData _serviceData = ServiceData('compass', 'mock compass');
-  final bool _default = false;
-
-  MockCompassServiceWrapper();
-
-  get service =>  TestCompassService();
-  ServiceData get serviceData => this._serviceData;
-  bool get isDefault => this._default;
-}
-
-
-
 
 class Repository {
 
@@ -99,10 +70,6 @@ class Repository {
 
     _availableServices.sink.addStream(_compassProvider.availableServices.stream);
     _activeServices.addStream(_compassProvider.activeService.stream);
-
-
-    // _compassProvider.providerData.stream.listen((data) => print("FROM REPOSITORY -- compassData" +data.toString()));
-    // _positionProvider.providerData.stream.listen((data) => print("FROM REPOSITORY -- positionData" +data.toString()));
 
 
     _providerData.addStream(CombineLatestStream.list([

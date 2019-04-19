@@ -13,7 +13,7 @@ void main() {
   });
 
   test('dispose does not emit new states', () {
-    expectLater(_service.compassStream, emitsInOrder([]));
+    expectLater(_service.compassStream.stream, emitsInOrder([]));
     _service.dispose();
   });
 }

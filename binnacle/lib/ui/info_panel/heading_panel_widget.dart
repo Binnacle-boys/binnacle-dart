@@ -21,7 +21,7 @@ class windHeadingLabel extends StatelessWidget {
                 "Error in weather_panel.dart -> weatherLabel, stream has error");
             return Text("Error", style: theme.textTheme.headline);
           } else {
-            return Text("-.-", style: theme.textTheme.headline);
+            return Text("--", style: theme.textTheme.headline);
           }
         });
   }
@@ -45,7 +45,7 @@ class boatHeadingLabel extends StatelessWidget {
                 "Error in weather_panel.dart -> weatherLabel, stream has error");
             return Text("Error", style: theme.textTheme.headline);
           } else {
-            return Text("-.-", style: theme.textTheme.headline);
+            return Text("--", style: theme.textTheme.headline);
           }
         });
   }

@@ -27,12 +27,11 @@ void main() {
     await _positionStream.add(PositionModel(lat: 1.0, lon: 1.0, speed: 1.0));
     await tester.pumpWidget(
         MaterialApp(home: boatSpeedLabel(positionStream: _positionStream)));
-    //await compassStream.add(CompassModel(direction: 9.0));
     await tester.pump();
 
-    for (var x in tester.allWidgets.whereType<Text>()) {
-      print(x.toString() + "\n");
-    }
+    // for (var x in tester.allWidgets.whereType<Text>()) {
+    //   print(x.toString() + "\n");
+    // }
 
     expect(find.text("1.94"), findsOneWidget);
     expect(find.text("kt"), findsOneWidget);

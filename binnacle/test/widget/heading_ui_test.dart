@@ -15,7 +15,9 @@ void main() {
       (WidgetTester tester) async {
     await tester.pumpWidget(
         MaterialApp(home: boatHeadingLabel(compassStream: compassStream)));
-
+    // for (var x in tester.allWidgets.whereType<Text>()) {
+    //   print(x);
+    // }
     expect(find.text("--"), findsOneWidget);
   });
 

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:rxdart/rxdart.dart';
 import 'package:sos/models/compass_model.dart';
 import 'package:sos/models/list_angle_model.dart';

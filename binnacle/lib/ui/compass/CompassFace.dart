@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sos/ui/ArrowPainter.dart';
 import 'package:sos/ui/BinnacleHeadingUI.dart';
 import 'CompassDialPainter.dart';
 

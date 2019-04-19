@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rxdart/src/subjects/behavior_subject.dart';
 import 'package:sos/models/list_angle_model.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
-import '../models/wind_model.dart';
 
 class TestScreen extends StatelessWidget {
   @override

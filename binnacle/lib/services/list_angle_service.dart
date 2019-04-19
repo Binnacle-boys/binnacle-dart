@@ -5,7 +5,6 @@ import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/providers/list_angle_provider.dart';
 
 import 'package:sensors/sensors.dart';
-import 'package:flutter_compass/flutter_compass.dart';
 
 class ListAngleService extends IListAngleService {
   BehaviorSubject<ListAngleModel> _listAngleStream =

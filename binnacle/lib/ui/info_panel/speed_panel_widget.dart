@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../models/position_model.dart';
-import '../../providers/app_provider.dart';
 import './../global_theme.dart';
 
 class boatSpeedStreamBuilder extends StatelessWidget {

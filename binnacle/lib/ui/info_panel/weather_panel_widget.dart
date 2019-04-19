@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sos/ui/global_theme.dart';
 import '../../models/wind_model.dart';
-import '../../providers/app_provider.dart';
 
 Widget weatherLabel({BehaviorSubject windStream}) {
   final theme = GlobalTheme().get();

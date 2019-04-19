@@ -4,7 +4,6 @@ import '../providers/position_provider.dart';
 import 'package:geolocator/geolocator.dart';
 
 class GeolocationService extends IPositionService {
-  @override
   final Geolocator _geolocator = Geolocator();
   // TODO possibly change distance filter and accuracy (this weekend in don's car)
   final LocationOptions _locationOptions =

@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:sos/ui/global_theme.dart';
 
@@ -74,17 +72,6 @@ class StockArrow extends StatelessWidget {
   const StockArrow({Key key, this.percentChange}) : super(key: key);
 
   final double percentChange;
-
-  int _colorIndexForPercentChange(double percentChange) {
-    const double maxPercent = 10.0;
-    final double normalizedPercentChange =
-        math.min(percentChange.abs(), maxPercent) / maxPercent;
-    return 100 + (normalizedPercentChange * 8.0).floor() * 100;
-  }
-
-  Color _colorForPercentChange(double percentChange) {
-    return Colors.green[_colorIndexForPercentChange(percentChange)];
-  }
 
   @override
   Widget build(BuildContext context) {

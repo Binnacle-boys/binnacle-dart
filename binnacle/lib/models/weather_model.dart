@@ -114,20 +114,3 @@ class _Clouds {
     return _Clouds(all: json['all']);
   }
 }
-
-class _Weather {
-  int id;
-  String main;
-  String description;
-  String icon;
-
-  _Weather({this.id, this.main, this.description, this.icon});
-
-  factory _Weather.fromJson(Map<String, dynamic> json) {
-    return _Weather(
-        id: json['id'],
-        main: json['main'],
-        description: json['description'],
-        icon: json['icon']);
-  }
-}

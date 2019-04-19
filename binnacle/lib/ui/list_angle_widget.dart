@@ -111,7 +111,6 @@ class levelLinePainter extends CustomPainter {
       ..strokeCap = StrokeCap.square
       ..style = PaintingStyle.stroke
       ..strokeWidth = width;
-    Offset center = new Offset(size.width / 2, size.height / 2);
     Path path = new Path();
 
     path.moveTo(size.width / 2, size.height / 2 - 15);

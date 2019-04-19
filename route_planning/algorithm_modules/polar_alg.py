@@ -6,7 +6,7 @@ from polar_plot import angle_difference
 
 
 print(dir(sys))
-PLOT_ERROR_ANGLE = 10
+PLOT_ERROR_ANGLE = 20
 
 def find_intersection(p1, p2, p3, p4):
     """ find_intersection finds the intersection between two lines.
@@ -58,7 +58,8 @@ def get_route(start_pt, end_pt, wind_direction, speed, plot_file) :
     
     plot = PolarPlot(plot_file)
     # Gets the unit circle direction of the desired direction
-    desired_angle = m.atan2(end_pt[0] - start_pt[0], end_pt[1] - start_pt[1])
+    desired_angle = m.atan2(end_pt[1] - start_pt[1], end_pt[0] - start_pt[0])
+    print('Desired Angle: ', desired_angle)
     # Makes it a cardinal direction (bearings)
     desired_direction = radians_to_cardinal(desired_angle)
     print("Desired direction: ", desired_direction)
@@ -66,7 +67,10 @@ def get_route(start_pt, end_pt, wind_direction, speed, plot_file) :
     vmg_direction = plot.find_optimal_angle(wind_direction, speed, desired_direction)
     print("VMG direction: ", vmg_direction)
     route = [start_pt]
-    if abs(vmg_direction - desired_direction) > PLOT_ERROR_ANGLE:
+    desired_diff = abs(angle_difference(vmg_direction, desired_direction)) 
+    print('Wind Direction: ', wind_direction)
+    print('Angle difference: ', desired_diff)
+    if desired_diff > PLOT_ERROR_ANGLE:
         start = Vec2(start_pt[0], start_pt[1])
         end = Vec2(end_pt[0], end_pt[1])
         # Taking a Tack is optimal
@@ -79,9 +83,11 @@ def get_route(start_pt, end_pt, wind_direction, speed, plot_file) :
         wind_vec = Vec2.polar(wind_angle, 1.0)
         # Needed for reflection
         perpwind_vec = wind_vec.perpendicular()
+        reverse_wind = wind_vec.rotated(180)
 
         # Reflect vmg along wind to get second tack line
-        reflectvmg_vec = vmg_vec.reflect(perpwind_vec)
+        reflectvmg_vec = vmg_vec.reflect(wind_vec)
+        #reflectvmg_vec = vmg_vec.reflect(reverse_wind)
         reflectvmg_vec = reflectvmg_vec.normalized()
 
         # Get another point on each line

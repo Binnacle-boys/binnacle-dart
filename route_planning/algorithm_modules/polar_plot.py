@@ -61,6 +61,7 @@ class PolarPlot:
         closest_speed = min(
             wind_speeds, key=lambda speed: abs(
                 wind_speed - float(speed)))
+        print('Closest wind speed', closest_speed)
         # Checks max cosine of angle difference for ideal and plot entry
         best_angle = max(
             self.plot.keys(),
@@ -94,13 +95,16 @@ class PolarPlot:
             ideal_heading, (wind_heading + 180) % 360)
         print("Plot ideal angle", plotideal_angle)
         direction = 1
-        if plotideal_angle < 0:
+        if plotideal_angle >= 0:
             direction = -1
         # Gets optimal relative plot angle
         optimal_plot_angle = self.__best_angle(
             abs(plotideal_angle), wind_speed)
         print("Optimal plot angle", optimal_plot_angle)
         # Reverses plot transform
-        optimal_angle = ( (-1) * direction * optimal_plot_angle +
-                         (wind_heading + 180)) % 360
+        optimal_angle = ( (optimal_plot_angle * direction) +
+                          ((wind_heading - 180) % 360) % 360)
+        optimal_diff = optimal_plot_angle - abs(plotideal_angle)
+        print("Optimal difference: ", optimal_diff)
+        optimal_angle = (direction * optimal_diff + ideal_heading) % 360
         return optimal_angle

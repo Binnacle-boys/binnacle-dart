@@ -1,14 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:sos/providers/app_provider.dart';
-import 'package:sos/ui/BinnacleHeadingUI.dart';
-import 'package:sos/ui/compass/CompassDialPainter.dart';
-import 'CompassFace.dart';
 import 'dart:math';
-
-import 'package:sos/model/Wind.dart';
+import 'package:flutter/material.dart';
+import 'package:sos/providers/app_provider.dart';
+import 'CompassFace.dart';
 import 'package:sos/bloc.dart';
-import 'package:sos/BinnacleHeadingWidget.dart';
 
 class BinnacleState extends State<Binnacle> {
   @override

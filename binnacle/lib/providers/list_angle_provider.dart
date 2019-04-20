@@ -23,13 +23,14 @@
 //   Stream<ListAngleModel> get listAngleStream;
 // }
 import 'dart:async';
+import 'package:sos/services/service_list.dart';
+
 import '../models/list_angle_model.dart';
 import '../models/list_angle_service_interface.dart';
 import '../models/service_data.dart';
 import '../models/provider_data.dart';
 import '../services/service_wrapper_interface.dart';
 
-import '../repository.dart';
 
 
 class ListAngleProvider {

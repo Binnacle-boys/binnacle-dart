@@ -27,9 +27,9 @@ class TestCompassService extends ICompassService {
 
 class MockCompassServiceWrapper extends ServiceWrapper{
   final ServiceData _serviceData = ServiceData('compass', 'mock compass', 0);
-  final bool _default = false;
+  final bool _default;
 
-  MockCompassServiceWrapper();
+  MockCompassServiceWrapper(this._default);
 
   get service =>  TestCompassService();
   ServiceData get serviceData => this._serviceData;

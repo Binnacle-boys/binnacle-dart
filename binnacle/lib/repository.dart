@@ -12,7 +12,7 @@ import './providers/compass_provider.dart';
 import './services/geolocation_service.dart';
 import './services/weather_service.dart';
 import './services/test_compass_service.dart';
-import './services/service_wrapper_interface.dart';
+import './services/service_list.dart';
 
 import 'models/position_model.dart';
 import 'models/compass_model.dart';
@@ -20,26 +20,7 @@ import 'models/wind_model.dart';
 import 'models/service_data.dart';
 import 'models/provider_data.dart';
 
-class ServiceList {
 
-  final String type;
-  List <ServiceWrapper> _list; 
-  ServiceList(this.type, this._list);
-  List<ServiceWrapper> get serviceList => _list;
-  
-  //TODO type this function
-  dynamic service(ServiceData data) => _list.firstWhere((wrapper) => 
-    identical(wrapper.serviceData, data));
-
-  ServiceWrapper get defaultService => _list.firstWhere((wrapper) => 
-    wrapper.isDefault == true);
-
-  ServiceWrapper nextPriority(ServiceData serviceData) => 
-    _list.firstWhere((wrapper) => 
-      ((wrapper.serviceData.priority > serviceData.priority)  
-      && !identical(serviceData, wrapper.serviceData)));
-
-}
 
 class Repository {
   PositionProvider _positionProvider;
@@ -65,7 +46,7 @@ class Repository {
 
   Repository(BehaviorSubject<PositionModel> positionStream) {
     
-    compassServiceList = ServiceList('compass',[CompassServiceWrapper(), MockCompassServiceWrapper()]);
+    compassServiceList = ServiceList('compass',[CompassServiceWrapper(), MockCompassServiceWrapper(false)]);
     windServiceList = ServiceList('wind', [WeatherServiceWrapper(positionStream)]);
     positionServiceList = ServiceList('position', [GeolocationServiceWrapper()]);
     listAngleServiceList = ServiceList('list angle', [ListAngleServiceWrapper()] );

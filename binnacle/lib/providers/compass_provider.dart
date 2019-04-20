@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:sos/services/service_list.dart';
+
 import '../models/compass_model.dart';
 import '../models/compass_service_interface.dart';
 import '../models/service_data.dart';
@@ -31,7 +33,6 @@ class CompassProvider {
   }
 
   setUpService(ServiceWrapper serviceWrapper) {
-    
     this._currentService = serviceWrapper.service; 
     this._activeService.sink.add(serviceWrapper.serviceData); 
 

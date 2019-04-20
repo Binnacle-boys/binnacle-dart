@@ -14,12 +14,15 @@ import argparse
 import sys
 import math
 import matplotlib.pyplot as plt
+import numpy as np
 import yaml
 
 from algorithm_modules import *
 
 sys.path.append("./algorithm_modules")
+
 verbose_flag = False
+POLAR_PATH = './algorithm_modules/polar_plots/data/test_plot.csv'
 
 def euc_dist(a, b):
     """ Find euclidean distance between points """
@@ -63,15 +66,38 @@ def main(input_path, output_path, group_name):
             print(input_datum)
 
         for alg_name in algs:
+            result = {}
+            if verbose_flag:
+                print("Alg name: ", alg_name)
             module = __import__(alg_name, alg_name)
-            func = getattr(module, 'sin_test')
-            t, s = func()
-            line_len = calc_length(t, s)
-            lable_text = "%s(input[%d]) = %.4f" % (alg_name, i, line_len)
+            line_len = 0
+            t, s = [], []
+            lable_text = ''
+            if alg_name == 'polar_alg':
+                if verbose_flag:
+                    print("Doing polar alg")
+                funky = getattr(module, 'get_route')
+                route = funky(input_datum['start'], input_datum['end'], input_datum['wind_direction'], input_datum['wind_speed'], POLAR_PATH)
+                result["route"] = route
+                for point in route:
+                    print(point)
+                    t.append(point[0])
+                    s.append(point[1])
+                    #plt.plot(point[0], point[1])
+                    lable_text = input_datum['wind_direction']
+                t = np.asarray(t)
+                line_len = calc_length(t, s)
+                # TODO: Get actual length
+            else: 
+                func = getattr(module, 'sin_test')
+                t, s = func()
+                line_len = calc_length(t, s)
+                lable_text = "%s(input[%d]) = %.4f" % (alg_name, i, line_len)
             if verbose_flag:
                 print(lable_text)
+            print('T: ', t)
+            print('S: ', s)
             plt.plot(t, s, lw=2, label=lable_text)
-            result = {}
             result["algorithm_name"] = alg_name
             result["route_length"] = line_len
 
@@ -83,7 +109,8 @@ def main(input_path, output_path, group_name):
 
     plt.plot()
     plt.legend(loc='upper left')
-    plt.ylim(0, 100)
+    plt.ylim(-120, 220)
+    plt.xlim(-150, 150)
     plt.show()
 
 if __name__ == '__main__':

@@ -67,4 +67,4 @@ class CompassProvider {
   StreamController<ServiceList> get availableServices => _availableServices;
   StreamController get providerData => _providerDataStream;
 
-}
+} 

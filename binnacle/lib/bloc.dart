@@ -21,10 +21,8 @@ class Bloc extends Object {
   final _windContoller = BehaviorSubject<WindModel>();
   final _compassController = BehaviorSubject<CompassModel>();
   final _listAngleController = BehaviorSubject<ListAngleModel>();
-  //? Should this contructor be refactored in to an aync factory?
+
   Bloc() {
-    // * This line is just a dummy position -- delete it when Position works
-    //this._positionController.add(PositionModel(lat: 89.4, lon: 121.12));
 
     this._repository = Repository(_positionController);
     this._positionController.addStream(_repository.getPositionStream());
@@ -37,7 +35,6 @@ class Bloc extends Object {
     this._listAngleController.addStream(_repository.getListAngleStream());
 
   }
-
 
   BehaviorSubject get availableServices => _availableServices.stream;
   BehaviorSubject get activeServices => _activeServices.stream;

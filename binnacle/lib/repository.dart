@@ -47,9 +47,13 @@ class Repository {
   CompassProvider _compassProvider;
   ListAngleProvider _listAngleProvider;
 
-  StreamController<ServiceData> _activeServices = StreamController();
-  StreamController<ServiceList> _availableServices = StreamController();
-  StreamController<List<ServiceList>> _providerTypes = StreamController();
+
+  StreamController<List<ServiceData>> _activeServices = StreamController();
+
+
+  BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject();
+
+
   ServiceList compassServiceList;
   ServiceList windServiceList;
   ServiceList positionServiceList;
@@ -61,32 +65,52 @@ class Repository {
   Repository(BehaviorSubject<PositionModel> positionStream) {
     
     compassServiceList = ServiceList('compass',[CompassServiceWrapper(), MockCompassServiceWrapper()]);
-    windServiceList = ServiceList('wind', []);
-    positionServiceList = ServiceList('position', []);
+    windServiceList = ServiceList('wind', [WeatherServiceWrapper(positionStream)]);
+    positionServiceList = ServiceList('position', [GeolocationServiceWrapper()]);
 
-    _providerTypes.sink.add([compassServiceList, windServiceList, positionServiceList]);
     
-    this._positionProvider = PositionProvider( service: new GeolocationService() );
-    this._windProvider = WindProvider( service: new WeatherService(positionStream) );
+    this._positionProvider = PositionProvider( positionServiceList);
+    this._compassProvider = CompassProvider( compassServiceList);
+
+    this._windProvider = WindProvider( windServiceList);
     this._listAngleProvider = ListAngleProvider(service: new ListAngleService());
-    this._compassProvider = CompassProvider(compassServiceList);
 
 
-    _availableServices.sink.addStream(_compassProvider.availableServices.stream);
-    _activeServices.addStream(_compassProvider.activeService.stream);
+    // _activeServices = _activeServices.mergeWith([      
+    //   _compassProvider.activeService.stream,
+    //   _positionProvider.activeService.stream]);
+
+    _availableServices.addStream(CombineLatestStream.list([
+      _compassProvider.availableServices.stream,
+      _positionProvider.availableServices.stream,
+      _windProvider.availableServices.stream
+
+    ]));
+
+    _activeServices.addStream(CombineLatestStream.list([
+      _compassProvider.activeService.stream,
+      _positionProvider.activeService.stream,
+      _windProvider.activeService.stream
+
+    ]));
 
 
     _providerData.addStream(CombineLatestStream.list([
       _compassProvider.providerData.stream, 
-      _positionProvider.providerData.stream
-      ]
-      ),
-    );
+      _positionProvider.providerData.stream,
+      _windProvider.providerData.stream
+    ]));
   }
 
   toggleMode(ProviderData providerData) {
-        if (providerData.type == "compass") {
+    if (providerData.type == "compass") {
       _compassProvider.toggleMode(providerData);
+    }
+    if (providerData.type == "position") {
+      _positionProvider.toggleMode(providerData);
+    }
+    if (providerData.type == "wind") {
+      _windProvider.toggleMode(providerData);
     }
   }
 
@@ -94,15 +118,21 @@ class Repository {
     if (serviceData.serviceCategory == "compass") {
       _compassProvider.changeService(serviceData);
     }
+    if (serviceData.serviceCategory == "position") {
+      _positionProvider.changeService(serviceData);
+    }
+    if (serviceData.serviceCategory == "wind") {
+      _windProvider.changeService(serviceData);
+    }
   }
 
 
   Stream<WindModel> getWindStream() => _windProvider.wind.stream;
   Stream<PositionModel> getPositionStream() => _positionProvider.position.stream;
   Stream<CompassModel> getCompassStream() => _compassProvider.compass.stream;
-  Stream<ServiceData> getActiveServices() => _activeServices.stream;
-  Stream<ServiceList> getAvailableServices() => _availableServices.stream;
-  Stream<List<ServiceList>> getProviderTypes() => _providerTypes.stream;
+  Stream<List<ServiceData>> getActiveServices() => _activeServices.stream;
+
+  Stream <List<ServiceList>> getAvailableServices() => _availableServices;
   Stream getProviderData() => _providerData.stream;
   Stream<ListAngleModel> getListAngleStream() => _listAngleProvider.listAngle.stream;
 }

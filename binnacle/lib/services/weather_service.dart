@@ -7,8 +7,9 @@ import 'package:rxdart/rxdart.dart';
 import '../models/weather_model.dart';
 import '../models/position_model.dart';
 import '../models/wind_model.dart';
-import '../providers/wind_provider.dart';
+import '../models/wind_service_interface.dart';
 import '../models/service_data.dart';
+import './service_wrapper_interface.dart';
 
 class WeatherService extends IWindService {
   Client client = Client();
@@ -64,5 +65,26 @@ class WeatherService extends IWindService {
     }
   }
 
+    dispose() async {
+    //! there's no subscibtion here like there are in other services
+    //! consider starting debug here if issue arises
+    // await _subscription.pause(); 
+    await _windStream.close();
+
+  }
+
   StreamController<WindModel> get windStream => _windStream;
+}
+
+class WeatherServiceWrapper implements ServiceWrapper{
+  final ServiceData _serviceData = ServiceData('wind', 'open weather maps', 1);
+  final bool _default = true;
+  final _positionStream;
+
+  WeatherServiceWrapper(this._positionStream);
+
+  get service =>  WeatherService(_positionStream);
+  ServiceData get serviceData => this._serviceData;
+  bool get isDefault => this._default;
+
 }

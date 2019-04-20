@@ -16,7 +16,6 @@ class CompassService extends ICompassService {
   }
   dispose() async {
     await _subscription.pause();
-    
     await _compassStream.close();
 
   }

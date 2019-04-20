@@ -63,7 +63,7 @@ Widget modeToggleSwitch(Bloc bloc, ProviderData providerData) {
 
 Widget serviceList(Bloc bloc, type, providerData) {
   return StreamBuilder(
-      stream: bloc.availableServices.where((value) => value.type == type),
+      stream: bloc.availableServices, //.where((value) => value.type == type),
       builder: (context, snapshot) {
         List<Widget> columnContent = [];
 
@@ -72,8 +72,11 @@ Widget serviceList(Bloc bloc, type, providerData) {
         return Column(children: columnContent,);
       }  
       else if (snapshot.hasData) {
+        final List<ServiceWrapper> serviceList = 
+          snapshot.data.firstWhere((serviceList) => 
+            serviceList.type == type).serviceList;
 
-        for (ServiceWrapper wrapper in snapshot.data.serviceList) {
+        for (ServiceWrapper wrapper in serviceList ) {
           columnContent.add(
             ListTile(
               enabled: (providerData.mode == 'manual') ? true : false,
@@ -82,7 +85,7 @@ Widget serviceList(Bloc bloc, type, providerData) {
                 bloc.setActiveService(wrapper.serviceData);
               },
               trailing: (providerData.mode == 'manual') 
-                ? activeIndicator(bloc, wrapper.serviceData) 
+                ? activeIndicator(bloc, wrapper.serviceData, type) 
                 : Icon(Icons.android)
             )
           );
@@ -95,7 +98,7 @@ Widget serviceList(Bloc bloc, type, providerData) {
       });
 }
 
-Widget activeIndicator(Bloc bloc, ServiceData data) {
+Widget activeIndicator(Bloc bloc, ServiceData data, type) {
   return StreamBuilder(
       stream: bloc.activeServices,
       builder: (context, snapshot) {
@@ -104,8 +107,10 @@ Widget activeIndicator(Bloc bloc, ServiceData data) {
         } else if (snapshot.hasError) {
           return Icon(Icons.error_outline);
         } else {
+          ServiceData x = snapshot.data.firstWhere((serviceData) => 
+            serviceData.serviceCategory == type);
           return Opacity(
-            opacity: (identical(data, snapshot.data) ? 1.0 : 0),
+            opacity: (identical(data, x) ? 1.0 : 0.1),
             child: Icon(Icons.check),
           );
         }

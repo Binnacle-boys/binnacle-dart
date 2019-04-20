@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:core';
 import 'package:rxdart/rxdart.dart';
 import 'package:sos/models/list_angle_model.dart';
-import 'package:sos/providers/list_angle_provider.dart';
+import 'package:sos/models/service_data.dart';
+import 'package:sos/services/service_wrapper_interface.dart';
+import '../models/list_angle_service_interface.dart';
 
 import 'package:sensors/sensors.dart';
 
@@ -16,11 +18,23 @@ class ListAngleService extends IListAngleService {
         (AccelerometerEvent ae) =>
             ListAngleModel.fromAccelerometerEvent(accelerometerEvent: ae)));
   }
-  Stream<ListAngleModel> get listAngleStream => _listAngleStream.stream;
+  StreamController<ListAngleModel> get listAngleStream => _listAngleStream;
 
   dispose() {
     this._listAngleStream.stream.drain();
     this._listAngleStream = null;
     accelerometerEvents.drain();
   }
+}
+
+class ListAngleServiceWrapper implements ServiceWrapper{
+  final ServiceData _serviceData = ServiceData('list angle', 'daniels list angle', 1);
+  final bool _default = true;
+
+  ListAngleServiceWrapper();
+
+  get service =>  ListAngleService();
+  ServiceData get serviceData => this._serviceData;
+  bool get isDefault => this._default;
+
 }

@@ -57,6 +57,7 @@ class Repository {
   ServiceList compassServiceList;
   ServiceList windServiceList;
   ServiceList positionServiceList;
+  ServiceList listAngleServiceList;
 
 
   BehaviorSubject _providerData = BehaviorSubject();
@@ -67,13 +68,14 @@ class Repository {
     compassServiceList = ServiceList('compass',[CompassServiceWrapper(), MockCompassServiceWrapper()]);
     windServiceList = ServiceList('wind', [WeatherServiceWrapper(positionStream)]);
     positionServiceList = ServiceList('position', [GeolocationServiceWrapper()]);
+    listAngleServiceList = ServiceList('list angle', [ListAngleServiceWrapper()] );
 
     
     this._positionProvider = PositionProvider( positionServiceList);
     this._compassProvider = CompassProvider( compassServiceList);
 
     this._windProvider = WindProvider( windServiceList);
-    this._listAngleProvider = ListAngleProvider(service: new ListAngleService());
+    this._listAngleProvider = ListAngleProvider(listAngleServiceList);
 
 
     // _activeServices = _activeServices.mergeWith([      
@@ -83,14 +85,18 @@ class Repository {
     _availableServices.addStream(CombineLatestStream.list([
       _compassProvider.availableServices.stream,
       _positionProvider.availableServices.stream,
-      _windProvider.availableServices.stream
+      _windProvider.availableServices.stream,
+      _listAngleProvider.availableServices.stream
+
 
     ]));
 
     _activeServices.addStream(CombineLatestStream.list([
       _compassProvider.activeService.stream,
       _positionProvider.activeService.stream,
-      _windProvider.activeService.stream
+      _windProvider.activeService.stream,
+      _listAngleProvider.activeService.stream,
+
 
     ]));
 
@@ -98,7 +104,8 @@ class Repository {
     _providerData.addStream(CombineLatestStream.list([
       _compassProvider.providerData.stream, 
       _positionProvider.providerData.stream,
-      _windProvider.providerData.stream
+      _windProvider.providerData.stream,
+      _listAngleProvider.providerData.stream
     ]));
   }
 
@@ -112,6 +119,9 @@ class Repository {
     if (providerData.type == "wind") {
       _windProvider.toggleMode(providerData);
     }
+    if (providerData.type == "list angle") {
+      _listAngleProvider.toggleMode(providerData);
+    }
   }
 
   setActiveService(ServiceData serviceData) {
@@ -123,6 +133,9 @@ class Repository {
     }
     if (serviceData.serviceCategory == "wind") {
       _windProvider.changeService(serviceData);
+    }
+    if (serviceData.serviceCategory == "list angle") {
+      _listAngleProvider.changeService(serviceData);
     }
   }
 

@@ -1,0 +1,181 @@
+0:
+  end:
+  - 0
+  - 0
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+1:
+  end:
+  - 20
+  - 0
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+2:
+  end:
+  - 30
+  - 0
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+3:
+  end:
+  - 50
+  - 0
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+4:
+  end:
+  - 100
+  - 0
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+5:
+  end:
+  - 100
+  - 100
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+6:
+  end:
+  - 80
+  - 0
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+7:
+  end:
+  - 70
+  - 0
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+8:
+  end:
+  - -20
+  - 0
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+9:
+  end:
+  - -60
+  - 0
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+10:
+  end:
+  - -100
+  - 0
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+11:
+  end:
+  - -100
+  - 100
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+12:
+  end:
+  - 100
+  - 200
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+13:
+  end:
+  - 0
+  - 200
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+14:
+  end:
+  - 20
+  - 200
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+15:
+  end:
+  - -20
+  - 200
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+16:
+  end:
+  - -50
+  - 200
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+17:
+  end:
+  - 60
+  - 200
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+18:
+  end:
+  - -5
+  - 200
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+19:
+  end:
+  - -100
+  - 200
+  start:
+  - 0
+  - 100
+  wind_direction: 0
+  wind_speed: 6
+

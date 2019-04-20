@@ -1,3 +1,7 @@
 group1:
   - test01_alg
   - test02_alg
+group2:
+  - super_duper
+group3:
+  - polar_alg

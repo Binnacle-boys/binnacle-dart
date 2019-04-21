@@ -1,23 +1,45 @@
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:rxdart/rxdart.dart';
+import 'dart:async';
 
-// import 'package:sos/providers/wind_provider.dart';
-// import 'package:sos/services/weather_service.dart';
-// import 'package:sos/models/position_model.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:sos/models/position_model.dart';
+import 'package:sos/models/wind_model.dart';
+import 'package:sos/providers/wind_provider.dart';
+import 'package:sos/services/weather_service.dart';
+import 'package:sos/services/service_list.dart';
 
-// void main() {
-//   WindProvider _provider;
-//   IWindService _service;
-//   PositionModel _position = new PositionModel(lat: 1.0, lon: 1.0, speed: 1.0);
-//   BehaviorSubject<PositionModel> _positionStream = BehaviorSubject();
 
-//   setUp(() {
-//     _positionStream.sink.add(_position);
-//     _service = WeatherService(_positionStream);
-//     _provider = WindProvider(service: _service);
-//   });
+void main() {
+  WindProvider _provider;
+  PublishSubject _activeServiceWrapper = PublishSubject();
+  StreamController<WindModel> _windStreamWrapper = StreamController();
+  BehaviorSubject<PositionModel> _positionStream = BehaviorSubject(
+    seedValue: PositionModel(lat: 30.0, lon: 121.0, speed: 0.6));
+  
 
-//   test('compass provider is initialized', () {
-//     expect(_provider.runtimeType, WindProvider);
-//   });
-// }
+  setUp(() async {
+
+    ServiceList _serviceList = ServiceList('compass', [WeatherServiceWrapper(_positionStream.stream), ]);
+    _provider = await WindProvider(_serviceList);
+    _provider.activeService.stream.listen((data) { 
+      _activeServiceWrapper.add(data);
+   
+    });
+
+    _provider.wind.stream.listen((data) { 
+      _windStreamWrapper.add(data);
+   
+    });
+    
+  });
+
+
+  test('Wind provider initialized', () async{
+    expect(_provider.runtimeType, WindProvider);
+    await expectLater( await _activeServiceWrapper.isEmpty, false);
+
+  });
+
+
+   
+}

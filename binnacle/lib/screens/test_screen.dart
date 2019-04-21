@@ -44,9 +44,9 @@ Widget positionLabel(Bloc bloc) {
             Text("Speed: " + snapshot.data.speed.toString()),
           ]);
         } else if (snapshot.hasError) {
-          return Text('**POSISTION** Hmmm... something went wrong');
+          return Text('**POSITION** Hmmm... something went wrong');
         } else {
-          return Text('**POSISTION** No data yet');
+          return Text('**POSITION** No data yet');
         }
       });
 }

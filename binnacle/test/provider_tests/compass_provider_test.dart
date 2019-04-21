@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sos/models/compass_model.dart';
@@ -11,7 +13,7 @@ import 'package:sos/services/test_compass_service.dart';
 void main() {
   CompassProvider _provider;
   PublishSubject _activeServiceWrapper = PublishSubject();
-  PublishSubject<CompassModel> _compassStreamWrapper = PublishSubject();
+  StreamController<CompassModel> _compassStreamWrapper = StreamController();
   var mockWrapper1 = MockCompassServiceWrapper(true);
   var mockWrapper2 = MockCompassServiceWrapper(false);
 
@@ -41,36 +43,43 @@ void main() {
   });
 
 
-  test('changeServices changes the service', () async  {
-    // var old =  _compassStreamWrapper.stream.first;
+//   test('changeServices changes the service', () async  {
+//     // var old =  _compassStreamWrapper.stream.first;
 
-    expect(
-      _activeServiceWrapper.stream,
-       emitsInAnyOrder( <CompassModel>[
-        new CompassModel(direction: 0.0),
-        new CompassModel(direction: 1.0),
-        // new CompassModel(direction: 2.0),
-      ])
-    );
+//     expect(
+//       _compassStreamWrapper.,
+//        emitsInOrder( <CompassModel>[
+//         new CompassModel(direction: 0.0),
+//         new CompassModel(direction: 1.0),
+//         // new CompassModel(direction: 2.0),
+//       ])
+//     );
     
     
-  });
-}
-
-//   test('changeService actually changes services', () async {
-//     var old;
-//     var newValue;
-
-//     await expectLater(identical(old, newValue), false);
-//     old = await  _activeServiceWrapper.last;
-//     print("old "+old.toString());
-
-
-//     await _provider.changeService(mockWrapper2.serviceData);
-//     newValue = await _activeServiceWrapper.last;
-
-//     print("new:  "+newValue.toString());
 //   });
+// }
+
+    test("emits the most recently emitted object to every subscriber", () {
+      final BehaviorSubject<CompassModel> subject =
+          new BehaviorSubject<CompassModel>();
+
+      scheduleMicrotask(() {
+        subject.add(new CompassModel(direction: 1.0));
+        subject.add(new CompassModel(direction: 2.0));
+        subject.add(new CompassModel(direction: 3.0));
+      });
+
+      expect(
+        subject.asBroadcastStream(),
+        emits(
+          <CompassModel>[
+            new CompassModel(direction: 1.0),
+            new CompassModel(direction: 2.0),
+            new CompassModel(direction: 3.0)
+          ],
+        ),
+      );
+    });
 
 
-
+}

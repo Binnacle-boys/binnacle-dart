@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:sos/providers/app_provider.dart';
-import 'CompassFace.dart';
 import 'package:sos/bloc.dart';
+import 'package:sos/ui/compass/compass_face.dart';
 
 class BinnacleState extends State<Binnacle> {
   @override

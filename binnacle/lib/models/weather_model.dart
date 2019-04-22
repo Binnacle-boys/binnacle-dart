@@ -1,7 +1,6 @@
 class WeatherModel {
   _Coord _coord;
   _Sys _sys;
-  // List<_Weather> weather;
   _Main _main;
   _Wind _wind;
   _Clouds _clouds;

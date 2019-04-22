@@ -7,6 +7,7 @@ class GlobalTheme extends Object {
       primaryColor: Colors.yellow[100],
       accentColor: Colors.deepOrange,
       backgroundColor: Colors.grey[850],
+      secondaryHeaderColor: Colors.grey[900],
       bottomAppBarColor: Colors.grey[900],
       textTheme: new TextTheme(
         body1: new TextStyle(

@@ -16,14 +16,12 @@ class Bloc extends Object {
   final _availableServices = BehaviorSubject();
   final _activeServices = BehaviorSubject();
   final _providerData = BehaviorSubject();
-  
 
   final _windContoller = BehaviorSubject<WindModel>();
   final _compassController = BehaviorSubject<CompassModel>();
   final _listAngleController = BehaviorSubject<ListAngleModel>();
 
   Bloc() {
-
     this._repository = Repository(_positionController);
     this._positionController.addStream(_repository.getPositionStream());
     this._windContoller.addStream(_repository.getWindStream());
@@ -33,7 +31,6 @@ class Bloc extends Object {
 
     this._providerData.addStream(_repository.getProviderData());
     this._listAngleController.addStream(_repository.getListAngleStream());
-
   }
 
   BehaviorSubject get availableServices => _availableServices.stream;
@@ -41,17 +38,18 @@ class Bloc extends Object {
   BehaviorSubject get providerData => _providerData.stream;
   BehaviorSubject<WindModel> get wind => _windContoller.stream;
   BehaviorSubject<CompassModel> get compass => _compassController.stream;
-  BehaviorSubject<PositionModel> get position =>_positionController.stream;
+  BehaviorSubject<PositionModel> get position => _positionController.stream;
   BehaviorSubject<ListAngleModel> get listAngle => _listAngleController.stream;
   // change data
-  //* These don't actually do anything yet. I'm just leaving them
-  //* as a reference for whene I need to have functions in BLoC
+  //* These don't actually do anything yet. Just leaving them
+  //* as a reference for when BLoC needs these functions
   Function(String) get changeHeading => _headingController.sink.add;
   Function(PositionModel) get changePosition => _positionController.sink.add;
 
   setActiveService(ServiceData serviceData) {
     this._repository.setActiveService(serviceData);
   }
+
   toggleMode(ProviderData providerData) {
     _repository.toggleMode(providerData);
   }

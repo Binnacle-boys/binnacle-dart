@@ -82,14 +82,6 @@ class StockArrow extends StatelessWidget {
         child:
             CustomPaint(painter: ArrowPainter(percentChange: percentChange)));
   }
-
-  Widget build2(BuildContext context) {
-    return Container(
-        width: 40.0,
-        height: 40.0,
-        margin: const EdgeInsets.symmetric(horizontal: 5.0),
-        child: CustomPaint(painter: ArrowPainter2()));
-  }
 }
 
 class ArrowPainter2 extends CustomPainter {

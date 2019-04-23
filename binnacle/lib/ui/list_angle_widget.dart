@@ -6,7 +6,7 @@ import 'package:sos/ui/global_theme.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
 
-class ListUI extends StatelessWidget {
+class ListAngleUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

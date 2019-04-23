@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
                       flex: 6,
                       child: new Stack(children: <Widget>[
                         Binnacle(),
-                        ListUI(),
+                        ListAngleUI(),
                       ])),
                   Expanded(
                     flex: 3,

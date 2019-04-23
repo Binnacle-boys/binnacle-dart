@@ -58,11 +58,6 @@ class Repository {
     this._windProvider = WindProvider( windServiceList);
     this._listAngleProvider = ListAngleProvider(listAngleServiceList);
 
-
-    // _activeServices = _activeServices.mergeWith([      
-    //   _compassProvider.activeService.stream,
-    //   _positionProvider.activeService.stream]);
-
     _availableServices.addStream(CombineLatestStream.list([
       _compassProvider.availableServices.stream,
       _positionProvider.availableServices.stream,

@@ -49,19 +49,13 @@ class WeatherService extends IWindService {
         _apiKey));
 
     if (response.statusCode == 200) {
-      // TODO remove this debugging code
       // If the call to the server was successful, parse the JSON
       var temp = WeatherModel.fromJson(json.decode(response.body));
       WindModel wind = WindModel(temp.wind.speed, temp.wind.deg);
       _windStream.sink.add(wind);
     } else {
-      // If that call was not successful, throw an error.
-      // !TODO  Don't throw the error. Add the error into the stream
-      print("RESPONSE status code: " +
-          response.statusCode.toString() +
-          " RESPONSE BODY:  " +
-          response.body.toString());
-      //throw Exception('Failed to load weather');
+      print('Did not get a 200 response from OpenWeatherMaps. Requesting Weather Data again');
+      fetchWeather(_position);
     }
   }
 

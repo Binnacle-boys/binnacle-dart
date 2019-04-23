@@ -9,8 +9,7 @@ class ServiceList {
   
   List<ServiceWrapper> get serviceList => _list;
   
-  //TODO type this function
-  dynamic service(ServiceData data) => _list.firstWhere((wrapper) => 
+  ServiceWrapper service(ServiceData data) => _list.firstWhere((wrapper) => 
     identical(wrapper.serviceData, data));
 
   ServiceWrapper get defaultService => _list.firstWhere((wrapper) => 

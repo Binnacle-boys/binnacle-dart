@@ -102,16 +102,16 @@ class Repository {
   }
 
   setActiveService(ServiceData serviceData) {
-    if (serviceData.serviceCategory == "compass") {
+    if (serviceData.category == "compass") {
       _compassProvider.changeService(serviceData);
     }
-    if (serviceData.serviceCategory == "position") {
+    if (serviceData.category == "position") {
       _positionProvider.changeService(serviceData);
     }
-    if (serviceData.serviceCategory == "wind") {
+    if (serviceData.category == "wind") {
       _windProvider.changeService(serviceData);
     }
-    if (serviceData.serviceCategory == "list angle") {
+    if (serviceData.category== "list angle") {
       _listAngleProvider.changeService(serviceData);
     }
   }

@@ -108,7 +108,7 @@ Widget activeIndicator(Bloc bloc, ServiceData data, type) {
           return Icon(Icons.error_outline);
         } else {
           ServiceData x = snapshot.data.firstWhere((serviceData) => 
-            serviceData.serviceCategory == type);
+            serviceData.category == type);
           return Opacity(
             opacity: (identical(data, x) ? 1.0 : 0.1),
             child: Icon(Icons.check),

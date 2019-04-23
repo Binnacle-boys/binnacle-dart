@@ -1,6 +1,6 @@
 class ServiceData {
-  final String serviceCategory;
+  final String category;
   final String name;
   final int priority;
-  ServiceData(this.serviceCategory, this.name, this.priority);
+  ServiceData(this.category, this.name, this.priority);
 }

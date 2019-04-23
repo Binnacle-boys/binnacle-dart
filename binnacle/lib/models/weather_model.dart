@@ -1,3 +1,9 @@
+
+/*
+* This class models the http response from open weather maps. 
+* All names map to the response name. They are private because they are 
+* totally irrelevent to anyone outside this class.
+*/
 class WeatherModel {
   _Coord _coord;
   _Sys _sys;
@@ -95,7 +101,7 @@ class _Wind {
   _Wind({this.speed, this.deg});
 
   factory _Wind.fromJson(Map<String, dynamic> json) {
-    if (json.containsKey('deg')) {
+    if (json.containsKey('deg') && json.containsKey('speed')) {
       return _Wind(speed: json['speed'], deg: json['deg'].toDouble());
     } else {
       print(

@@ -15,7 +15,6 @@ class AppDrawer extends Drawer {
       child: providerList(bloc)
     );
   }
-  // Drawer get drawer => _drawer;
 }
 
 Widget providerList(Bloc bloc) {

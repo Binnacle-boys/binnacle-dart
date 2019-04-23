@@ -17,7 +17,7 @@ class WindProvider {
   StreamController<ServiceList> _availableServices = StreamController();
 
   ProviderData _providerData = ProviderData('wind', 'manual');
-  StreamController _providerDataStream = StreamController();
+  StreamController<ProviderData> _providerDataStream = StreamController();
 
   WindProvider(ServiceList serviceList) {
     this._serviceList = serviceList;
@@ -65,5 +65,5 @@ class WindProvider {
   StreamController<WindModel> get wind => this._stream;
   StreamController<ServiceData> get activeService => this._activeService;
   StreamController<ServiceList> get availableServices => _availableServices;
-  StreamController get providerData => _providerDataStream;
+  StreamController<ProviderData> get providerData => _providerDataStream;
 }

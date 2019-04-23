@@ -41,7 +41,7 @@ class Repository {
   ServiceList listAngleServiceList;
 
 
-  BehaviorSubject _providerData = BehaviorSubject();
+  BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject();
 
 
   Repository(BehaviorSubject<PositionModel> positionStream) {
@@ -68,8 +68,6 @@ class Repository {
       _positionProvider.availableServices.stream,
       _windProvider.availableServices.stream,
       _listAngleProvider.availableServices.stream
-
-
     ]));
 
     _activeServices.addStream(CombineLatestStream.list([
@@ -77,8 +75,6 @@ class Repository {
       _positionProvider.activeService.stream,
       _windProvider.activeService.stream,
       _listAngleProvider.activeService.stream,
-
-
     ]));
 
 
@@ -127,6 +123,6 @@ class Repository {
   Stream<List<ServiceData>> getActiveServices() => _activeServices.stream;
 
   Stream <List<ServiceList>> getAvailableServices() => _availableServices;
-  Stream getProviderData() => _providerData.stream;
+  Stream <List<ProviderData>> getProviderData() => _providerData.stream;
   Stream<ListAngleModel> getListAngleStream() => _listAngleProvider.listAngle.stream;
 }

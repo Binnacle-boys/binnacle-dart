@@ -1,6 +1,7 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:sos/models/compass_model.dart';
 import 'package:sos/models/list_angle_model.dart';
+import 'package:sos/services/service_list.dart';
 import './repository.dart';
 import 'models/position_model.dart';
 import 'models/wind_model.dart';
@@ -11,11 +12,10 @@ class Bloc extends Object {
   Repository _repository;
 
 //TODO type these controllers
-  final _headingController = BehaviorSubject<String>();
   final _positionController = BehaviorSubject<PositionModel>();
-  final _availableServices = BehaviorSubject();
-  final _activeServices = BehaviorSubject();
-  final _providerData = BehaviorSubject();
+  final _availableServices = BehaviorSubject<List<ServiceList>>();
+  final _activeServices = BehaviorSubject<List<ServiceData>>();
+  final _providerData = BehaviorSubject<List<ProviderData>>();
 
   final _windContoller = BehaviorSubject<WindModel>();
   final _compassController = BehaviorSubject<CompassModel>();
@@ -33,9 +33,9 @@ class Bloc extends Object {
     this._listAngleController.addStream(_repository.getListAngleStream());
   }
 
-  BehaviorSubject get availableServices => _availableServices.stream;
-  BehaviorSubject get activeServices => _activeServices.stream;
-  BehaviorSubject get providerData => _providerData.stream;
+  BehaviorSubject<List<ServiceList>> get availableServices => _availableServices.stream;
+  BehaviorSubject<List<ServiceData>> get activeServices => _activeServices.stream;
+  BehaviorSubject<List<ProviderData>> get providerData => _providerData.stream;
   BehaviorSubject<WindModel> get wind => _windContoller.stream;
   BehaviorSubject<CompassModel> get compass => _compassController.stream;
   BehaviorSubject<PositionModel> get position => _positionController.stream;
@@ -43,7 +43,6 @@ class Bloc extends Object {
   // change data
   //* These don't actually do anything yet. Just leaving them
   //* as a reference for when BLoC needs these functions
-  Function(String) get changeHeading => _headingController.sink.add;
   Function(PositionModel) get changePosition => _positionController.sink.add;
 
   setActiveService(ServiceData serviceData) {
@@ -55,8 +54,6 @@ class Bloc extends Object {
   }
 
   void dispose() async {
-    await _headingController?.drain();
-    await _headingController?.close();
     await _positionController?.drain();
     await _positionController?.close();
     await _windContoller?.drain();

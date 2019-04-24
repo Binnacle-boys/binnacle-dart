@@ -47,7 +47,6 @@ Widget BinnacleCompass(Bloc bloc) {
       stream: bloc.compass,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          // TODO this +27 is a total hacky way to fix an offset we are getting
           return new Transform.rotate(
               angle: ((snapshot.data.direction ?? 0) * (pi / 180) * -1),
               child: CompassFace());

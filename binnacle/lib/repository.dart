@@ -82,35 +82,87 @@ class Repository {
   }
 
   toggleMode(ProviderData providerData) {
-    if (providerData.type == "compass") {
-      _compassProvider.toggleMode(providerData);
-    }
-    if (providerData.type == "position") {
-      _positionProvider.toggleMode(providerData);
-    }
-    if (providerData.type == "wind") {
-      _windProvider.toggleMode(providerData);
-    }
-    if (providerData.type == "list angle") {
-      _listAngleProvider.toggleMode(providerData);
-    }
+
+    switch(providerData.type) { 
+      case "compass": { 
+        _compassProvider.toggleMode(providerData);
+
+      } 
+      break; 
+      case "position": { 
+        _positionProvider.toggleMode(providerData);
+      } 
+      break; 
+      case "wind": { 
+        _windProvider.toggleMode(providerData);
+      }
+      break;
+      case "list angle": {
+        _listAngleProvider.toggleMode(providerData);
+      }
+      break; 
+      default: {
+        return;
+      }
+}
+
+
+
+
+    // if (providerData.type == "compass") {
+    //   _compassProvider.toggleMode(providerData);
+    // }
+    // if (providerData.type == "position") {
+    //   _positionProvider.toggleMode(providerData);
+    // }
+    // if (providerData.type == "wind") {
+    //   _windProvider.toggleMode(providerData);
+    // }
+    // if (providerData.type == "list angle") {
+    //   _listAngleProvider.toggleMode(providerData);
+    // }
   }
 
   setActiveService(ServiceData serviceData) {
-    if (serviceData.category == "compass") {
-      _compassProvider.changeService(serviceData);
-    }
-    if (serviceData.category == "position") {
-      _positionProvider.changeService(serviceData);
-    }
-    if (serviceData.category == "wind") {
-      _windProvider.changeService(serviceData);
-    }
-    if (serviceData.category== "list angle") {
-      _listAngleProvider.changeService(serviceData);
-    }
-  }
 
+
+switch(serviceData.category) { 
+      case "compass": { 
+        _compassProvider.changeService(serviceData);
+
+      } 
+      break; 
+      case "position": { 
+        _positionProvider.changeService(serviceData);
+      } 
+      break; 
+      case "wind": { 
+        _windProvider.changeService(serviceData);
+      }
+      break;
+      case "list angle": {
+        _listAngleProvider.changeService(serviceData);
+      }
+      break; 
+      default: {
+        return;
+      }
+
+
+    // if (serviceData.category == "compass") {
+    //   _compassProvider.changeService(serviceData);
+    // }
+    // if (serviceData.category == "position") {
+    //   _positionProvider.changeService(serviceData);
+    // }
+    // if (serviceData.category == "wind") {
+    //   _windProvider.changeService(serviceData);
+    // }
+    // if (serviceData.category== "list angle") {
+    //   _listAngleProvider.changeService(serviceData);
+    // }
+  }
+  }
 
   Stream<WindModel> getWindStream() => _windProvider.wind.stream;
   Stream<PositionModel> getPositionStream() => _positionProvider.position.stream;

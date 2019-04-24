@@ -105,6 +105,7 @@ class _Wind {
       return _Wind(speed: json['speed'], deg: json['deg'].toDouble());
     } else {
       print(
+        //TODO Handle this case better
           "No wind degree provided, this isnt good but I'm just  defaulting to 0.0");
       return _Wind(speed: json['speed'], deg: 0.0);
     }

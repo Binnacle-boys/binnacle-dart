@@ -12,6 +12,7 @@ import '../models/service_data.dart';
 import './service_wrapper_interface.dart';
 
 class WeatherService extends IWindService {
+  //TODO move apikey and url to some env file
   Client client = Client();
   final _apiKey = "80823ccc590c29c76f3094869dcdbee9";
   final _apiURL = "https://api.openweathermap.org/data/2.5/weather";

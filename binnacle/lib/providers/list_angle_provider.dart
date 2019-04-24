@@ -1,25 +1,25 @@
 import 'dart:async';
 import 'package:sos/services/service_list.dart';
 
-import '../models/position_model.dart';
-import '../models/position_service_interface.dart';
+import '../models/list_angle_model.dart';
+import '../models/list_angle_service_interface.dart';
 import '../models/service_data.dart';
 import '../models/provider_data.dart';
 import '../services/service_wrapper_interface.dart';
 
-class PositionProvider {
-  IPositionService _currentService;
+class ListAngleProvider {
+  IListAngleService _currentService;
 
   ServiceList _serviceList;
-  StreamController<PositionModel> _stream = StreamController();
+  StreamController<ListAngleModel> _stream = StreamController();
   StreamController<ServiceData> _activeService = StreamController();
   StreamSubscription _subscription;
   StreamController<ServiceList> _availableServices = StreamController();
 
-  ProviderData _providerData = ProviderData('position', 'manual');
+  ProviderData _providerData = ProviderData('list angle', 'manual');
   StreamController<ProviderData> _providerDataStream = StreamController();
 
-  PositionProvider(ServiceList serviceList) {
+  ListAngleProvider(ServiceList serviceList) {
     this._serviceList = serviceList;
     _availableServices.sink.add(_serviceList);
     _providerDataStream.sink.add(this._providerData);
@@ -33,7 +33,7 @@ class PositionProvider {
 
     this._subscription = this
         ._currentService
-        .positionStream
+        .listAngleStream
         .stream
         .listen((data) => this._stream.add(data));
     _subscription.onError((error) {
@@ -62,7 +62,7 @@ class PositionProvider {
     this._providerDataStream.sink.add(this._providerData);
   }
 
-  StreamController<PositionModel> get position => this._stream;
+  StreamController<ListAngleModel> get listAngle => this._stream;
   StreamController<ServiceData> get activeService => this._activeService;
   StreamController<ServiceList> get availableServices => _availableServices;
   StreamController<ProviderData> get providerData => _providerDataStream;

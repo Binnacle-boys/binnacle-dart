@@ -69,3 +69,4 @@ gradle
 gradlew
 gradlew.bat
 .gradle
+binnacle/ios/Runner.xcodeproj/project.pbxproj

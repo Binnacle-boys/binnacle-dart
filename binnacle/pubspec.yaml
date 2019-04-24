@@ -7,12 +7,15 @@ description: A new Flutter project.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+1
+version: "1.0.0+1"
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=1.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  # sail_routing_algorithm:
+  #   git:
+  #     url: git://github.com/Binnacle-boys/sail_routing.git
   # flutter_blue: ^0.5.0
   # flutter_bluetooth_serial: ^0.0.4
   rxdart: ^0.20.0
@@ -26,8 +29,13 @@ dependencies:
   geolocator: ^3.0.1
   permission_handler: "^3.0.0"
   google_api_availability: "^2.0.0"
+  sail_routing:
+    git:
+      url: git://github.com/Binnacle-boys/sail_routing.git
+
   flutter:
     sdk: flutter
+
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -27,7 +27,8 @@ class WeatherService extends IWindService {
   }
   Future<PositionModel> lastNonNull(Stream<PositionModel> stream) =>
       stream.firstWhere((x) => x != null);
-
+    
+  //TODO make periodic api calls so the user has refreshed wind data
   void fetchWeather(BehaviorSubject<PositionModel> positionStream) async {
     var position;
     try {

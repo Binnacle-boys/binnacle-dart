@@ -52,6 +52,8 @@ class WeatherService extends IWindService {
 
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
+      // TODO remove this debugging code
+      // TODO add error throwing code
       var temp = WeatherModel.fromJson(json.decode(response.body));
       WindModel wind = WindModel(temp.wind.speed, temp.wind.deg);
       _windStream.sink.add(wind);

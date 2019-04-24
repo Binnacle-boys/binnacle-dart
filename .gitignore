@@ -68,5 +68,5 @@ fabric.properties
 gradle
 gradlew
 gradlew.bat
-.gradlei
+.gradle
 binnacle/ios/Runner.xcodeproj/project.pbxproj

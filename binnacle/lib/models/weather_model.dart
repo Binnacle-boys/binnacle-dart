@@ -1,7 +1,12 @@
+
+/*
+* This class models the http response from open weather maps. 
+* All names map to the response name. They are private because they are 
+* totally irrelevent to anyone outside this class.
+*/
 class WeatherModel {
   _Coord _coord;
   _Sys _sys;
-  // List<_Weather> weather;
   _Main _main;
   _Wind _wind;
   _Clouds _clouds;
@@ -96,10 +101,11 @@ class _Wind {
   _Wind({this.speed, this.deg});
 
   factory _Wind.fromJson(Map<String, dynamic> json) {
-    if (json.containsKey('deg')) {
+    if (json.containsKey('deg') && json.containsKey('speed')) {
       return _Wind(speed: json['speed'], deg: json['deg'].toDouble());
     } else {
       print(
+        //TODO Handle this case better
           "No wind degree provided, this isnt good but I'm just  defaulting to 0.0");
       return _Wind(speed: json['speed'], deg: 0.0);
     }

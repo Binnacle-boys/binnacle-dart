@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:sensors/sensors.dart';
 
-class ListAngleModel extends Object {
+class ListAngleModel {
   double _angle;
 
   ListAngleModel({double angle}) {

@@ -6,7 +6,7 @@ import 'package:sos/ui/global_theme.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
 
-class ListUI extends StatelessWidget {
+class ListAngleUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,8 +19,7 @@ class ListUI extends StatelessWidget {
 Widget listAngleStreamBuilder(BuildContext context) {
   Bloc bloc = Provider.of(context);
   return StreamBuilder(
-      stream: bloc
-          .listAngle, //take(5).reduce((x,y) => ListAngleModel(x.angle + y.angle))),
+      stream: bloc.listAngle, //take(5).reduce((x,y) => ListAngleModel(x.angle + y.angle))),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Center(

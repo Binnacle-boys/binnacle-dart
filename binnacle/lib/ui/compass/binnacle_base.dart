@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:sos/providers/app_provider.dart';
-import 'CompassFace.dart';
 import 'package:sos/bloc.dart';
+import 'package:sos/ui/compass/compass_face.dart';
 
 class BinnacleState extends State<Binnacle> {
   @override
@@ -47,7 +47,6 @@ Widget BinnacleCompass(Bloc bloc) {
       stream: bloc.compass,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          // TODO this +27 is a total hacky way to fix an offset we are getting
           return new Transform.rotate(
               angle: ((snapshot.data.direction ?? 0) * (pi / 180) * -1),
               child: CompassFace());

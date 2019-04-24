@@ -1,36 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:sos/models/list_angle_model.dart';
+import '../ui/app_drawer.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
+import '../models/list_angle_model.dart';
+
 
 class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
 
-    return Scaffold(
-        backgroundColor: Colors.grey,
-        appBar: AppBar(
-            backgroundColor: Colors.blueGrey, title: Text("Test Screen")),
-        body: Column(children: <Widget>[
-          listAngleLabel(bloc),
-          positionLabel(bloc),
-          //weatherLabel(bloc),
-          compassLabel(bloc),
-          swapCompassButton(bloc)
-        ]));
-  }
-}
+    
 
-Widget swapCompassButton(Bloc bloc) {
-  return RaisedButton(
-    onPressed: () {
-      print("pushed button");
-      bloc.changeCompassSource();
-    },
-    child: Text("Click to change compass source"),
-    color: Colors.deepOrange,
-  );
+   return Scaffold(
+     backgroundColor: Colors.grey,
+     appBar: AppBar(
+       backgroundColor: Colors.blueGrey,
+       title: Text("Test Screen")
+     ),
+     drawer: AppDrawer(),
+     body: Column( children: <Widget>[positionLabel(bloc), compassLabel(bloc)])
+   );
+  }
 }
 
 Widget positionLabel(Bloc bloc) {

@@ -1,24 +1,36 @@
 import 'dart:async';
 import '../models/compass_model.dart';
-import '../providers/compass_provider.dart';
+import '../models/compass_service_interface.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import '../models/service_data.dart';
+import './service_wrapper_interface.dart';
 
 class CompassService extends ICompassService {
   StreamController<CompassModel> _compassStream = StreamController();
+  StreamSubscription _subscription;
+
 
   CompassService() {
-    print('Initializing Compass Service');
-    //FlutterCompass.events.listen((data) => print(data.toString()));
-    _compassStream.addStream(FlutterCompass.events
-        .map((double d) => new CompassModel(direction: d)));
-    ; // Do I need to listen here?
+    _subscription = FlutterCompass.events.listen((data) => _compassStream.sink.add(CompassModel(direction: data)));
+
+  }
+  dispose() async {
+    await _subscription.pause();
+    await _compassStream.close();
+
   }
   StreamController<CompassModel> get compassStream => _compassStream;
 
-  dispose() {
-    // this._compassStream.stream.drain();
-    // this._compassStream.close();
-    this._compassStream = null;
-    FlutterCompass.events.drain();
-  }
+}
+
+class CompassServiceWrapper implements ServiceWrapper{
+  final ServiceData _serviceData = ServiceData('compass', 'flutter compass', 1);
+  final bool _default = true;
+
+  CompassServiceWrapper();
+
+  get service =>  CompassService();
+  ServiceData get serviceData => this._serviceData;
+  bool get isDefault => this._default;
+
 }

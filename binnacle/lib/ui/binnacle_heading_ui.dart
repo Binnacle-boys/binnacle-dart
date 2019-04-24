@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:sos/models/wind_model.dart';
 import 'package:sos/providers/app_provider.dart';
-import 'ArrowPainter.dart';
+import 'package:sos/ui/arrow_painter.dart';
 
 class BinnacleHeadingUI extends StatelessWidget {
   @override

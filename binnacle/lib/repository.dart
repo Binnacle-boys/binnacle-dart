@@ -20,6 +20,8 @@ import 'models/wind_model.dart';
 import 'models/service_data.dart';
 import 'models/provider_data.dart';
 
+import "providers/bluetooth.dart";
+
 
 
 class Repository {
@@ -27,22 +29,21 @@ class Repository {
   WindProvider _windProvider;
   CompassProvider _compassProvider;
   ListAngleProvider _listAngleProvider;
-
-
+  
   StreamController<List<ServiceData>> _activeServices = StreamController();
-
-
   BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject();
-
 
   ServiceList compassServiceList;
   ServiceList windServiceList;
   ServiceList positionServiceList;
   ServiceList listAngleServiceList;
 
-
   BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject();
 
+  
+  BluetoothManager bluetooth;
+  StreamController<bool> _isScanning = StreamController();
+  StreamController _scanResults = StreamController();
 
   Repository(BehaviorSubject<PositionModel> positionStream) {
     
@@ -72,13 +73,17 @@ class Repository {
       _listAngleProvider.activeService.stream,
     ]));
 
-
     _providerData.addStream(CombineLatestStream.list([
       _compassProvider.providerData.stream, 
       _positionProvider.providerData.stream,
       _windProvider.providerData.stream,
       _listAngleProvider.providerData.stream
     ]));
+
+    bluetooth = BluetoothManager();
+
+    _isScanning.addStream(bluetooth.isScanning.stream);
+    _scanResults.addStream(bluetooth.scanResults.stream);
   }
 
   toggleMode(ProviderData providerData) {
@@ -104,24 +109,8 @@ class Repository {
       default: {
         return;
       }
-}
-
-
-
-
-    // if (providerData.type == "compass") {
-    //   _compassProvider.toggleMode(providerData);
-    // }
-    // if (providerData.type == "position") {
-    //   _positionProvider.toggleMode(providerData);
-    // }
-    // if (providerData.type == "wind") {
-    //   _windProvider.toggleMode(providerData);
-    // }
-    // if (providerData.type == "list angle") {
-    //   _listAngleProvider.toggleMode(providerData);
-    // }
   }
+}
 
   setActiveService(ServiceData serviceData) {
 
@@ -172,4 +161,9 @@ switch(serviceData.category) {
   Stream <List<ServiceList>> getAvailableServices() => _availableServices;
   Stream <List<ProviderData>> getProviderData() => _providerData.stream;
   Stream<ListAngleModel> getListAngleStream() => _listAngleProvider.listAngle.stream;
+
+
+  StreamController<bool> isScanning() => _isScanning;
+  StreamController scanResults() => _scanResults;
+
 }

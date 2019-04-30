@@ -80,7 +80,7 @@ _buildPopup(context) {
     return SimpleDialogOption(
       child: Text(
         result.device.name.toString(), textAlign: TextAlign.left),
-        onPressed:() => Navigator.pop(context, bloc.connect(result.device)) //() => bloc.connect(result.device)
+        onPressed:() => Navigator.pop(context, bloc.connect(result.device))
     );
   }
 

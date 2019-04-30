@@ -63,10 +63,8 @@ class BluetoothManager {
       print('manufacturerData: ${scanResult.advertisementData.manufacturerData}');
       print('serviceData: ${scanResult.advertisementData.serviceData}');
 
-        _scanResults[scanResult.device.id] = scanResult;
-        _scanResultsStream.add(_scanResults);
-
-
+      _scanResults[scanResult.device.id] = scanResult;
+      _scanResultsStream.add(_scanResults);
 
     }, onDone: _stopScan);
     

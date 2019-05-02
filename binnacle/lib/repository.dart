@@ -83,11 +83,14 @@ class Repository {
     _isScanning.addStream(bluetooth.isScanning.stream);
     _scanResults.addStream(bluetooth.scanResults.stream);
     bluetooth.isConnected.stream.listen((data) {
-      if(data == true) {
-        compassServiceList.add(MockCompassServiceWrapper(false));
-      }
-
+      (data) ? _addBluetoothServices() : _removeBluetoothServices();
     });
+  }
+  _addBluetoothServices() {
+    //TODO write the bluetooth services.
+  }
+  _removeBluetoothServices() {
+
   }
 
   toggleMode(ProviderData providerData) {

@@ -6,7 +6,7 @@ import '../models/compass_service_interface.dart';
 import '../models/service_data.dart';
 import '../models/provider_data.dart';
 import '../services/service_wrapper_interface.dart';
-
+import '../enums.dart';
 class CompassProvider {
   ICompassService _currentService;
 
@@ -16,7 +16,7 @@ class CompassProvider {
   StreamSubscription _subscription;
   StreamController<ServiceList> _availableServices = StreamController();
 
-  ProviderData _providerData = ProviderData('compass', 'manual');
+  ProviderData _providerData = ProviderData(ProviderType.compass, 'manual');
   StreamController<ProviderData> _providerDataStream = StreamController();
 
   CompassProvider(ServiceList serviceList) {

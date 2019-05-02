@@ -7,6 +7,8 @@ import 'package:sos/models/wind_model.dart';
 import 'package:sos/providers/wind_provider.dart';
 import 'package:sos/services/weather_service.dart';
 import 'package:sos/services/service_list.dart';
+import 'package:sos/enums.dart';
+
 
 void main() {
   WindProvider _provider;
@@ -16,7 +18,7 @@ void main() {
       seedValue: PositionModel(lat: 30.0, lon: 121.0, speed: 0.6));
 
   setUp(() async {
-    ServiceList _serviceList = ServiceList('compass', [
+    ServiceList _serviceList = ServiceList(ProviderType.wind, [
       WeatherServiceWrapper(_positionStream.stream),
     ]);
     _provider = await WindProvider(_serviceList);

@@ -6,6 +6,8 @@ import 'package:sos/models/position_model.dart';
 import 'package:sos/providers/position_provider.dart';
 import 'package:sos/services/geolocation_service.dart';
 import 'package:sos/services/service_list.dart';
+import 'package:sos/enums.dart';
+
 
 
 void main() {
@@ -17,7 +19,7 @@ void main() {
 
   setUp(() async {
 
-    ServiceList _serviceList = ServiceList('compass', [GeolocationServiceWrapper(), ]);
+    ServiceList _serviceList = ServiceList(ProviderType.position, [GeolocationServiceWrapper(), ]);
     _provider = await PositionProvider(_serviceList);
     _provider.activeService.stream.listen((data) { 
       _activeServiceWrapper.add(data);

@@ -6,6 +6,7 @@ import '../models/list_angle_service_interface.dart';
 import '../models/service_data.dart';
 import '../models/provider_data.dart';
 import '../services/service_wrapper_interface.dart';
+import '../enums.dart';
 
 class ListAngleProvider {
   IListAngleService _currentService;
@@ -16,7 +17,7 @@ class ListAngleProvider {
   StreamSubscription _subscription;
   StreamController<ServiceList> _availableServices = StreamController();
 
-  ProviderData _providerData = ProviderData('list angle', 'manual');
+  ProviderData _providerData = ProviderData(ProviderType.list_angle, 'manual');
   StreamController<ProviderData> _providerDataStream = StreamController();
 
   ListAngleProvider(ServiceList serviceList) {

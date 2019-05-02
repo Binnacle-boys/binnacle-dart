@@ -20,4 +20,11 @@ class ServiceList {
       ((wrapper.serviceData.priority > serviceData.priority)  
       && !identical(serviceData, wrapper.serviceData)));
 
+  add(ServiceWrapper serviceWrapper) {
+    _list.add(serviceWrapper);
+  }
+  remove(ServiceWrapper serviceWrapper) {
+    _list.remove(serviceWrapper);
+  }
+
 }

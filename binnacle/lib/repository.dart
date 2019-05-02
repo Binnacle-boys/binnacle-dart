@@ -32,14 +32,12 @@ class Repository {
   
   StreamController<List<ServiceData>> _activeServices = StreamController();
   BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject();
+  BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject();
 
   ServiceList compassServiceList;
   ServiceList windServiceList;
   ServiceList positionServiceList;
   ServiceList listAngleServiceList;
-
-  BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject();
-
   
   BluetoothManager bluetooth;
   StreamController<bool> _isScanning = StreamController();
@@ -84,6 +82,12 @@ class Repository {
 
     _isScanning.addStream(bluetooth.isScanning.stream);
     _scanResults.addStream(bluetooth.scanResults.stream);
+    bluetooth.isConnected.stream.listen((data) {
+      if(data == true) {
+        compassServiceList.add(MockCompassServiceWrapper(false));
+      }
+
+    });
   }
 
   toggleMode(ProviderData providerData) {

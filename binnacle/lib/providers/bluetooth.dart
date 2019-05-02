@@ -20,7 +20,8 @@ class BluetoothManager {
 
   // Device
   BluetoothDevice device;
-  bool get isConnected => (device != null);
+  bool get _isConnected => (device != null);
+  StreamController<bool> isConnected = StreamController();
   StreamSubscription deviceConnection;
   StreamSubscription deviceStateSubscription;
   List<BluetoothService> services = new List();
@@ -29,19 +30,19 @@ class BluetoothManager {
 
   BluetoothManager() {
     // Immediately get the state of FlutterBlue
-
      _flutterBlue.state.then((s) {
         state = s;
     });
 
         // Subscribe to state changes
-    // _stateSubscription = _flutterBlue.onStateChanged().listen((s) {
-    //     state = s;
-    // });
+    _stateSubscription = _flutterBlue.onStateChanged().listen((s) {
+        state = s;
+    });
 
     // set scanning to false so the UI can reflect this state
-    _isScanning.add(false); //! BUT IT FUCKING DOESN"T
+    _isScanning.add(false); 
     print('INITIALZING BLUETOOTH');
+    isConnected.add(_isConnected);
 
   }
 
@@ -82,6 +83,8 @@ class BluetoothManager {
 
   _connect(BluetoothDevice d) async {
     device = d;
+    isConnected.add(_isConnected);
+
     // Connect to device
     deviceConnection = _flutterBlue
         .connect(device, timeout: const Duration(seconds: 4))
@@ -115,6 +118,8 @@ class BluetoothManager {
     deviceConnection?.cancel();
     deviceConnection = null;
     device = null;
+    isConnected.add(_isConnected);
+
   }
 
 

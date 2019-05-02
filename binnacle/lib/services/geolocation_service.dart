@@ -4,6 +4,7 @@ import '../models/position_service_interface.dart';
 import 'package:geolocator/geolocator.dart';
 import './service_wrapper_interface.dart';
 import '../models/service_data.dart';
+import '../enums.dart';
 
 class GeolocationService extends IPositionService {
 
@@ -37,7 +38,7 @@ class GeolocationService extends IPositionService {
 
 
 class GeolocationServiceWrapper implements ServiceWrapper{
-  final ServiceData _serviceData = ServiceData('position', 'geolocation', 1);
+  final ServiceData _serviceData = ServiceData(ProviderType.position, 'geolocation', 1);
   final bool _default = true;
 
   GeolocationServiceWrapper();

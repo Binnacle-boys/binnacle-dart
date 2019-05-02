@@ -21,6 +21,7 @@ import 'models/service_data.dart';
 import 'models/provider_data.dart';
 
 import "providers/bluetooth.dart";
+import "enums.dart";
 
 
 
@@ -43,12 +44,14 @@ class Repository {
   StreamController<bool> _isScanning = StreamController();
   StreamController _scanResults = StreamController();
 
+  Map<ProviderType, ServiceList> _serviceListMap = Map();
+  Map<ProviderType, dynamic> _providerMap = Map();
   Repository(BehaviorSubject<PositionModel> positionStream) {
     
-    compassServiceList = ServiceList('compass',[CompassServiceWrapper(), MockCompassServiceWrapper(false)]);
-    windServiceList = ServiceList('wind', [WeatherServiceWrapper(positionStream)]);
-    positionServiceList = ServiceList('position', [GeolocationServiceWrapper()]);
-    listAngleServiceList = ServiceList('list angle', [ListAngleServiceWrapper()] );
+    compassServiceList = ServiceList(ProviderType.compass,[CompassServiceWrapper(), MockCompassServiceWrapper(false)]);
+    windServiceList = ServiceList(ProviderType.wind, [WeatherServiceWrapper(positionStream)]);
+    positionServiceList = ServiceList(ProviderType.position, [GeolocationServiceWrapper()]);
+    listAngleServiceList = ServiceList(ProviderType.list_angle, [ListAngleServiceWrapper()] );
 
     
     this._positionProvider = PositionProvider( positionServiceList);
@@ -56,6 +59,21 @@ class Repository {
 
     this._windProvider = WindProvider( windServiceList);
     this._listAngleProvider = ListAngleProvider(listAngleServiceList);
+
+
+   _serviceListMap =  {
+    ProviderType.compass: compassServiceList, 
+    ProviderType.wind: windServiceList,
+    ProviderType.position: positionServiceList,
+    ProviderType.list_angle: listAngleServiceList
+  };
+    _providerMap =  {
+    ProviderType.compass: _compassProvider, 
+    ProviderType.wind: _windProvider,
+    ProviderType.position: _positionProvider,
+    ProviderType.list_angle: _listAngleProvider
+  };
+
 
     _availableServices.addStream(CombineLatestStream.list([
       _compassProvider.availableServices.stream,
@@ -94,70 +112,58 @@ class Repository {
   }
 
   toggleMode(ProviderData providerData) {
+    _providerMap[providerData.type].toggleMode(providerData);
 
-    switch(providerData.type) { 
-      case "compass": { 
-        _compassProvider.toggleMode(providerData);
+  //   switch(providerData.type) { 
+  //     case "compass": { 
+  //       _compassProvider.toggleMode(providerData);
 
-      } 
-      break; 
-      case "position": { 
-        _positionProvider.toggleMode(providerData);
-      } 
-      break; 
-      case "wind": { 
-        _windProvider.toggleMode(providerData);
-      }
-      break;
-      case "list angle": {
-        _listAngleProvider.toggleMode(providerData);
-      }
-      break; 
-      default: {
-        return;
-      }
-  }
+  //     } 
+  //     break; 
+  //     case "position": { 
+  //       _positionProvider.toggleMode(providerData);
+  //     } 
+  //     break; 
+  //     case "wind": { 
+  //       _windProvider.toggleMode(providerData);
+  //     }
+  //     break;
+  //     case "list angle": {
+  //       _listAngleProvider.toggleMode(providerData);
+  //     }
+  //     break; 
+  //     default: {
+  //       return;
+  //     }
+  // }
 }
 
   setActiveService(ServiceData serviceData) {
+    _providerMap[serviceData.category].changeService(serviceData);
 
 
-switch(serviceData.category) { 
-      case "compass": { 
-        _compassProvider.changeService(serviceData);
+// switch(serviceData.category) { 
+//       case "compass": { 
+//         _compassProvider.changeService(serviceData);
 
-      } 
-      break; 
-      case "position": { 
-        _positionProvider.changeService(serviceData);
-      } 
-      break; 
-      case "wind": { 
-        _windProvider.changeService(serviceData);
-      }
-      break;
-      case "list angle": {
-        _listAngleProvider.changeService(serviceData);
-      }
-      break; 
-      default: {
-        return;
-      }
-
-
-    // if (serviceData.category == "compass") {
-    //   _compassProvider.changeService(serviceData);
-    // }
-    // if (serviceData.category == "position") {
-    //   _positionProvider.changeService(serviceData);
-    // }
-    // if (serviceData.category == "wind") {
-    //   _windProvider.changeService(serviceData);
-    // }
-    // if (serviceData.category== "list angle") {
-    //   _listAngleProvider.changeService(serviceData);
-    // }
-  }
+//       } 
+//       break; 
+//       case "position": { 
+//         _positionProvider.changeService(serviceData);
+//       } 
+//       break; 
+//       case "wind": { 
+//         _windProvider.changeService(serviceData);
+//       }
+//       break;
+//       case "list angle": {
+//         _listAngleProvider.changeService(serviceData);
+//       }
+//       break; 
+//       default: {
+//         return;
+//       }
+//    }
   }
 
   Stream<WindModel> getWindStream() => _windProvider.wind.stream;

@@ -4,6 +4,7 @@ import '../models/compass_service_interface.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import '../models/service_data.dart';
 import './service_wrapper_interface.dart';
+import '../enums.dart';
 
 class CompassService extends ICompassService {
   StreamController<CompassModel> _compassStream = StreamController();
@@ -24,7 +25,7 @@ class CompassService extends ICompassService {
 }
 
 class CompassServiceWrapper implements ServiceWrapper{
-  final ServiceData _serviceData = ServiceData('compass', 'flutter compass', 1);
+  final ServiceData _serviceData = ServiceData(ProviderType.compass, 'flutter compass', 1);
   final bool _default = true;
 
   CompassServiceWrapper();

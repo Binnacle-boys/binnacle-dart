@@ -1,9 +1,10 @@
 import 'package:sos/models/service_data.dart';
 import 'package:sos/services/service_wrapper_interface.dart';
+import '../enums.dart';
 
 class ServiceList {
 
-  final String type;
+  final ProviderType type;
   List <ServiceWrapper> _list; 
   ServiceList(this.type, this._list);
   

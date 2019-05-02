@@ -36,10 +36,11 @@ Widget providerList(Bloc bloc) {
       if (snapshot.hasData) {
         
         for(var item in snapshot.data ) {
+          String providerType = item.type.toString().split('.').last;
           Widget tile = ExpansionTile(
-            key: new Key(item.type.toString()),
+            key: new Key(providerType),
             title: new Text(
-              item.type,
+              providerType,
               style: TextStyle(
                 fontSize: 20.0, 
                 fontWeight: FontWeight.bold, 
@@ -53,24 +54,6 @@ Widget providerList(Bloc bloc) {
         }
         
         return ListView(children: widgetList);
-        // return ListView.builder(
-        //     itemCount: snapshot.data.length,
-        //     itemBuilder: (context, i) {
-        //       return new ExpansionTile(
-        //         key: new Key(snapshot.data[i].type.toString()),
-        //         title: new Text(
-        //           snapshot.data[i].type,
-        //           style: new TextStyle(
-        //               fontSize: 20.0,
-        //               fontWeight: FontWeight.bold,
-        //               fontStyle: FontStyle.italic),
-        //         ),
-        //         leading: modeToggleSwitch(bloc, snapshot.data[i]),
-        //         children: <Widget>[
-        //           serviceList(bloc, snapshot.data[i].type, snapshot.data[i])
-        //         ],
-        //       );
-        //     });
       } else if (snapshot.hasError) {
         return Text(snapshot.error.toString());
       } else {
@@ -102,15 +85,19 @@ Widget serviceList(Bloc bloc, type, providerData) {
         return Column(children: columnContent,);
       }  
       else if (snapshot.hasData) {
+        // snapshot.data.forEach((f) => print('@@@'+f.type.toString()));
+
         final List<ServiceWrapper> serviceList = 
           snapshot.data.firstWhere((serviceList) => 
             serviceList.type == type).serviceList;
+          
+        serviceList.forEach((f) {print("!!!!!" + f.toString());});
 
         for (ServiceWrapper wrapper in serviceList ) {
           columnContent.add(
             ListTile(
               enabled: (providerData.mode == 'manual') ? true : false,
-              title: Text(wrapper.serviceData.name, style: new TextStyle(fontSize: 18.0)),
+              title: Text(wrapper.serviceData.name.toString(), style: new TextStyle(fontSize: 18.0)),
               onTap: () {
                 bloc.setActiveService(wrapper.serviceData);
               },

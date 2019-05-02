@@ -1,4 +1,4 @@
-
+import '../enums.dart';
 class ProviderData {
   /*
   * Type indicates what type of provider it is
@@ -6,13 +6,15 @@ class ProviderData {
   * Model is either manual or auto indicating how the provider 
   * switches on error
   */
-  final String _type;
+  //final String _type;
+  ProviderType _type;
+  
   String _mode;
 
   ProviderData(this._type, this._mode);
 
   set mode(String newMode) => this._mode = newMode;
   String get mode => this._mode;
-  String get type => this._type;
+  ProviderType get type => this._type;
   
 }

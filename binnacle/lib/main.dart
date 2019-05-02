@@ -26,28 +26,27 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
             title: 'Binnacle Demo',
             theme: _theme,
-            home: TestScreen()
-            // home: Scaffold(
-            //     drawer: AppDrawer(),
-            //     body: Center(
-            //         child: Container(
-            //             child: Column(children: <Widget>[
-            //       Expanded(
-            //           flex: 6,
-            //           child: new Stack(children: <Widget>[
-            //             Binnacle(),
-            //             ListAngleUI(),
-            //           ])),
-            //       Expanded(
-            //         flex: 3,
-            //         child: Container(
-            //           color: _theme.secondaryHeaderColor,
-            //           padding: EdgeInsets.all(10),
-            //           child: InfoPanel(),
-            //         ),
-            //       )
-            //     ])))
-            // )
+            home: Scaffold(
+                drawer: AppDrawer(),
+                body: Center(
+                    child: Container(
+                        child: Column(children: <Widget>[
+                  Expanded(
+                      flex: 6,
+                      child: new Stack(children: <Widget>[
+                        Binnacle(),
+                        ListAngleUI(),
+                      ])),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      color: _theme.secondaryHeaderColor,
+                      padding: EdgeInsets.all(10),
+                      child: InfoPanel(),
+                    ),
+                  )
+                ])))
+            )
         ));
   }
 }

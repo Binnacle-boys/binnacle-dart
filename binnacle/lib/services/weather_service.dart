@@ -30,10 +30,15 @@ class WeatherService extends IWindService {
 
     fetchWeather(_position);
   }
+
+  /// BUG: This should be last so it gets the latest position value,
+  /// but isn't being used like that.
   Future<PositionModel> lastNonNull(Stream<PositionModel> stream) =>
       stream.firstWhere((x) => x != null);
 
-  /// TODO: make periodic api calls so the user has refreshed wind data
+  /// Calls OpenWeatherMap to retrieve a WindModel
+  /// If successful, will call again in 10 minutes.
+  /// Otherwise it will try again in 10 seconds.
   void fetchWeather(BehaviorSubject<PositionModel> positionStream) async {
     var position = await lastNonNull(positionStream);
 
@@ -55,16 +60,21 @@ class WeatherService extends IWindService {
     }
 
     if (response.statusCode == 200) {
-      // If the call to the server was successful, parse the JSON
-      // TODO remove this debugging code
       // TODO add error throwing code
       var temp = WeatherModel.fromJson(json.decode(response.body));
       WindModel wind = WindModel(temp.wind.speed, temp.wind.deg);
       _windStream.sink.add(wind);
+
+      print('Will request again in 10 minutes');
+      Future.delayed(new Duration(seconds: 600), () {
+        fetchWeather(_position);
+      });
     } else {
-      print(
-          'Did not get a 200 response from OpenWeatherMaps. Requesting Weather Data again');
-      fetchWeather(_position);
+      print('OpenWeatherMap failed to respond');
+      print('Will try again in 10 seconds');
+      Future.delayed(new Duration(seconds: 10), () {
+        fetchWeather(_position);
+      });
     }
   }
 

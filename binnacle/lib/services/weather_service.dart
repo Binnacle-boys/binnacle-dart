@@ -27,7 +27,7 @@ class WeatherService extends IWindService {
   }
   Future<PositionModel> lastNonNull(Stream<PositionModel> stream) =>
       stream.firstWhere((x) => x != null);
-    
+
   //TODO make periodic api calls so the user has refreshed wind data
   void fetchWeather(BehaviorSubject<PositionModel> positionStream) async {
     var position;
@@ -58,31 +58,30 @@ class WeatherService extends IWindService {
       WindModel wind = WindModel(temp.wind.speed, temp.wind.deg);
       _windStream.sink.add(wind);
     } else {
-      print('Did not get a 200 response from OpenWeatherMaps. Requesting Weather Data again');
+      print(
+          'Did not get a 200 response from OpenWeatherMaps. Requesting Weather Data again');
       fetchWeather(_position);
     }
   }
 
-    dispose() async {
+  dispose() async {
     //! there's no subscibtion here like there are in other services
     //! consider starting debug here if issue arises
-    // await _subscription.pause(); 
+    // await _subscription.pause();
     await _windStream.close();
-
   }
 
   StreamController<WindModel> get windStream => _windStream;
 }
 
-class WeatherServiceWrapper implements ServiceWrapper{
+class WeatherServiceWrapper implements ServiceWrapper {
   final ServiceData _serviceData = ServiceData('wind', 'open weather maps', 1);
   final bool _default = true;
   final _positionStream;
 
   WeatherServiceWrapper(this._positionStream);
 
-  get service =>  WeatherService(_positionStream);
+  get service => WeatherService(_positionStream);
   ServiceData get serviceData => this._serviceData;
   bool get isDefault => this._default;
-
 }

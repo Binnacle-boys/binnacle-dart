@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 //TODO extend theme data instead of Object
 class GlobalTheme extends Object {
   ThemeData get() {

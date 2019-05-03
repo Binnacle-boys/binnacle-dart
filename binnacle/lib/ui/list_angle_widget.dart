@@ -19,7 +19,8 @@ class ListAngleUI extends StatelessWidget {
 Widget listAngleStreamBuilder(BuildContext context) {
   Bloc bloc = Provider.of(context);
   return StreamBuilder(
-      stream: bloc.listAngle, //take(5).reduce((x,y) => ListAngleModel(x.angle + y.angle))),
+      stream: bloc
+          .listAngle, //take(5).reduce((x,y) => ListAngleModel(x.angle + y.angle))),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Center(

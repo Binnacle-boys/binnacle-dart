@@ -3,35 +3,35 @@ import '../models/compass_model.dart';
 import '../models/compass_service_interface.dart';
 import './service_wrapper_interface.dart';
 import '../models/service_data.dart';
-class TestCompassService extends ICompassService {
 
+class TestCompassService extends ICompassService {
   StreamController<CompassModel> _compassStream = StreamController();
   List<CompassModel> _dummyData = [];
 
   TestCompassService() {
     buildDummyData();
-     _compassStream.sink.addStream(Stream.fromIterable(this._dummyData));
-
+    _compassStream.sink.addStream(Stream.fromIterable(this._dummyData));
   }
   buildDummyData() {
     for (double i = 1.0; i < 3.0; i = i + 1.0) {
       this._dummyData.add(new CompassModel(direction: i));
     }
   }
-  dispose() async{
-    
+
+  dispose() async {
     await _compassStream.close();
   }
+
   StreamController<CompassModel> get compassStream => _compassStream;
 }
 
-class MockCompassServiceWrapper extends ServiceWrapper{
+class MockCompassServiceWrapper extends ServiceWrapper {
   final ServiceData _serviceData = ServiceData('compass', 'mock compass', 0);
   final bool _default;
 
   MockCompassServiceWrapper(this._default);
 
-  get service =>  TestCompassService();
+  get service => TestCompassService();
   ServiceData get serviceData => this._serviceData;
   bool get isDefault => this._default;
 }

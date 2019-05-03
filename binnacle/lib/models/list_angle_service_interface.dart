@@ -5,5 +5,3 @@ abstract class IListAngleService {
   StreamController<ListAngleModel> get listAngleStream;
   dispose();
 }
-
-

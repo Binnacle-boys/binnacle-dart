@@ -27,14 +27,14 @@ class ListAngleService extends IListAngleService {
   }
 }
 
-class ListAngleServiceWrapper implements ServiceWrapper{
-  final ServiceData _serviceData = ServiceData('list angle', 'daniels list angle', 1);
+class ListAngleServiceWrapper implements ServiceWrapper {
+  final ServiceData _serviceData =
+      ServiceData('list angle', 'daniels list angle', 1);
   final bool _default = true;
 
   ListAngleServiceWrapper();
 
-  get service =>  ListAngleService();
+  get service => ListAngleService();
   ServiceData get serviceData => this._serviceData;
   bool get isDefault => this._default;
-
 }

@@ -1,54 +1,58 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' show Client;
 import 'package:rxdart/rxdart.dart';
 
-import '../models/weather_model.dart';
-import '../models/position_model.dart';
-import '../models/wind_model.dart';
-import '../models/wind_service_interface.dart';
-import '../models/service_data.dart';
-import './service_wrapper_interface.dart';
+import 'package:sos/models/weather_model.dart';
+import 'package:sos/models/position_model.dart';
+import 'package:sos/models/wind_model.dart';
+import 'package:sos/models/wind_service_interface.dart';
+import 'package:sos/models/service_data.dart';
+import 'package:sos/services/service_wrapper_interface.dart';
 
 class WeatherService extends IWindService {
-  //TODO move apikey and url to some env file
-  Client client = Client();
+  StreamController<WindModel> get windStream => _windStream;
+
+  /// TODO: move apikey and url to some env file
+  Client _client;
   final _apiKey = "80823ccc590c29c76f3094869dcdbee9";
   final _apiURL = "https://api.openweathermap.org/data/2.5/weather";
-  var _windStream = StreamController<WindModel>();
+
+  StreamController<WindModel> _windStream;
   BehaviorSubject<PositionModel> _position;
   final ServiceData serviceData = ServiceData('wind', 'name', 1);
 
-  WeatherService(BehaviorSubject<PositionModel> position) {
-    this._position = position;
+  WeatherService(this._position) {
+    _client = Client();
+    _windStream = StreamController();
 
     fetchWeather(_position);
   }
   Future<PositionModel> lastNonNull(Stream<PositionModel> stream) =>
       stream.firstWhere((x) => x != null);
 
-  //TODO make periodic api calls so the user has refreshed wind data
+  /// TODO: make periodic api calls so the user has refreshed wind data
   void fetchWeather(BehaviorSubject<PositionModel> positionStream) async {
-    var position;
-    try {
-      position = await lastNonNull(positionStream);
-    } catch (e) {
-      print(e);
-      print(
-          "From weather_service: If you aren't in the ios simulator, location is messing up and threw this ^^^");
-      position = new PositionModel(lat: 0.0, lon: 0.0, speed: 0.0);
-    }
+    var position = await lastNonNull(positionStream);
+
     print("___ pos const: " + position.lat.toString());
     print("fetching weather....");
     print(position.lat.toString() + ' ' + position.lon.toString());
-    final response = await client.get((_apiURL +
-        "?lat=" +
-        position.lat.toString() +
-        "&lon=" +
-        position.lon.toString() +
-        "&APPID=" +
-        _apiKey));
+
+    var response;
+    try {
+      response = await _client.get((_apiURL +
+          "?lat=" +
+          position.lat.toString() +
+          "&lon=" +
+          position.lon.toString() +
+          "&APPID=" +
+          _apiKey));
+    } on SocketException {
+      print('There was no internet to be had...');
+    }
 
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
@@ -65,23 +69,21 @@ class WeatherService extends IWindService {
   }
 
   dispose() async {
-    //! there's no subscibtion here like there are in other services
-    //! consider starting debug here if issue arises
-    // await _subscription.pause();
-    await _windStream.close();
-  }
+    /// NOTE: No subscription here like in other services
 
-  StreamController<WindModel> get windStream => _windStream;
+    await _windStream.close();
+    _client.close();
+  }
 }
 
 class WeatherServiceWrapper implements ServiceWrapper {
+  get service => WeatherService(_positionStream);
+  ServiceData get serviceData => this._serviceData;
+  bool get isDefault => this._default;
+
   final ServiceData _serviceData = ServiceData('wind', 'open weather maps', 1);
   final bool _default = true;
   final _positionStream;
 
   WeatherServiceWrapper(this._positionStream);
-
-  get service => WeatherService(_positionStream);
-  ServiceData get serviceData => this._serviceData;
-  bool get isDefault => this._default;
 }

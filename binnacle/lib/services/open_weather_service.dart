@@ -12,7 +12,9 @@ import 'package:sos/models/wind_service_interface.dart';
 import 'package:sos/models/service_data.dart';
 import 'package:sos/services/service_wrapper_interface.dart';
 
-class WeatherService extends IWindService {
+/// Wrapper service for getting the wind
+/// Utilizes the OpenWeatherMap API
+class OpenWeatherService extends IWindService {
   StreamController<WindModel> get windStream => _windStream;
 
   /// TODO: move apikey and url to some env file
@@ -21,18 +23,20 @@ class WeatherService extends IWindService {
   final _apiURL = "https://api.openweathermap.org/data/2.5/weather";
 
   StreamController<WindModel> _windStream;
-  BehaviorSubject<PositionModel> _position;
   final ServiceData serviceData = ServiceData('wind', 'name', 1);
 
-  WeatherService(this._position) {
+  OpenWeatherService(BehaviorSubject<PositionModel> _positionSubject) {
     _client = Client();
     _windStream = StreamController();
 
-    fetchWeather(_position);
+    fetchWeather(_positionSubject);
   }
 
   /// BUG: This should be last so it gets the latest position value,
   /// but isn't being used like that.
+  /// However, switching to lastWhere just doesn't work
+  /// as it goes from latest to newest, stops, and does not try cycling again
+  /// A more ideal would use listen
   Future<PositionModel> lastNonNull(Stream<PositionModel> stream) =>
       stream.firstWhere((x) => x != null);
 
@@ -40,10 +44,9 @@ class WeatherService extends IWindService {
   /// If successful, will call again in 10 minutes.
   /// Otherwise it will try again in 10 seconds.
   void fetchWeather(BehaviorSubject<PositionModel> positionStream) async {
-    var position = await lastNonNull(positionStream);
+    PositionModel position = await lastNonNull(positionStream);
 
     print("___ pos const: " + position.lat.toString());
-    print("fetching weather....");
     print(position.lat.toString() + ' ' + position.lon.toString());
 
     var response;
@@ -57,23 +60,25 @@ class WeatherService extends IWindService {
           _apiKey));
     } on SocketException {
       print('There was no internet to be had...');
+      Future.delayed(new Duration(seconds: 10), () {
+        fetchWeather(positionStream);
+      });
     }
 
     if (response.statusCode == 200) {
-      // TODO add error throwing code
       var temp = WeatherModel.fromJson(json.decode(response.body));
       WindModel wind = WindModel(temp.wind.speed, temp.wind.deg);
       _windStream.sink.add(wind);
 
       print('Will request again in 10 minutes');
       Future.delayed(new Duration(seconds: 600), () {
-        fetchWeather(_position);
+        fetchWeather(positionStream);
       });
     } else {
       print('OpenWeatherMap failed to respond');
       print('Will try again in 10 seconds');
       Future.delayed(new Duration(seconds: 10), () {
-        fetchWeather(_position);
+        fetchWeather(positionStream);
       });
     }
   }
@@ -87,7 +92,7 @@ class WeatherService extends IWindService {
 }
 
 class WeatherServiceWrapper implements ServiceWrapper {
-  get service => WeatherService(_positionStream);
+  get service => OpenWeatherService(_positionStream);
   ServiceData get serviceData => this._serviceData;
   bool get isDefault => this._default;
 

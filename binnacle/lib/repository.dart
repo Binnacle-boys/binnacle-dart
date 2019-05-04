@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
-import 'package:sos/services/compass_service.dart';
-import 'package:sos/models/list_angle_model.dart';
-import 'package:sos/providers/list_angle_provider.dart';
-import 'package:sos/services/list_angle_service.dart';
 
+import 'package:sos/providers/list_angle_provider.dart';
 import 'package:sos/providers/position_provider.dart';
 import 'package:sos/providers/wind_provider.dart';
 import 'package:sos/providers/compass_provider.dart';
 
+import 'package:sos/services/list_angle_service.dart';
+import 'package:sos/services/compass_service.dart';
 import 'package:sos/services/geolocation_service.dart';
-import 'package:sos/services/weather_service.dart';
+import 'package:sos/services/open_weather_service.dart';
 import 'package:sos/services/test_compass_service.dart';
 import 'package:sos/services/service_list.dart';
 
+import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/models/position_model.dart';
 import 'package:sos/models/compass_model.dart';
 import 'package:sos/models/wind_model.dart';
@@ -21,20 +21,28 @@ import 'package:sos/models/service_data.dart';
 import 'package:sos/models/provider_data.dart';
 
 class Repository {
-  PositionProvider _positionProvider;
-  WindProvider _windProvider;
-  CompassProvider _compassProvider;
-  ListAngleProvider _listAngleProvider;
+  /// Data points
+  Stream<WindModel> get wind => _windProvider.wind.stream;
+  Stream<PositionModel> get position => _positionProvider.position.stream;
+  Stream<CompassModel> get compass => _compassProvider.compass.stream;
+  Stream<List<ServiceData>> get activeServices => _activeServices.stream;
+  Stream<ListAngleModel> get listAngle => _listAngleProvider.listAngle.stream;
 
-  StreamController<List<ServiceData>> _activeServices = StreamController();
-
-  BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject();
+  Stream<List<ServiceList>> get availableServices => _availableServices;
+  Stream<List<ProviderData>> get providerData => _providerData.stream;
 
   ServiceList compassServiceList;
   ServiceList windServiceList;
   ServiceList positionServiceList;
   ServiceList listAngleServiceList;
 
+  PositionProvider _positionProvider;
+  WindProvider _windProvider;
+  CompassProvider _compassProvider;
+  ListAngleProvider _listAngleProvider;
+
+  StreamController<List<ServiceData>> _activeServices = StreamController();
+  BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject();
   BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject();
 
   Repository(BehaviorSubject<PositionModel> positionStream) {
@@ -78,95 +86,38 @@ class Repository {
   toggleMode(ProviderData providerData) {
     switch (providerData.type) {
       case "compass":
-        {
-          _compassProvider.toggleMode(providerData);
-        }
+        _compassProvider.toggleMode(providerData);
         break;
       case "position":
-        {
-          _positionProvider.toggleMode(providerData);
-        }
+        _positionProvider.toggleMode(providerData);
         break;
       case "wind":
-        {
-          _windProvider.toggleMode(providerData);
-        }
+        _windProvider.toggleMode(providerData);
         break;
       case "list angle":
-        {
-          _listAngleProvider.toggleMode(providerData);
-        }
+        _listAngleProvider.toggleMode(providerData);
         break;
       default:
-        {
-          return;
-        }
+        throw new Exception('Failed to find $providerData');
     }
-
-    // if (providerData.type == "compass") {
-    //   _compassProvider.toggleMode(providerData);
-    // }
-    // if (providerData.type == "position") {
-    //   _positionProvider.toggleMode(providerData);
-    // }
-    // if (providerData.type == "wind") {
-    //   _windProvider.toggleMode(providerData);
-    // }
-    // if (providerData.type == "list angle") {
-    //   _listAngleProvider.toggleMode(providerData);
-    // }
   }
 
   setActiveService(ServiceData serviceData) {
     switch (serviceData.category) {
       case "compass":
-        {
-          _compassProvider.changeService(serviceData);
-        }
+        _compassProvider.changeService(serviceData);
         break;
       case "position":
-        {
-          _positionProvider.changeService(serviceData);
-        }
+        _positionProvider.changeService(serviceData);
         break;
       case "wind":
-        {
-          _windProvider.changeService(serviceData);
-        }
+        _windProvider.changeService(serviceData);
         break;
       case "list angle":
-        {
-          _listAngleProvider.changeService(serviceData);
-        }
+        _listAngleProvider.changeService(serviceData);
         break;
       default:
-        {
-          return;
-        }
-
-      // if (serviceData.category == "compass") {
-      //   _compassProvider.changeService(serviceData);
-      // }
-      // if (serviceData.category == "position") {
-      //   _positionProvider.changeService(serviceData);
-      // }
-      // if (serviceData.category == "wind") {
-      //   _windProvider.changeService(serviceData);
-      // }
-      // if (serviceData.category== "list angle") {
-      //   _listAngleProvider.changeService(serviceData);
-      // }
+        throw new Exception('Failed to find $serviceData');
     }
   }
-
-  Stream<WindModel> getWindStream() => _windProvider.wind.stream;
-  Stream<PositionModel> getPositionStream() =>
-      _positionProvider.position.stream;
-  Stream<CompassModel> getCompassStream() => _compassProvider.compass.stream;
-  Stream<List<ServiceData>> getActiveServices() => _activeServices.stream;
-
-  Stream<List<ServiceList>> getAvailableServices() => _availableServices;
-  Stream<List<ProviderData>> getProviderData() => _providerData.stream;
-  Stream<ListAngleModel> getListAngleStream() =>
-      _listAngleProvider.listAngle.stream;
 }

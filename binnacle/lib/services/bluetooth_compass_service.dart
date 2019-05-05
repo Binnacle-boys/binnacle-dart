@@ -14,7 +14,6 @@ class BluetoothCompassService extends ICompassService {
   // Stream _bluetoothStream;
 
   BluetoothCompassService(StreamController btStream) {
-    // btStream.listen((data) => bluetoothParser(data, ProviderType.compass));
     _bt = btStream;
     _bt.stream.listen((data) {
       (!_compassStream.isClosed) ?
@@ -23,8 +22,6 @@ class BluetoothCompassService extends ICompassService {
     });
   }
   dispose() async {
-    // await _bt.stream.drain();
-    // await _bt.close();
     await _compassStream.close();
 
   }

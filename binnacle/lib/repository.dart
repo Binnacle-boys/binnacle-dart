@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 import 'package:sos/services/bluetooth_compass_service.dart';
+import 'package:sos/services/bluetooth_list_angle_service.dart';
+import 'package:sos/services/bluetooth_position_service.dart';
+import 'package:sos/services/bluetooth_wind_service.dart';
 import 'package:sos/services/compass_service.dart';
 import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/providers/list_angle_provider.dart';
@@ -24,7 +27,7 @@ import 'models/provider_data.dart';
 import "providers/bluetooth.dart";
 import "enums.dart";
 
-import "dummy_bt_stream.dart";
+import "dummy_bt_stream.dart"; //TODO: Remove this when we can actually connect to BT device
 
 
 class Repository {
@@ -48,6 +51,7 @@ class Repository {
 
   Map<ProviderType, ServiceList> _serviceListMap = Map();
   Map<ProviderType, dynamic> _providerMap = Map();
+  Map _bluetoothServiceMap = Map();
 
 
 
@@ -81,6 +85,7 @@ class Repository {
 
 
 
+
     _availableServices.addStream(CombineLatestStream.list([
       _compassProvider.availableServices.stream,
       _positionProvider.availableServices.stream,
@@ -111,13 +116,24 @@ class Repository {
     });
   }
   _addBluetoothServices() {
-    print('adding bt services');
-    //TODO write the bluetooth services.
-    var bt = DummyBT();
-    // DummyBT().btStream.listen((data) => print(data.toString()));
-    compassServiceList.add(BluetoothCompassServiceWrapper(bluetooth: bt.btStream));
+    var bt = DummyBT(); //TODO: Remove this when we can actually connect to a BT device
+
+
+    _bluetoothServiceMap = {
+      ProviderType.compass: BluetoothCompassServiceWrapper(bluetooth: bt.btStream),
+      ProviderType.wind: BluetoothWindServiceWrapper(bluetooth: bt.btStream),
+      ProviderType.position: BluetoothPositionServiceWrapper(bluetooth: bt.btStream),
+      ProviderType.list_angle: BluetoothListAngleServiceWrapper(bluetooth: bt.btStream)
+    };
+
+
+    ProviderType.values.forEach((value) => _serviceListMap[value].add(_bluetoothServiceMap[value]) );
+
+
   }
   _removeBluetoothServices() {
+    ProviderType.values.forEach((value) => _serviceListMap[value].remove(_bluetoothServiceMap[value]) );
+    _bluetoothServiceMap = {};
 
   }
 

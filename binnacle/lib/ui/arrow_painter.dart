@@ -36,12 +36,17 @@ class ArrowPainter extends CustomPainter {
     }
     final Path path = Path();
 
-    var len = 110;
-    path.moveTo(centerX, arrowY - height - 4); // top of the arrow
-    path.lineTo(centerX + width, arrowY + height);
-    path.lineTo(centerX + width - 7, arrowY + height + len);
-    path.lineTo(centerX - width + 7, arrowY + height + len);
-    path.lineTo(centerX - width, arrowY + height);
+    var len = 140;
+    arrowY -= 30;
+    var w = 5;
+    var off = 20;
+    //path.moveTo(centerX, arrowY - height - 4); // top of the arrow
+    path.moveTo(centerX + width - 5, arrowY + height - off);
+    path.lineTo(centerX + width, arrowY + height + len);
+    path.lineTo(centerX, arrowY + height + len + 30);
+
+    path.lineTo(centerX - width, arrowY + height + len);
+    path.lineTo(centerX - width + 5, arrowY + height - off);
     path.close();
     paint.strokeCap = StrokeCap.round;
     paint.style = PaintingStyle.stroke;
@@ -81,7 +86,7 @@ class StockArrow extends StatelessWidget {
   }
 }
 
-class ArrowPainter2 extends CustomPainter {
+class ArrowPaddingPainter extends CustomPainter {
   var theme;
 
   double width = 15.0;

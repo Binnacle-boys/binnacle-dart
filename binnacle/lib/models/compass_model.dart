@@ -1,8 +1,7 @@
-class CompassModel extends Object{
-
+class CompassModel extends Object {
   double _direction;
 
-  CompassModel({double direction}){
+  CompassModel({double direction}) {
     this._direction = direction;
   }
 

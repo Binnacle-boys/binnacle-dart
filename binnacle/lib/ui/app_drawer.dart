@@ -6,14 +6,11 @@ import '../models/provider_data.dart';
 import '../services/service_wrapper_interface.dart';
 
 class AppDrawer extends Drawer {
-
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
-  
-    return new Drawer(
-      child: providerList(bloc)
-    );
+
+    return new Drawer(child: providerList(bloc));
   }
 }
 
@@ -66,34 +63,33 @@ Widget serviceList(Bloc bloc, type, providerData) {
       builder: (context, snapshot) {
         List<Widget> columnContent = [];
 
-      if(snapshot.hasError) {
-        columnContent.add(Text(snapshot.error.toString()));
-        return Column(children: columnContent,);
-      }  
-      else if (snapshot.hasData) {
-        final List<ServiceWrapper> serviceList = 
-          snapshot.data.firstWhere((serviceList) => 
-            serviceList.type == type).serviceList;
-
-        for (ServiceWrapper wrapper in serviceList ) {
-          columnContent.add(
-            ListTile(
-              enabled: (providerData.mode == 'manual') ? true : false,
-              title: Text(wrapper.serviceData.name, style: new TextStyle(fontSize: 18.0)),
-              onTap: () {
-                bloc.setActiveService(wrapper.serviceData);
-              },
-              trailing: (providerData.mode == 'manual') 
-                ? activeIndicator(bloc, wrapper.serviceData, type) 
-                : Icon(Icons.android)
-            )
+        if (snapshot.hasError) {
+          columnContent.add(Text(snapshot.error.toString()));
+          return Column(
+            children: columnContent,
           );
+        } else if (snapshot.hasData) {
+          final List<ServiceWrapper> serviceList = snapshot.data
+              .firstWhere((serviceList) => serviceList.type == type)
+              .serviceList;
+
+          for (ServiceWrapper wrapper in serviceList) {
+            columnContent.add(ListTile(
+                enabled: (providerData.mode == 'manual') ? true : false,
+                title: Text(wrapper.serviceData.name,
+                    style: new TextStyle(fontSize: 18.0)),
+                onTap: () {
+                  bloc.setActiveService(wrapper.serviceData);
+                },
+                trailing: (providerData.mode == 'manual')
+                    ? activeIndicator(bloc, wrapper.serviceData, type)
+                    : Icon(Icons.android)));
+          }
+          return Column(children: columnContent);
+        } else {
+          columnContent.add(Text('No data yet'));
+          return Column(children: columnContent);
         }
-        return Column(children: columnContent);
-      } else {
-        columnContent.add(Text('No data yet'));
-        return Column(children: columnContent);
-      }
       });
 }
 
@@ -106,8 +102,8 @@ Widget activeIndicator(Bloc bloc, ServiceData data, type) {
         } else if (snapshot.hasError) {
           return Icon(Icons.error_outline);
         } else {
-          ServiceData x = snapshot.data.firstWhere((serviceData) => 
-            serviceData.category == type);
+          ServiceData x = snapshot.data
+              .firstWhere((serviceData) => serviceData.category == type);
           return Opacity(
             opacity: (identical(data, x) ? 1.0 : 0.1),
             child: Icon(Icons.check),

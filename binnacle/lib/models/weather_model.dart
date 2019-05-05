@@ -1,4 +1,3 @@
-
 /*
 * This class models the http response from open weather maps. 
 * All names map to the response name. They are private because they are 
@@ -105,7 +104,7 @@ class _Wind {
       return _Wind(speed: json['speed'], deg: json['deg'].toDouble());
     } else {
       print(
-        //TODO Handle this case better
+          //TODO Handle this case better
           "No wind degree provided, this isnt good but I'm just  defaulting to 0.0");
       return _Wind(speed: json['speed'], deg: 0.0);
     }

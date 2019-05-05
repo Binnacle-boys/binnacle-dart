@@ -4,23 +4,18 @@ import '../bloc.dart';
 import '../providers/app_provider.dart';
 import '../models/list_angle_model.dart';
 
-
 class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
 
-    
-
-   return Scaffold(
-     backgroundColor: Colors.grey,
-     appBar: AppBar(
-       backgroundColor: Colors.blueGrey,
-       title: Text("Test Screen")
-     ),
-     drawer: AppDrawer(),
-     body: Column( children: <Widget>[positionLabel(bloc), compassLabel(bloc)])
-   );
+    return Scaffold(
+        backgroundColor: Colors.grey,
+        appBar: AppBar(
+            backgroundColor: Colors.blueGrey, title: Text("Test Screen")),
+        drawer: AppDrawer(),
+        body: Column(
+            children: <Widget>[positionLabel(bloc), compassLabel(bloc)]));
   }
 }
 

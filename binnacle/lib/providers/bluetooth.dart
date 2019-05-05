@@ -41,13 +41,11 @@ class BluetoothManager {
 
     // set scanning to false so the UI can reflect this state
     _isScanning.add(false); 
-    print('INITIALZING BLUETOOTH');
     isConnected.add(_isConnected);
 
   }
 
   _startScan() {
-    print("STARTSCAN --- ADDING TRUE");
     _isScanning.add(true);
 
 
@@ -60,9 +58,9 @@ class BluetoothManager {
     )
     // .where((data) => data.advertisementData.localName == "Donovan's Bose" )
     .listen((scanResult) {
-      print('localName: ${scanResult.advertisementData.localName}');
-      print('manufacturerData: ${scanResult.advertisementData.manufacturerData}');
-      print('serviceData: ${scanResult.advertisementData.serviceData}');
+      // print('localName: ${scanResult.advertisementData.localName}');
+      // print('manufacturerData: ${scanResult.advertisementData.manufacturerData}');
+      // print('serviceData: ${scanResult.advertisementData.serviceData}');
 
       _scanResults[scanResult.device.id] = scanResult;
       _scanResultsStream.add(_scanResults);
@@ -76,7 +74,6 @@ class BluetoothManager {
     _scanSubscription?.cancel();
     _scanSubscription = null;
 
-    print("STOPSCAN --- ADDING FALSE");
     _isScanning.add(false);
   }
 

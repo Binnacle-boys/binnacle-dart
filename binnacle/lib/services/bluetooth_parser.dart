@@ -33,7 +33,7 @@ dynamic bluetoothParser(String packet, ProviderType modelType) {
       return new PositionModel(lat:double.parse(splitPacket[2]), lon: double.parse(splitPacket[3]), speed: double.parse(splitPacket[6]));
       break;
     case ProviderType.list_angle:
-      // print("List angle not implemented in the bluetooth packet yet");
+      print("List angle not implemented in the bluetooth packet yet");
       break;
     default:
       throw Exception("Unknown parameter modelType. bluetoothParser only accepts the folowing modelTypes: compass, wind, position, list_angle");

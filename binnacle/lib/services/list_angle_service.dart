@@ -14,7 +14,6 @@ class ListAngleService extends IListAngleService {
       BehaviorSubject(seedValue: ListAngleModel(angle: 0.0));
 
   ListAngleService() {
-    print('Initializing ListAngle Service');
     _listAngleStream.addStream(accelerometerEvents.map(
         (AccelerometerEvent ae) =>
             ListAngleModel.fromAccelerometerEvent(accelerometerEvent: ae)));

@@ -142,7 +142,6 @@ class Repository {
 }
 
   setActiveService(ServiceData serviceData) {
-    print(serviceData.toString());
     _providerMap[serviceData.category].changeService(serviceData);
   }
 

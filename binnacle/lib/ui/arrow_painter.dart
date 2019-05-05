@@ -17,14 +17,12 @@ class ArrowPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    theme = GlobalTheme().get();
-    final Paint paint = Paint()..color = theme.accentColor;
+    theme = GlobalTheme();
+    final Paint paint = Paint()..color = theme.windArrowColor;
     paint.strokeWidth = 4.0;
     const double padding = 2.0;
-    assert(padding >
-        paint.strokeWidth / 4.0); // make sure the circle remains inside the box
-    final double r =
-        (size.shortestSide - padding) / 2.0; // radius of the circle
+    assert(padding > paint.strokeWidth / 4.0); // make sure the circle remains inside the box
+    final double r = (size.shortestSide - padding) / 2.0; // radius of the circle
     final double centerX = padding + r;
     final double centerY = padding + r;
 
@@ -45,7 +43,7 @@ class ArrowPainter extends CustomPainter {
     path.lineTo(centerX - width + 7, arrowY + height + len);
     path.lineTo(centerX - width, arrowY + height);
     path.close();
-
+    paint.strokeCap = StrokeCap.round;
     paint.style = PaintingStyle.stroke;
 
     paint.color = theme.backgroundColor;
@@ -55,7 +53,7 @@ class ArrowPainter extends CustomPainter {
     // paint.style = PaintingStyle.fill;
     paint.style = PaintingStyle.fill;
 
-    paint.color = theme.accentColor;
+    paint.color = theme.windArrowColor;
     canvas.drawPath(path, paint);
     // Draw a circle that circumscribes the arrow.
 
@@ -79,8 +77,7 @@ class StockArrow extends StatelessWidget {
         width: 40.0,
         height: 40.0,
         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-        child:
-            CustomPaint(painter: ArrowPainter(percentChange: percentChange)));
+        child: CustomPaint(painter: ArrowPainter(percentChange: percentChange)));
   }
 }
 
@@ -92,14 +89,12 @@ class ArrowPainter2 extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    theme = GlobalTheme().get();
-    final Paint paint = Paint()..color = theme.accentColor;
+    theme = GlobalTheme();
+    final Paint paint = Paint()..color = theme.windArrowColor;
     paint.strokeWidth = 4.0;
     const double padding = 2.0;
-    assert(padding >
-        paint.strokeWidth / 4.0); // make sure the circle remains inside the box
-    final double r =
-        (size.shortestSide - padding) / 2.0; // radius of the circle
+    assert(padding > paint.strokeWidth / 4.0); // make sure the circle remains inside the box
+    final double r = (size.shortestSide - padding) / 2.0; // radius of the circle
     final double centerX = padding + r;
     final double centerY = padding + r;
 

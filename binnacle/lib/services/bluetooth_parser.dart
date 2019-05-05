@@ -1,6 +1,7 @@
 import 'package:sos/models/compass_model.dart';
 import 'package:sos/models/position_model.dart';
 import 'package:sos/models/wind_model.dart';
+import '../enums.dart';
 
 /*
 The bluetooth parser it pased on the following implementation of the packet:
@@ -18,21 +19,21 @@ index| example | type
    9 023412 (timestamp: hhmmss)
    10 *6A: (checksum)
 */
-dynamic bluetoothParser(String packet, String modelType) {
-  print("modelType : " + modelType);
+dynamic bluetoothParser(String packet, ProviderType modelType) {
+  // print("modelType : " + modelType.toString().split('.').last);
   List splitPacket = packet.split(",");
   switch (modelType) {
-    case "compass":
-      return new CompassModel(direction: splitPacket[7].toDouble());
+    case ProviderType.compass:
+      return new CompassModel(direction: double.parse(splitPacket[7]));
       break;
-    case "wind":
-      return new WindModel(splitPacket[4].toDouble(), splitPacket[5].toDouble());
+    case ProviderType.wind:
+      return new WindModel(double.parse(splitPacket[4]), double.parse(splitPacket[5]));
       break;
-    case "position":
-      return new PositionModel(lat: splitPacket[4].toDouble(), lon: splitPacket[5].toDouble(), speed: splitPacket[6].toDouble());
+    case ProviderType.position:
+      return new PositionModel(lat:double.parse(splitPacket[2]), lon: double.parse(splitPacket[3]), speed: double.parse(splitPacket[6]));
       break;
-    case "list_angle":
-      print("List angle not implemented in the bluetooth packet yet");
+    case ProviderType.list_angle:
+      // print("List angle not implemented in the bluetooth packet yet");
       break;
     default:
       throw Exception("Unknown parameter modelType. bluetoothParser only accepts the folowing modelTypes: compass, wind, position, list_angle");

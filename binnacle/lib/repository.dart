@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
+import 'package:sos/services/bluetooth_compass_service.dart';
 import 'package:sos/services/compass_service.dart';
 import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/providers/list_angle_provider.dart';
@@ -23,6 +24,7 @@ import 'models/provider_data.dart';
 import "providers/bluetooth.dart";
 import "enums.dart";
 
+import "dummy_bt_stream.dart";
 
 
 class Repository {
@@ -46,6 +48,9 @@ class Repository {
 
   Map<ProviderType, ServiceList> _serviceListMap = Map();
   Map<ProviderType, dynamic> _providerMap = Map();
+
+
+
   Repository(BehaviorSubject<PositionModel> positionStream) {
     
     compassServiceList = ServiceList(ProviderType.compass,[CompassServiceWrapper(), MockCompassServiceWrapper(false)]);
@@ -73,6 +78,7 @@ class Repository {
     ProviderType.position: _positionProvider,
     ProviderType.list_angle: _listAngleProvider
   };
+
 
 
     _availableServices.addStream(CombineLatestStream.list([
@@ -105,7 +111,11 @@ class Repository {
     });
   }
   _addBluetoothServices() {
+    print('adding bt services');
     //TODO write the bluetooth services.
+    var bt = DummyBT();
+    // DummyBT().btStream.listen((data) => print(data.toString()));
+    compassServiceList.add(BluetoothCompassServiceWrapper(bluetooth: bt.btStream));
   }
   _removeBluetoothServices() {
 
@@ -113,57 +123,11 @@ class Repository {
 
   toggleMode(ProviderData providerData) {
     _providerMap[providerData.type].toggleMode(providerData);
-
-  //   switch(providerData.type) { 
-  //     case "compass": { 
-  //       _compassProvider.toggleMode(providerData);
-
-  //     } 
-  //     break; 
-  //     case "position": { 
-  //       _positionProvider.toggleMode(providerData);
-  //     } 
-  //     break; 
-  //     case "wind": { 
-  //       _windProvider.toggleMode(providerData);
-  //     }
-  //     break;
-  //     case "list angle": {
-  //       _listAngleProvider.toggleMode(providerData);
-  //     }
-  //     break; 
-  //     default: {
-  //       return;
-  //     }
-  // }
 }
 
   setActiveService(ServiceData serviceData) {
+    print(serviceData.toString());
     _providerMap[serviceData.category].changeService(serviceData);
-
-
-// switch(serviceData.category) { 
-//       case "compass": { 
-//         _compassProvider.changeService(serviceData);
-
-//       } 
-//       break; 
-//       case "position": { 
-//         _positionProvider.changeService(serviceData);
-//       } 
-//       break; 
-//       case "wind": { 
-//         _windProvider.changeService(serviceData);
-//       }
-//       break;
-//       case "list angle": {
-//         _listAngleProvider.changeService(serviceData);
-//       }
-//       break; 
-//       default: {
-//         return;
-//       }
-//    }
   }
 
   Stream<WindModel> getWindStream() => _windProvider.wind.stream;

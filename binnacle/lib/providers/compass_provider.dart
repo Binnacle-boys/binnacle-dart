@@ -30,6 +30,9 @@ class CompassProvider {
   setUpService(ServiceWrapper serviceWrapper) {
     this._currentService = serviceWrapper.service;
     this._activeService.sink.add(serviceWrapper.serviceData);
+    print('SETUP SERVICE -- NEW CURRENT SERVICE' +this._currentService.toString());
+    print('SETUP SERVICE -- NEW SERVICEWRAPPER' +serviceWrapper.toString());
+
 
     this._subscription = this
         ._currentService

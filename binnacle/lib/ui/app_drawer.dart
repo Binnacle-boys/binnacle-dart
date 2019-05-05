@@ -85,13 +85,11 @@ Widget serviceList(Bloc bloc, type, providerData) {
         return Column(children: columnContent,);
       }  
       else if (snapshot.hasData) {
-        // snapshot.data.forEach((f) => print('@@@'+f.type.toString()));
 
         final List<ServiceWrapper> serviceList = 
           snapshot.data.firstWhere((serviceList) => 
             serviceList.type == type).serviceList;
           
-        serviceList.forEach((f) {print("!!!!!" + f.toString());});
 
         for (ServiceWrapper wrapper in serviceList ) {
           columnContent.add(

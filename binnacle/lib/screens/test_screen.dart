@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../ui/app_drawer.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
-import '../models/list_angle_model.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
 
@@ -58,7 +57,7 @@ _buildPopup(context) {
           
           var tiles = new List<Widget>();
           for(var result in snapshot.data.values) {
-            if(result.device.name.length > 0)  { 
+            if(result.device.name.length.isNotEmpty)  { 
               tiles.add( _scanResultTile(context, result));
 
               
@@ -119,7 +118,7 @@ class ScanResultTile extends StatelessWidget {
   final VoidCallback onTap;
 
   Widget _buildTitle(BuildContext context) {
-    if (result.device.name.length > 0) {
+    if (result.device.name.isNotEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

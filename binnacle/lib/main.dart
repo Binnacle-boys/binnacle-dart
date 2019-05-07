@@ -7,10 +7,6 @@ import 'providers/app_provider.dart';
 import 'ui/info_panel.dart';
 import './ui/global_theme.dart';
 import './ui/app_drawer.dart';
-import 'package:flutter_blue/flutter_blue.dart';
-
-import 'screens/bt_test_screen.dart';
-import 'screens/test_screen.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

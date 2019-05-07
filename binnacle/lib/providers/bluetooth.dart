@@ -1,6 +1,5 @@
 import 'package:flutter_blue/flutter_blue.dart';
 import 'dart:async';
-import 'package:rxdart/rxdart.dart';
 
 
 class BluetoothManager {
@@ -91,7 +90,7 @@ class BluetoothManager {
         );
 
     // Update the connection state immediately
-     device.state.then((s) {
+    await device.state.then((s) {
         deviceState = s;
     });
 

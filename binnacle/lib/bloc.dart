@@ -44,15 +44,15 @@ class Bloc extends Object {
   Bloc() {
     this._repository = Repository(_positionController);
 
-    this._availableServices.addStream(_repository.getAvailableServices());
-    this._activeServices.addStream(_repository.getActiveServices());
-    this._providerData.addStream(_repository.getProviderData());
+    this._availableServices.addStream(_repository.availableServices);
+    this._activeServices.addStream(_repository.activeServices);
+    this._providerData.addStream(_repository.providerData);
 
     /// Data points
-    this._positionController.addStream(_repository.getPositionStream());
-    this._windContoller.addStream(_repository.getWindStream());
-    this._compassController.addStream(_repository.getCompassStream());
-    this._listAngleController.addStream(_repository.getListAngleStream());
+    this._positionController.addStream(_repository.position);
+    this._windContoller.addStream(_repository.wind);
+    this._compassController.addStream(_repository.compass);
+    this._listAngleController.addStream(_repository.listAngle);
   }
 
   setActiveService(ServiceData serviceData) {

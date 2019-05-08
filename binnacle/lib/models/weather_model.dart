@@ -16,7 +16,6 @@ class WeatherModel {
   int _cod;
 
   WeatherModel.fromJson(Map<String, dynamic> json) {
-    print(json.toString());
     _coord = _Coord.fromJson(json['coord']);
     _sys = _Sys.fromJson(json['sys']);
     _main = _Main.fromJson(json['main']);

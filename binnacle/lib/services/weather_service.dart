@@ -10,6 +10,7 @@ import '../models/wind_model.dart';
 import '../models/wind_service_interface.dart';
 import '../models/service_data.dart';
 import './service_wrapper_interface.dart';
+import '../enums.dart';
 
 class WeatherService extends IWindService {
   //TODO move apikey and url to some env file
@@ -18,7 +19,7 @@ class WeatherService extends IWindService {
   final _apiURL = "https://api.openweathermap.org/data/2.5/weather";
   var _windStream = StreamController<WindModel>();
   BehaviorSubject<PositionModel> _position;
-  final ServiceData serviceData = ServiceData('wind', 'name', 1);
+  final ServiceData serviceData = ServiceData(ProviderType.wind, 'name', 1);
 
   WeatherService(BehaviorSubject<PositionModel> position) {
     this._position = position;
@@ -75,7 +76,7 @@ class WeatherService extends IWindService {
 }
 
 class WeatherServiceWrapper implements ServiceWrapper{
-  final ServiceData _serviceData = ServiceData('wind', 'open weather maps', 1);
+  final ServiceData _serviceData = ServiceData(ProviderType.wind, 'open weather maps', 1);
   final bool _default = true;
   final _positionStream;
 

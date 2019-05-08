@@ -7,6 +7,7 @@ import 'package:sos/providers/compass_provider.dart';
 import 'package:sos/services/compass_service.dart';
 import 'package:sos/services/service_list.dart';
 import 'package:sos/services/test_compass_service.dart';
+import 'package:sos/enums.dart';
 
 
 void main() {
@@ -16,7 +17,7 @@ void main() {
 
   setUp(() async {
 
-    ServiceList _serviceList = ServiceList('compass', [CompassServiceWrapper(), MockCompassServiceWrapper(false)]);
+    ServiceList _serviceList = ServiceList(ProviderType.compass, [CompassServiceWrapper(), MockCompassServiceWrapper(false)]);
     _provider = await CompassProvider(_serviceList);
     _provider.activeService.stream.listen((data) { 
       _activeServiceWrapper.add(data);

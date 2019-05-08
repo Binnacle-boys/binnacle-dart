@@ -7,13 +7,13 @@ import 'package:sos/services/service_wrapper_interface.dart';
 import '../models/list_angle_service_interface.dart';
 
 import 'package:sensors/sensors.dart';
+import '../enums.dart';
 
 class ListAngleService extends IListAngleService {
   BehaviorSubject<ListAngleModel> _listAngleStream =
       BehaviorSubject(seedValue: ListAngleModel(angle: 0.0));
 
   ListAngleService() {
-    print('Initializing ListAngle Service');
     _listAngleStream.addStream(accelerometerEvents.map(
         (AccelerometerEvent ae) =>
             ListAngleModel.fromAccelerometerEvent(accelerometerEvent: ae)));
@@ -28,7 +28,7 @@ class ListAngleService extends IListAngleService {
 }
 
 class ListAngleServiceWrapper implements ServiceWrapper{
-  final ServiceData _serviceData = ServiceData('list angle', 'daniels list angle', 1);
+  final ServiceData _serviceData = ServiceData(ProviderType.list_angle, 'daniels list angle', 1);
   final bool _default = true;
 
   ListAngleServiceWrapper();

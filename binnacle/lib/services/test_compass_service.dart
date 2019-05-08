@@ -3,6 +3,7 @@ import '../models/compass_model.dart';
 import '../models/compass_service_interface.dart';
 import './service_wrapper_interface.dart';
 import '../models/service_data.dart';
+import '../enums.dart';
 class TestCompassService extends ICompassService {
 
   StreamController<CompassModel> _compassStream = StreamController();
@@ -26,7 +27,7 @@ class TestCompassService extends ICompassService {
 }
 
 class MockCompassServiceWrapper extends ServiceWrapper{
-  final ServiceData _serviceData = ServiceData('compass', 'mock compass', 0);
+  final ServiceData _serviceData = ServiceData(ProviderType.compass, 'mock compass', 0);
   final bool _default;
 
   MockCompassServiceWrapper(this._default);

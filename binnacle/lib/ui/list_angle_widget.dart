@@ -28,9 +28,7 @@ Widget listAngleStreamBuilder(BuildContext context) {
                 child: Container(
                     height: 50.0,
                     width: 50.0,
-                    child: new CustomPaint(
-                        foregroundPainter: new levelLinePainter(
-                            lineColor: GlobalTheme().get().accentColor)))),
+                    child: new CustomPaint(foregroundPainter: new levelLinePainter(lineColor: GlobalTheme().listAngleColor)))),
             new Center(
                 child: new Transform.rotate(
 
@@ -39,14 +37,10 @@ Widget listAngleStreamBuilder(BuildContext context) {
                     child: Container(
                         height: 50.0,
                         width: 50.0,
-                        child: new CustomPaint(
-                            foregroundPainter: new reticlePainter(
-                                lineColor: GlobalTheme().get().accentColor,
-                                width: 2.0)))))
+                        child: new CustomPaint(foregroundPainter: new reticlePainter(lineColor: GlobalTheme().listAngleColor, width: 2.0)))))
           ]));
         } else if (snapshot.hasError) {
-          print(
-              "Stream error in list_angle_widget.dart -> listAngleStreamBuilder");
+          print("Stream error in list_angle_widget.dart -> listAngleStreamBuilder");
           return Text(' ');
         } else {
           return CircularProgressIndicator();
@@ -64,7 +58,7 @@ class reticlePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint complete = new Paint()
       ..color = lineColor
-      ..strokeCap = StrokeCap.square
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = width;
     Offset center = new Offset(size.width / 2, size.height / 2);
@@ -87,8 +81,7 @@ class reticlePainter extends CustomPainter {
 
     path.close();
     canvas.drawPath(path, complete);
-    canvas.drawArc(new Rect.fromCircle(center: center, radius: radius), 0,
-        pi * 1.33, false, complete);
+    canvas.drawArc(new Rect.fromCircle(center: center, radius: radius), 0, pi * 1.33, false, complete);
   }
 
   @override
@@ -107,7 +100,7 @@ class levelLinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint complete = new Paint()
       ..color = lineColor
-      ..strokeCap = StrokeCap.square
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = width;
     Path path = new Path();

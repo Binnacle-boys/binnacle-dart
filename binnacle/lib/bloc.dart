@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:rxdart/rxdart.dart';
 import 'package:sos/models/compass_model.dart';
 import 'package:sos/models/list_angle_model.dart';
@@ -19,6 +21,7 @@ class Bloc extends Object {
   final _windContoller = BehaviorSubject<WindModel>();
   final _compassController = BehaviorSubject<CompassModel>();
   final _listAngleController = BehaviorSubject<ListAngleModel>();
+  final _idealBoom = BehaviorSubject<double>();
 
   final _btIsScanning = BehaviorSubject<bool>(); //bt
   final _btScanResults = BehaviorSubject();
@@ -32,11 +35,9 @@ class Bloc extends Object {
     this._activeServices.addStream(_repository.getActiveServices());
     this._providerData.addStream(_repository.getProviderData());
     this._listAngleController.addStream(_repository.getListAngleStream());
-
+    this._idealBoom.addStream(calcIdealBoomStream(_compassController.stream, _windContoller.stream));
     this._btIsScanning.addStream(_repository.isScanning().stream);
     this._btScanResults.addStream(_repository.scanResults().stream);
-
-
   }
 
   BehaviorSubject<List<ServiceList>> get availableServices => _availableServices.stream;
@@ -47,14 +48,12 @@ class Bloc extends Object {
   BehaviorSubject<PositionModel> get position => _positionController.stream;
   BehaviorSubject<ListAngleModel> get listAngle => _listAngleController.stream;
 
-
-
+  BehaviorSubject<double> get idealBoom => _idealBoom.stream;
 
   BehaviorSubject<bool> get isScanning => _btIsScanning; //bt
   BehaviorSubject get scanResults => _btScanResults; //bt
   Function get startScan => _repository.bluetooth.startScan; //bt
   Function get connect => _repository.bluetooth.connect;
-
 
   // change data
   //* These don't actually do anything yet. Just leaving them
@@ -76,5 +75,26 @@ class Bloc extends Object {
     await _windContoller?.close();
     await _listAngleController?.drain();
     await _listAngleController?.close();
+  }
+
+  Stream<double> calcIdealBoomStream(Stream<CompassModel> compass, Stream<WindModel> wind) {
+    return CombineLatestStream.combine2(compass, wind, (c, w) => calcBoomAngle(c, w));
+  }
+
+  double calcBoomAngle(compass, wind) {
+    double _comp = compass.direction;
+    double _wind = wind.deg;
+    double a = 0.0;
+    double b = 180.0;
+    double c = 0.0;
+    double d = 90.0;
+    double interval = (d - c) / (b - a);
+    double delta = (_wind - _comp) % 360;
+    if (delta > 180) {
+      delta = delta - 360;
+    }
+    double ret = (c + delta * interval);
+
+    return ret * pi / 180 + pi;
   }
 }

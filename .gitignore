@@ -70,3 +70,5 @@ gradlew
 gradlew.bat
 .gradle
 binnacle/ios/Runner.xcodeproj/project.pbxproj
+binnacle/ios/Runner.xcodeproj/project.pbxproj
+binnacle/Pods

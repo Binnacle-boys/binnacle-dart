@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sos/ui/boom_widget.dart';
 import 'package:sos/ui/compass/binnacle_base.dart';
 
 import 'package:sos/ui/list_angle_widget.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    ThemeData _theme = new GlobalTheme().get();
+    ThemeData _theme = new GlobalTheme().toThemeData();
     return Provider(
         child: MaterialApp(
             title: 'Binnacle Demo',
@@ -32,12 +33,13 @@ class MyApp extends StatelessWidget {
                       child: new Stack(children: <Widget>[
                         Binnacle(),
                         ListAngleUI(),
+                        BoomUI(),
                       ])),
                   Expanded(
                     flex: 3,
                     child: Container(
-                      color: _theme.secondaryHeaderColor,
-                      padding: EdgeInsets.all(10),
+                      color: _theme.bottomAppBarColor,
+                      padding: EdgeInsets.all(1),
                       child: InfoPanel(),
                     ),
                   )

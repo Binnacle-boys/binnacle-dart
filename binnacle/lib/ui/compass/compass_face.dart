@@ -24,7 +24,7 @@ class CompassFace extends StatelessWidget {
                 height: double.infinity,
                 padding: const EdgeInsets.all(1.0),
                 child: new CustomPaint(
-                  painter: new CompassDialPainter(td: Theme.of(context)),
+                  painter: new CompassDialPainter(),
                 ),
               ),
               new BinnacleHeadingUI(),

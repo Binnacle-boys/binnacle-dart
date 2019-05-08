@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:sos/ui/global_theme.dart';
 
 class CompassDialPainter extends CustomPainter {
   // Varying stroke dimensions to indicate
@@ -22,14 +23,14 @@ class CompassDialPainter extends CustomPainter {
   double angle;
   double cardinalInterval;
 
-  CompassDialPainter({ThemeData td})
+  CompassDialPainter()
       : tickPaint = new Paint(),
         textPainter = new TextPainter(
           textAlign: TextAlign.center,
           textDirection: TextDirection.rtl,
         ),
-        textStyle = td.textTheme.body1 {
-    tickPaint.color = td.primaryColor;
+        textStyle = GlobalTheme().textTheme.body1 {
+    tickPaint.color = GlobalTheme().primaryColor;
     angle = 2 * pi / numberOfTicks;
   }
   @override
@@ -54,8 +55,7 @@ class CompassDialPainter extends CustomPainter {
         tickMarkLength = degreeTickLength;
         tickPaint.strokeWidth = degreeTickMarkWidth;
       }
-      canvas.drawLine(new Offset(0.0, -radius),
-          new Offset(0.0, -radius + tickMarkLength), tickPaint);
+      canvas.drawLine(new Offset(0.0, -radius), new Offset(0.0, -radius + tickMarkLength), tickPaint);
 
       // draw the text
       if (i % cardinalUnit == 0) {
@@ -70,8 +70,7 @@ class CompassDialPainter extends CustomPainter {
 
         textPainter.layout();
 
-        textPainter.paint(canvas,
-            new Offset(-(textPainter.width / 2), -(textPainter.height / 2)));
+        textPainter.paint(canvas, new Offset(-(textPainter.width / 2), -(textPainter.height / 2)));
 
         canvas.restore();
       }

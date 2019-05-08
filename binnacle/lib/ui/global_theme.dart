@@ -25,10 +25,9 @@ class GlobalTheme extends Object {
   GlobalTheme() {
     this._brightness = Brightness.dark;
     this._primaryColor = Colors.yellow[100];
-    this._windArrowColor = Colors.teal[500];
-    this._boomColor = Colors.deepPurple[300];
-    this._listAngleColor = Colors.deepPurple[300];
-
+    this._windArrowColor = Colors.deepOrange[500];
+    this._boomColor = Colors.yellow[600];
+    this._listAngleColor = Colors.red[600];
     this._backgroundColor = Colors.grey[850];
     this._infoPanelBackground = Colors.grey[900];
     this._bottomAppBarColor = Colors.grey[900];

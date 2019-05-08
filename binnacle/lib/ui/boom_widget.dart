@@ -34,7 +34,7 @@ Widget boomStreamBuilder(BuildContext context) {
                           width: 50.0,
                           child: new CustomPaint(
                               foregroundPainter: new BoomMainLinePainter(
-                            lineColor: GlobalTheme().backgroundColor,
+                            lineColor: GlobalTheme().boomColor,
                           ))),
                       new Container(
                           height: 50.0,
@@ -64,7 +64,7 @@ class BoomMainLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint complete = new Paint()
-      ..color = Colors.indigoAccent
+      ..color = lineColor
       ..strokeCap = StrokeCap.square
       ..style = PaintingStyle.stroke
       ..strokeWidth = width;
@@ -115,7 +115,7 @@ class BoomArcPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint complete = new Paint()
-      ..color = Colors.indigoAccent
+      ..color = lineColor
       ..strokeCap = StrokeCap.butt
       ..style = PaintingStyle.stroke
       ..strokeWidth = width;

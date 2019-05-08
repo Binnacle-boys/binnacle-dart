@@ -1,40 +1,62 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
+<<<<<<< HEAD
 import 'package:sos/services/bluetooth_compass_service.dart';
 import 'package:sos/services/bluetooth_list_angle_service.dart';
 import 'package:sos/services/bluetooth_position_service.dart';
 import 'package:sos/services/bluetooth_wind_service.dart';
 import 'package:sos/services/compass_service.dart';
 import 'package:sos/models/list_angle_model.dart';
+=======
+
+>>>>>>> pr_us3
 import 'package:sos/providers/list_angle_provider.dart';
+import 'package:sos/providers/position_provider.dart';
+import 'package:sos/providers/wind_provider.dart';
+import 'package:sos/providers/compass_provider.dart';
+
 import 'package:sos/services/list_angle_service.dart';
+import 'package:sos/services/compass_service.dart';
+import 'package:sos/services/geolocation_service.dart';
+import 'package:sos/services/open_weather_service.dart';
+import 'package:sos/services/test_compass_service.dart';
+import 'package:sos/services/service_list.dart';
 
-import './providers/position_provider.dart';
-import './providers/wind_provider.dart';
-import './providers/compass_provider.dart';
+import 'package:sos/models/list_angle_model.dart';
+import 'package:sos/models/position_model.dart';
+import 'package:sos/models/compass_model.dart';
+import 'package:sos/models/wind_model.dart';
+import 'package:sos/models/service_data.dart';
+import 'package:sos/models/provider_data.dart';
 
-import './services/geolocation_service.dart';
-import './services/weather_service.dart';
-import './services/test_compass_service.dart';
-import './services/service_list.dart';
+class Repository {
+  /// Data points
+  Stream<WindModel> get wind => _windProvider.wind.stream;
+  Stream<PositionModel> get position => _positionProvider.position.stream;
+  Stream<CompassModel> get compass => _compassProvider.compass.stream;
+  Stream<List<ServiceData>> get activeServices => _activeServices.stream;
+  Stream<ListAngleModel> get listAngle => _listAngleProvider.listAngle.stream;
 
-import 'models/position_model.dart';
-import 'models/compass_model.dart';
-import 'models/wind_model.dart';
-import 'models/service_data.dart';
-import 'models/provider_data.dart';
-
+<<<<<<< HEAD
 import "providers/bluetooth.dart";
 import "enums.dart";
 
 import "dummy_bt_stream.dart"; //TODO: Remove this when we can actually connect to BT device
+=======
+  Stream<List<ServiceList>> get availableServices => _availableServices;
+  Stream<List<ProviderData>> get providerData => _providerData.stream;
+>>>>>>> pr_us3
 
+  ServiceList compassServiceList;
+  ServiceList windServiceList;
+  ServiceList positionServiceList;
+  ServiceList listAngleServiceList;
 
-class Repository {
   PositionProvider _positionProvider;
   WindProvider _windProvider;
   CompassProvider _compassProvider;
   ListAngleProvider _listAngleProvider;
+<<<<<<< HEAD
   
   StreamController<List<ServiceData>> _activeServices = StreamController();
   BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject();
@@ -53,9 +75,15 @@ class Repository {
   Map<ProviderType, dynamic> _providerMap = Map();
   Map _bluetoothServiceMap = Map();
 
+=======
 
+  StreamController<List<ServiceData>> _activeServices = StreamController();
+  BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject();
+  BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject();
+>>>>>>> pr_us3
 
   Repository(BehaviorSubject<PositionModel> positionStream) {
+<<<<<<< HEAD
     
     compassServiceList = ServiceList(ProviderType.compass,[CompassServiceWrapper(), MockCompassServiceWrapper(false)]);
     windServiceList = ServiceList(ProviderType.wind, [WeatherServiceWrapper(positionStream)]);
@@ -67,6 +95,21 @@ class Repository {
     this._compassProvider = CompassProvider( compassServiceList);
 
     this._windProvider = WindProvider( windServiceList);
+=======
+    compassServiceList = ServiceList(
+        'compass', [CompassServiceWrapper(), MockCompassServiceWrapper(false)]);
+    windServiceList =
+        ServiceList('wind', [WeatherServiceWrapper(positionStream)]);
+    positionServiceList =
+        ServiceList('position', [GeolocationServiceWrapper()]);
+    listAngleServiceList =
+        ServiceList('list angle', [ListAngleServiceWrapper()]);
+
+    this._positionProvider = PositionProvider(positionServiceList);
+    this._compassProvider = CompassProvider(compassServiceList);
+
+    this._windProvider = WindProvider(windServiceList);
+>>>>>>> pr_us3
     this._listAngleProvider = ListAngleProvider(listAngleServiceList);
 
 
@@ -101,7 +144,7 @@ class Repository {
     ]));
 
     _providerData.addStream(CombineLatestStream.list([
-      _compassProvider.providerData.stream, 
+      _compassProvider.providerData.stream,
       _positionProvider.providerData.stream,
       _windProvider.providerData.stream,
       _listAngleProvider.providerData.stream
@@ -118,6 +161,7 @@ class Repository {
   _addBluetoothServices() {
     var bt = DummyBT(); //TODO: Remove this when we can actually connect to a BT device
 
+<<<<<<< HEAD
 
     _bluetoothServiceMap = {
       ProviderType.compass: BluetoothCompassServiceWrapper(bluetooth: bt.btStream),
@@ -130,11 +174,31 @@ class Repository {
     ProviderType.values.forEach((value) => _serviceListMap[value].add(_bluetoothServiceMap[value]) );
 
 
+=======
+  toggleMode(ProviderData providerData) {
+    switch (providerData.type) {
+      case "compass":
+        _compassProvider.toggleMode(providerData);
+        break;
+      case "position":
+        _positionProvider.toggleMode(providerData);
+        break;
+      case "wind":
+        _windProvider.toggleMode(providerData);
+        break;
+      case "list angle":
+        _listAngleProvider.toggleMode(providerData);
+        break;
+      default:
+        throw new Exception('Failed to find $providerData');
+    }
+>>>>>>> pr_us3
   }
   _removeBluetoothServices() {
     ProviderType.values.forEach((value) => _serviceListMap[value].remove(_bluetoothServiceMap[value]) );
     _bluetoothServiceMap = {};
 
+<<<<<<< HEAD
   }
 
   toggleMode(ProviderData providerData) {
@@ -158,4 +222,24 @@ class Repository {
   StreamController<bool> isScanning() => _isScanning;
   StreamController scanResults() => _scanResults;
 
+=======
+  setActiveService(ServiceData serviceData) {
+    switch (serviceData.category) {
+      case "compass":
+        _compassProvider.changeService(serviceData);
+        break;
+      case "position":
+        _positionProvider.changeService(serviceData);
+        break;
+      case "wind":
+        _windProvider.changeService(serviceData);
+        break;
+      case "list angle":
+        _listAngleProvider.changeService(serviceData);
+        break;
+      default:
+        throw new Exception('Failed to find $serviceData');
+    }
+  }
+>>>>>>> pr_us3
 }

@@ -10,28 +10,30 @@ class CompassService extends ICompassService {
   StreamController<CompassModel> _compassStream = StreamController();
   StreamSubscription _subscription;
 
-
   CompassService() {
-    _subscription = FlutterCompass.events.listen((data) => _compassStream.sink.add(CompassModel(direction: data)));
-
+    _subscription = FlutterCompass.events.listen(
+        (data) => _compassStream.sink.add(CompassModel(direction: data)));
   }
   dispose() async {
     await _subscription.pause();
     await _compassStream.close();
-
   }
-  StreamController<CompassModel> get compassStream => _compassStream;
 
+  StreamController<CompassModel> get compassStream => _compassStream;
 }
 
+<<<<<<< HEAD
 class CompassServiceWrapper implements ServiceWrapper{
   final ServiceData _serviceData = ServiceData(ProviderType.compass, 'flutter compass', 1);
+=======
+class CompassServiceWrapper implements ServiceWrapper {
+  final ServiceData _serviceData = ServiceData('compass', 'flutter compass', 1);
+>>>>>>> pr_us3
   final bool _default = true;
 
   CompassServiceWrapper();
 
-  get service =>  CompassService();
+  get service => CompassService();
   ServiceData get serviceData => this._serviceData;
   bool get isDefault => this._default;
-
 }

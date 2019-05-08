@@ -11,6 +11,7 @@ import 'models/service_data.dart';
 import 'models/provider_data.dart';
 
 class Bloc extends Object {
+<<<<<<< HEAD
   Repository _repository;
 
 //TODO type these controllers
@@ -40,6 +41,8 @@ class Bloc extends Object {
     this._btScanResults.addStream(_repository.scanResults().stream);
   }
 
+=======
+>>>>>>> pr_us3
   BehaviorSubject<List<ServiceList>> get availableServices => _availableServices.stream;
   BehaviorSubject<List<ServiceData>> get activeServices => _activeServices.stream;
   BehaviorSubject<List<ProviderData>> get providerData => _providerData.stream;
@@ -59,6 +62,31 @@ class Bloc extends Object {
   //* These don't actually do anything yet. Just leaving them
   //* as a reference for when BLoC needs these functions
   Function(PositionModel) get changePosition => _positionController.sink.add;
+
+  Repository _repository;
+
+  final BehaviorSubject<PositionModel> _positionController = BehaviorSubject<PositionModel>();
+  final BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject<List<ServiceList>>();
+  final BehaviorSubject<List<ServiceData>> _activeServices = BehaviorSubject<List<ServiceData>>();
+  final BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject<List<ProviderData>>();
+
+  final BehaviorSubject<WindModel> _windContoller = BehaviorSubject<WindModel>();
+  final BehaviorSubject<CompassModel> _compassController = BehaviorSubject<CompassModel>();
+  final BehaviorSubject<ListAngleModel> _listAngleController = BehaviorSubject<ListAngleModel>();
+
+  Bloc() {
+    this._repository = Repository(_positionController);
+
+    this._availableServices.addStream(_repository.availableServices);
+    this._activeServices.addStream(_repository.activeServices);
+    this._providerData.addStream(_repository.providerData);
+
+    /// Data points
+    this._positionController.addStream(_repository.position);
+    this._windContoller.addStream(_repository.wind);
+    this._compassController.addStream(_repository.compass);
+    this._listAngleController.addStream(_repository.listAngle);
+  }
 
   setActiveService(ServiceData serviceData) {
     this._repository.setActiveService(serviceData);

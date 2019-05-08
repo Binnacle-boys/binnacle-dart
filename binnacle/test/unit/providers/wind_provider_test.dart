@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sos/models/position_model.dart';
 import 'package:sos/models/wind_model.dart';
 import 'package:sos/providers/wind_provider.dart';
-import 'package:sos/services/weather_service.dart';
+import 'package:sos/services/open_weather_service.dart';
 import 'package:sos/services/service_list.dart';
 import 'package:sos/enums.dart';
 

@@ -16,10 +16,12 @@ class Bloc extends Object {
   final _availableServices = BehaviorSubject<List<ServiceList>>();
   final _activeServices = BehaviorSubject<List<ServiceData>>();
   final _providerData = BehaviorSubject<List<ProviderData>>();
-
   final _windContoller = BehaviorSubject<WindModel>();
   final _compassController = BehaviorSubject<CompassModel>();
   final _listAngleController = BehaviorSubject<ListAngleModel>();
+
+  final _btIsScanning = BehaviorSubject<bool>(); //bt
+  final _btScanResults = BehaviorSubject();
 
   Bloc() {
     this._repository = Repository(_positionController);
@@ -28,9 +30,13 @@ class Bloc extends Object {
     this._compassController.addStream(_repository.getCompassStream());
     this._availableServices.addStream(_repository.getAvailableServices());
     this._activeServices.addStream(_repository.getActiveServices());
-
     this._providerData.addStream(_repository.getProviderData());
     this._listAngleController.addStream(_repository.getListAngleStream());
+
+    this._btIsScanning.addStream(_repository.isScanning().stream);
+    this._btScanResults.addStream(_repository.scanResults().stream);
+
+
   }
 
   BehaviorSubject<List<ServiceList>> get availableServices => _availableServices.stream;
@@ -40,6 +46,16 @@ class Bloc extends Object {
   BehaviorSubject<CompassModel> get compass => _compassController.stream;
   BehaviorSubject<PositionModel> get position => _positionController.stream;
   BehaviorSubject<ListAngleModel> get listAngle => _listAngleController.stream;
+
+
+
+
+  BehaviorSubject<bool> get isScanning => _btIsScanning; //bt
+  BehaviorSubject get scanResults => _btScanResults; //bt
+  Function get startScan => _repository.bluetooth.startScan; //bt
+  Function get connect => _repository.bluetooth.connect;
+
+
   // change data
   //* These don't actually do anything yet. Just leaving them
   //* as a reference for when BLoC needs these functions

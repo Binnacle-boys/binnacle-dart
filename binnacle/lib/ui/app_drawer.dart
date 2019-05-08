@@ -4,6 +4,7 @@ import '../bloc.dart';
 import '../providers/app_provider.dart';
 import '../models/provider_data.dart';
 import '../services/service_wrapper_interface.dart';
+import 'bluetooth.dart';
 
 class AppDrawer extends Drawer {
 
@@ -12,7 +13,10 @@ class AppDrawer extends Drawer {
     final bloc = Provider.of(context);
   
     return new Drawer(
+      
       child: providerList(bloc)
+      
+      
     );
   }
 }
@@ -21,25 +25,35 @@ Widget providerList(Bloc bloc) {
   return StreamBuilder(
     stream: bloc.providerData.stream,
     builder: (context, snapshot) {
+      List<Widget> widgetList = [DrawerHeader(
+        child: Container(
+          child: BluetoothButton(),
+          alignment: Alignment.topRight,
+
+        )
+      
+      )];
       if (snapshot.hasData) {
-        return ListView.builder(
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, i) {
-              return new ExpansionTile(
-                key: new Key(snapshot.data[i].type.toString()),
-                title: new Text(
-                  snapshot.data[i].type,
-                  style: new TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic),
-                ),
-                leading: modeToggleSwitch(bloc, snapshot.data[i]),
-                children: <Widget>[
-                  serviceList(bloc, snapshot.data[i].type, snapshot.data[i])
-                ],
-              );
-            });
+        
+        for(var item in snapshot.data ) {
+          String providerType = item.type.toString().split('.').last;
+          Widget tile = ExpansionTile(
+            key: new Key(providerType),
+            title: new Text(
+              providerType,
+              style: TextStyle(
+                fontSize: 20.0, 
+                fontWeight: FontWeight.bold, 
+                fontStyle: FontStyle.italic
+              )
+            ),
+            leading: modeToggleSwitch(bloc, item),
+            children: <Widget>[serviceList(bloc, item.type, item)],
+          );
+          widgetList.add(tile);
+        }
+        
+        return ListView(children: widgetList);
       } else if (snapshot.hasError) {
         return Text(snapshot.error.toString());
       } else {
@@ -71,15 +85,17 @@ Widget serviceList(Bloc bloc, type, providerData) {
         return Column(children: columnContent,);
       }  
       else if (snapshot.hasData) {
+
         final List<ServiceWrapper> serviceList = 
           snapshot.data.firstWhere((serviceList) => 
             serviceList.type == type).serviceList;
+          
 
         for (ServiceWrapper wrapper in serviceList ) {
           columnContent.add(
             ListTile(
               enabled: (providerData.mode == 'manual') ? true : false,
-              title: Text(wrapper.serviceData.name, style: new TextStyle(fontSize: 18.0)),
+              title: Text(wrapper.serviceData.name.toString(), style: new TextStyle(fontSize: 18.0)),
               onTap: () {
                 bloc.setActiveService(wrapper.serviceData);
               },

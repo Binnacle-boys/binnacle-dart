@@ -6,6 +6,8 @@ import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/providers/list_angle_provider.dart';
 import 'package:sos/services/list_angle_service.dart';
 import 'package:sos/services/service_list.dart';
+import 'package:sos/enums.dart';
+
 
 
 void main() {
@@ -17,7 +19,7 @@ void main() {
 
   setUp(() async {
 
-    ServiceList _serviceList = ServiceList('compass', [ListAngleServiceWrapper(), ]);
+    ServiceList _serviceList = ServiceList(ProviderType.list_angle, [ListAngleServiceWrapper(), ]);
     _provider = await ListAngleProvider(_serviceList);
     _provider.activeService.stream.listen((data) { 
       _activeServiceWrapper.add(data);

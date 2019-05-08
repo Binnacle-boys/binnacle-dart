@@ -1,30 +1,22 @@
 import 'package:flutter/material.dart';
-import '../ui/app_drawer.dart';
-import '../bloc.dart';
-import '../providers/app_provider.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:sos/bloc.dart';
+import 'package:sos/providers/app_provider.dart';
 
-
-
-class TestScreen extends StatelessWidget {
+class BluetoothButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-   return Scaffold(
-     backgroundColor: Colors.grey,
-     floatingActionButton: _buildPopup(context),
-     
-     appBar: AppBar(
-       backgroundColor: Colors.blueGrey,
-       title: Text("Test Screen")
-     ),
-     drawer: AppDrawer(),
-     body: Column( children: <Widget>[])
-   );
+    return MaterialButton(
+      child: Icon(Icons.bluetooth),
+      shape: CircleBorder(),
+      color: Colors.blueAccent,
+      onPressed: () => _buildPopup(context)
+    );
   }
+
 }
+
+
 _buildPopup(context) {
-  return FloatingActionButton(backgroundColor: Colors.amber, onPressed: () {
       Bloc bloc = Provider.of(context);
       bloc.startScan;
       showDialog(
@@ -40,7 +32,7 @@ _buildPopup(context) {
 
         )
       );
-  });
+  
 }
 
 
@@ -57,7 +49,7 @@ _buildPopup(context) {
           
           var tiles = new List<Widget>();
           for(var result in snapshot.data.values) {
-            if(result.device.name.length.isNotEmpty)  { 
+            if(result.device.name.length > 0)  { 
               tiles.add( _scanResultTile(context, result));
 
               
@@ -111,44 +103,5 @@ _buildPopup(context) {
   }
 
 
-class ScanResultTile extends StatelessWidget {
-  const ScanResultTile({Key key, this.result, this.onTap}) : super(key: key);
-
-  final ScanResult result;
-  final VoidCallback onTap;
-
-  Widget _buildTitle(BuildContext context) {
-    if (result.device.name.isNotEmpty) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(result.device.name),
-          Text(
-            result.device.id.toString(),
-            style: Theme.of(context).textTheme.caption,
-          )
-        ],
-      );
-    } else {
-      return Text(result.device.id.toString());
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: _buildTitle(context),
-      // leading: Text(result.rssi.toString()),
-      trailing: RaisedButton(
-        child: Text('CONNECT'),
-        color: Colors.black,
-        textColor: Colors.white,
-        onPressed: (result.advertisementData.connectable) ? onTap : null,
-      ),
-
-    );
-  }
-}
 
 

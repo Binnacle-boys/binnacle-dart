@@ -41,6 +41,8 @@ class MyApp extends StatelessWidget {
                       child: InfoPanel(),
                     ),
                   )
-                ]))))));
+                ])))
+            )
+        ));
   }
 }

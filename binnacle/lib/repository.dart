@@ -1,5 +1,9 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
+import 'package:sos/services/bluetooth_compass_service.dart';
+import 'package:sos/services/bluetooth_list_angle_service.dart';
+import 'package:sos/services/bluetooth_position_service.dart';
+import 'package:sos/services/bluetooth_wind_service.dart';
 import 'package:sos/services/compass_service.dart';
 import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/providers/list_angle_provider.dart';
@@ -20,6 +24,10 @@ import 'models/wind_model.dart';
 import 'models/service_data.dart';
 import 'models/provider_data.dart';
 
+import "providers/bluetooth.dart";
+import "enums.dart";
+
+import "dummy_bt_stream.dart"; //TODO: Remove this when we can actually connect to BT device
 
 
 class Repository {
@@ -27,29 +35,32 @@ class Repository {
   WindProvider _windProvider;
   CompassProvider _compassProvider;
   ListAngleProvider _listAngleProvider;
-
-
+  
   StreamController<List<ServiceData>> _activeServices = StreamController();
-
-
   BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject();
-
+  BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject();
 
   ServiceList compassServiceList;
   ServiceList windServiceList;
   ServiceList positionServiceList;
   ServiceList listAngleServiceList;
+  
+  BluetoothManager bluetooth;
+  StreamController<bool> _isScanning = StreamController();
+  StreamController _scanResults = StreamController();
 
+  Map<ProviderType, ServiceList> _serviceListMap = Map();
+  Map<ProviderType, dynamic> _providerMap = Map();
+  Map _bluetoothServiceMap = Map();
 
-  BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject();
 
 
   Repository(BehaviorSubject<PositionModel> positionStream) {
     
-    compassServiceList = ServiceList('compass',[CompassServiceWrapper(), MockCompassServiceWrapper(false)]);
-    windServiceList = ServiceList('wind', [WeatherServiceWrapper(positionStream)]);
-    positionServiceList = ServiceList('position', [GeolocationServiceWrapper()]);
-    listAngleServiceList = ServiceList('list angle', [ListAngleServiceWrapper()] );
+    compassServiceList = ServiceList(ProviderType.compass,[CompassServiceWrapper(), MockCompassServiceWrapper(false)]);
+    windServiceList = ServiceList(ProviderType.wind, [WeatherServiceWrapper(positionStream)]);
+    positionServiceList = ServiceList(ProviderType.position, [GeolocationServiceWrapper()]);
+    listAngleServiceList = ServiceList(ProviderType.list_angle, [ListAngleServiceWrapper()] );
 
     
     this._positionProvider = PositionProvider( positionServiceList);
@@ -57,6 +68,23 @@ class Repository {
 
     this._windProvider = WindProvider( windServiceList);
     this._listAngleProvider = ListAngleProvider(listAngleServiceList);
+
+
+   _serviceListMap =  {
+    ProviderType.compass: compassServiceList, 
+    ProviderType.wind: windServiceList,
+    ProviderType.position: positionServiceList,
+    ProviderType.list_angle: listAngleServiceList
+  };
+    _providerMap =  {
+    ProviderType.compass: _compassProvider, 
+    ProviderType.wind: _windProvider,
+    ProviderType.position: _positionProvider,
+    ProviderType.list_angle: _listAngleProvider
+  };
+
+
+
 
     _availableServices.addStream(CombineLatestStream.list([
       _compassProvider.availableServices.stream,
@@ -72,96 +100,49 @@ class Repository {
       _listAngleProvider.activeService.stream,
     ]));
 
-
     _providerData.addStream(CombineLatestStream.list([
       _compassProvider.providerData.stream, 
       _positionProvider.providerData.stream,
       _windProvider.providerData.stream,
       _listAngleProvider.providerData.stream
     ]));
+
+    bluetooth = BluetoothManager();
+
+    _isScanning.addStream(bluetooth.isScanning.stream);
+    _scanResults.addStream(bluetooth.scanResults.stream);
+    bluetooth.isConnected.stream.listen((data) {
+      (data) ? _addBluetoothServices() : _removeBluetoothServices();
+    });
+  }
+  _addBluetoothServices() {
+    var bt = DummyBT(); //TODO: Remove this when we can actually connect to a BT device
+
+
+    _bluetoothServiceMap = {
+      ProviderType.compass: BluetoothCompassServiceWrapper(bluetooth: bt.btStream),
+      ProviderType.wind: BluetoothWindServiceWrapper(bluetooth: bt.btStream),
+      ProviderType.position: BluetoothPositionServiceWrapper(bluetooth: bt.btStream),
+      ProviderType.list_angle: BluetoothListAngleServiceWrapper(bluetooth: bt.btStream)
+    };
+
+
+    ProviderType.values.forEach((value) => _serviceListMap[value].add(_bluetoothServiceMap[value]) );
+
+
+  }
+  _removeBluetoothServices() {
+    ProviderType.values.forEach((value) => _serviceListMap[value].remove(_bluetoothServiceMap[value]) );
+    _bluetoothServiceMap = {};
+
   }
 
   toggleMode(ProviderData providerData) {
-
-    switch(providerData.type) { 
-      case "compass": { 
-        _compassProvider.toggleMode(providerData);
-
-      } 
-      break; 
-      case "position": { 
-        _positionProvider.toggleMode(providerData);
-      } 
-      break; 
-      case "wind": { 
-        _windProvider.toggleMode(providerData);
-      }
-      break;
-      case "list angle": {
-        _listAngleProvider.toggleMode(providerData);
-      }
-      break; 
-      default: {
-        return;
-      }
+    _providerMap[providerData.type].toggleMode(providerData);
 }
 
-
-
-
-    // if (providerData.type == "compass") {
-    //   _compassProvider.toggleMode(providerData);
-    // }
-    // if (providerData.type == "position") {
-    //   _positionProvider.toggleMode(providerData);
-    // }
-    // if (providerData.type == "wind") {
-    //   _windProvider.toggleMode(providerData);
-    // }
-    // if (providerData.type == "list angle") {
-    //   _listAngleProvider.toggleMode(providerData);
-    // }
-  }
-
   setActiveService(ServiceData serviceData) {
-
-
-switch(serviceData.category) { 
-      case "compass": { 
-        _compassProvider.changeService(serviceData);
-
-      } 
-      break; 
-      case "position": { 
-        _positionProvider.changeService(serviceData);
-      } 
-      break; 
-      case "wind": { 
-        _windProvider.changeService(serviceData);
-      }
-      break;
-      case "list angle": {
-        _listAngleProvider.changeService(serviceData);
-      }
-      break; 
-      default: {
-        return;
-      }
-
-
-    // if (serviceData.category == "compass") {
-    //   _compassProvider.changeService(serviceData);
-    // }
-    // if (serviceData.category == "position") {
-    //   _positionProvider.changeService(serviceData);
-    // }
-    // if (serviceData.category == "wind") {
-    //   _windProvider.changeService(serviceData);
-    // }
-    // if (serviceData.category== "list angle") {
-    //   _listAngleProvider.changeService(serviceData);
-    // }
-  }
+    _providerMap[serviceData.category].changeService(serviceData);
   }
 
   Stream<WindModel> getWindStream() => _windProvider.wind.stream;
@@ -172,4 +153,9 @@ switch(serviceData.category) {
   Stream <List<ServiceList>> getAvailableServices() => _availableServices;
   Stream <List<ProviderData>> getProviderData() => _providerData.stream;
   Stream<ListAngleModel> getListAngleStream() => _listAngleProvider.listAngle.stream;
+
+
+  StreamController<bool> isScanning() => _isScanning;
+  StreamController scanResults() => _scanResults;
+
 }

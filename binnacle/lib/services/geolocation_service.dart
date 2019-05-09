@@ -31,14 +31,9 @@ class GeolocationService extends IPositionService {
   StreamController<PositionModel> get positionStream => _positionStream;
 }
 
-<<<<<<< HEAD
 
 class GeolocationServiceWrapper implements ServiceWrapper{
   final ServiceData _serviceData = ServiceData(ProviderType.position, 'geolocation', 1);
-=======
-class GeolocationServiceWrapper implements ServiceWrapper {
-  final ServiceData _serviceData = ServiceData('position', 'geolocation', 1);
->>>>>>> pr_us3
   final bool _default = true;
 
   GeolocationServiceWrapper();

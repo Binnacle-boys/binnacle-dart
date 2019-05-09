@@ -61,7 +61,7 @@ Widget modeToggleSwitch(Bloc bloc, ProviderData providerData) {
 
 Widget serviceList(Bloc bloc, type, providerData) {
   return StreamBuilder(
-      stream: bloc.availableServices, //.where((value) => value.type == type),
+      stream: bloc.availableServices, 
       builder: (context, snapshot) {
         List<Widget> columnContent = [];
 
@@ -70,18 +70,6 @@ Widget serviceList(Bloc bloc, type, providerData) {
           return Column(
             children: columnContent,
           );
-        } else if (snapshot.hasData) {
-          final List<ServiceWrapper> serviceList = snapshot.data.firstWhere((serviceList) => serviceList.type == type).serviceList;
-
-          for (ServiceWrapper wrapper in serviceList) {
-            columnContent.add(ListTile(
-                enabled: (providerData.mode == 'manual') ? true : false,
-                title: Text(wrapper.serviceData.name.toString(), style: new TextStyle(fontSize: 18.0)),
-                onTap: () {
-                  bloc.setActiveService(wrapper.serviceData);
-                },
-                trailing: (providerData.mode == 'manual') ? activeIndicator(bloc, wrapper.serviceData, type) : Icon(Icons.android)));
-          }
         } else if (snapshot.hasData) {
           final List<ServiceWrapper> serviceList = snapshot.data.firstWhere((serviceList) => serviceList.type == type).serviceList;
 

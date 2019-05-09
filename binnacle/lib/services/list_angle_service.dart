@@ -27,14 +27,8 @@ class ListAngleService extends IListAngleService {
   }
 }
 
-<<<<<<< HEAD
 class ListAngleServiceWrapper implements ServiceWrapper{
   final ServiceData _serviceData = ServiceData(ProviderType.list_angle, 'daniels list angle', 1);
-=======
-class ListAngleServiceWrapper implements ServiceWrapper {
-  final ServiceData _serviceData =
-      ServiceData('list angle', 'daniels list angle', 1);
->>>>>>> pr_us3
   final bool _default = true;
 
   ListAngleServiceWrapper();

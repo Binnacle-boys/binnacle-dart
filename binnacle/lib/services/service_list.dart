@@ -12,18 +12,14 @@ class ServiceList {
   // NOTE: This is O(N) operation, N=number of elements in list
   ServiceWrapper get defaultService => _list.firstWhere((wrapper) => wrapper.isDefault == true);
 
-  //TODO casey this errors out (assertion error) when I try to change to the mock compass (--Daniel)
-  ServiceWrapper service(ServiceData serviceData) {
-    _list.firstWhere((wrapper) {
-      identical(serviceData, wrapper.serviceData);
-    });
-  }
+  ServiceWrapper service(ServiceData data) => _list.firstWhere((wrapper) => 
+    identical(wrapper.serviceData, data));
+  
 
-  ServiceWrapper nextPriority(ServiceData serviceData) {
-    _list.firstWhere((serviceWrapper) {
-      return (_isPriority(serviceData, serviceWrapper));
-    });
-  }
+  ServiceWrapper nextPriority(ServiceData serviceData) => 
+    _list.firstWhere((wrapper) => 
+      ((wrapper.serviceData.priority > serviceData.priority)  
+      && !identical(serviceData, wrapper.serviceData)));
 
   add(ServiceWrapper serviceWrapper) {
     _list.add(serviceWrapper);
@@ -34,9 +30,4 @@ class ServiceList {
   }
 }
 
-//TODO what is this?
-/// Compares [serviceData] to [serviceWrapper] and returns
-/// true if [serviceWrapper] should be prioritized
-bool _isPriority(ServiceData serviceData, ServiceWrapper wrapper) {
-  return wrapper.serviceData.priority > serviceData.priority && !identical(serviceData, wrapper.serviceData);
-}
+

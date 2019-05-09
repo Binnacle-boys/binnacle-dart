@@ -11,6 +11,7 @@ import 'package:sos/models/wind_model.dart';
 import 'package:sos/models/wind_service_interface.dart';
 import 'package:sos/models/service_data.dart';
 import 'package:sos/services/service_wrapper_interface.dart';
+import 'package:sos/enums.dart';
 
 /// Wrapper service for getting the wind
 /// Utilizes the OpenWeatherMap API
@@ -23,7 +24,7 @@ class OpenWeatherService extends IWindService {
   final _apiURL = "https://api.openweathermap.org/data/2.5/weather";
 
   StreamController<WindModel> _windStream;
-  final ServiceData serviceData = ServiceData('wind', 'name', 1);
+  final ServiceData serviceData = ServiceData(ProviderType.wind, 'name', 1);
 
   OpenWeatherService(BehaviorSubject<PositionModel> _positionSubject) {
     _client = Client();
@@ -96,7 +97,7 @@ class WeatherServiceWrapper implements ServiceWrapper {
   ServiceData get serviceData => this._serviceData;
   bool get isDefault => this._default;
 
-  final ServiceData _serviceData = ServiceData('wind', 'open weather maps', 1);
+  final ServiceData _serviceData = ServiceData(ProviderType.wind, 'open weather maps', 1);
   final bool _default = true;
   final _positionStream;
 

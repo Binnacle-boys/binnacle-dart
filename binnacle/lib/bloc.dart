@@ -13,13 +13,9 @@ import 'models/provider_data.dart';
 class Bloc extends Object {
   Repository _repository;
 
-
   final _idealBoom = BehaviorSubject<double>();
-
   final _btIsScanning = BehaviorSubject<bool>(); //bt
   final _btScanResults = BehaviorSubject();
-
-
 
   BehaviorSubject<List<ServiceList>> get availableServices => _availableServices.stream;
   BehaviorSubject<List<ServiceData>> get activeServices => _activeServices.stream;
@@ -35,9 +31,6 @@ class Bloc extends Object {
   BehaviorSubject get scanResults => _btScanResults; //bt
   Function get startScan => _repository.bluetooth.startScan; //bt
   Function get connect => _repository.bluetooth.connect;
-
-
-
 
   final BehaviorSubject<PositionModel> _positionController = BehaviorSubject<PositionModel>();
   final BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject<List<ServiceList>>();
@@ -60,6 +53,7 @@ class Bloc extends Object {
     this._windContoller.addStream(_repository.wind);
     this._compassController.addStream(_repository.compass);
     this._listAngleController.addStream(_repository.listAngle);
+    this._idealBoom.addStream(calcIdealBoomStream(_compassController.stream, _windContoller.stream));
 
     this._btIsScanning.addStream(_repository.isScanning().stream);
     this._btScanResults.addStream(_repository.scanResults().stream);

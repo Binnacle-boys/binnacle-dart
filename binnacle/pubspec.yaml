@@ -28,9 +28,9 @@ dependencies:
   geolocator: ^3.0.1
   permission_handler: "^3.0.0"
   google_api_availability: "^2.0.0"
-  sail_routing:
+  sail_routing_dart:
     git:
-      url: git://github.com/Binnacle-boys/sail_routing.git
+      url: git://github.com/Binnacle-boys/sail_routing_dart.git
 
   flutter:
     sdk: flutter

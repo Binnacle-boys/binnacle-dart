@@ -22,13 +22,8 @@ class CompassService extends ICompassService {
   StreamController<CompassModel> get compassStream => _compassStream;
 }
 
-<<<<<<< HEAD
 class CompassServiceWrapper implements ServiceWrapper{
   final ServiceData _serviceData = ServiceData(ProviderType.compass, 'flutter compass', 1);
-=======
-class CompassServiceWrapper implements ServiceWrapper {
-  final ServiceData _serviceData = ServiceData('compass', 'flutter compass', 1);
->>>>>>> pr_us3
   final bool _default = true;
 
   CompassServiceWrapper();

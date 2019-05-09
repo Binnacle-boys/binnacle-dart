@@ -8,7 +8,6 @@ import 'package:flutter_blue/flutter_blue.dart';
 class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
 
    return Scaffold(
      backgroundColor: Colors.grey,
@@ -21,17 +20,6 @@ class TestScreen extends StatelessWidget {
      drawer: AppDrawer(),
      body: Column( children: <Widget>[])
    );
-=======
-    final bloc = Provider.of(context);
-
-    return Scaffold(
-        backgroundColor: Colors.grey,
-        appBar: AppBar(
-            backgroundColor: Colors.blueGrey, title: Text("Test Screen")),
-        drawer: AppDrawer(),
-        body: Column(
-            children: <Widget>[positionLabel(bloc), compassLabel(bloc)]));
->>>>>>> pr_us3
   }
 }
 _buildPopup(context) {

@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 import '../enums.dart';
-=======
->>>>>>> pr_us3
+
 class ProviderData {
   /*
   * Type indicates what type of provider it is
@@ -11,17 +9,12 @@ class ProviderData {
   */
   //final String _type;
   ProviderType _type;
-  
+
   String _mode;
 
   ProviderData(this._type, this._mode);
 
   set mode(String newMode) => this._mode = newMode;
   String get mode => this._mode;
-<<<<<<< HEAD
   ProviderType get type => this._type;
-  
-=======
-  String get type => this._type;
->>>>>>> pr_us3
 }

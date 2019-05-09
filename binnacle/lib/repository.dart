@@ -6,10 +6,6 @@ import 'package:sos/services/bluetooth_position_service.dart';
 import 'package:sos/services/bluetooth_wind_service.dart';
 import 'package:sos/services/compass_service.dart';
 import 'package:sos/models/list_angle_model.dart';
-<<<<<<< HEAD
-=======
-
->>>>>>> 1838f069ef20543b9d997812c31d2242d0abe7ff
 import 'package:sos/providers/list_angle_provider.dart';
 import 'package:sos/providers/position_provider.dart';
 import 'package:sos/providers/wind_provider.dart';

@@ -6,6 +6,10 @@ import 'package:sos/services/bluetooth_position_service.dart';
 import 'package:sos/services/bluetooth_wind_service.dart';
 import 'package:sos/services/compass_service.dart';
 import 'package:sos/models/list_angle_model.dart';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1838f069ef20543b9d997812c31d2242d0abe7ff
 import 'package:sos/providers/list_angle_provider.dart';
 import 'package:sos/providers/position_provider.dart';
 import 'package:sos/providers/wind_provider.dart';
@@ -153,17 +157,6 @@ class Repository {
   setActiveService(ServiceData serviceData) {
     _providerMap[serviceData.category].changeService(serviceData);
   }
-
-  // Stream<WindModel> getWindStream() => _windProvider.wind.stream;
-  // Stream<PositionModel> getPositionStream() => _positionProvider.position.stream;
-  // Stream<CompassModel> getCompassStream() => _compassProvider.compass.stream;
-  // Stream<List<ServiceData>> getActiveServices() => _activeServices.stream;
-
-  // Stream <List<ServiceList>> getAvailableServices() => _availableServices;
-  // Stream <List<ProviderData>> getProviderData() => _providerData.stream;
-  // Stream<ListAngleModel> getListAngleStream() => _listAngleProvider.listAngle.stream;
-
-
 
 
 }

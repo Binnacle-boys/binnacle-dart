@@ -13,30 +13,13 @@ import 'models/provider_data.dart';
 class Bloc extends Object {
   Repository _repository;
 
-  // final _positionController = BehaviorSubject<PositionModel>();
-  // final _availableServices = BehaviorSubject<List<ServiceList>>();
-  // final _activeServices = BehaviorSubject<List<ServiceData>>();
-  // final _providerData = BehaviorSubject<List<ProviderData>>();
-  // final _windContoller = BehaviorSubject<WindModel>();
-  // final _compassController = BehaviorSubject<CompassModel>();
-  // final _listAngleController = BehaviorSubject<ListAngleModel>();
+
   final _idealBoom = BehaviorSubject<double>();
 
   final _btIsScanning = BehaviorSubject<bool>(); //bt
   final _btScanResults = BehaviorSubject();
 
-  // Bloc() {
-  //   this._repository = Repository(_positionController);
-  //   this._positionController.addStream(_repository.getPositionStream());
-  //   this._windContoller.addStream(_repository.getWindStream());
-  //   this._compassController.addStream(_repository.getCompassStream());
-  //   this._availableServices.addStream(_repository.getAvailableServices());
-  //   this._activeServices.addStream(_repository.getActiveServices());
-  //   this._providerData.addStream(_repository.getProviderData());
-  //   this._listAngleController.addStream(_repository.getListAngleStream());
-  //   this._idealBoom.addStream(calcIdealBoomStream(_compassController.stream, _windContoller.stream));
 
-  // }
 
   BehaviorSubject<List<ServiceList>> get availableServices => _availableServices.stream;
   BehaviorSubject<List<ServiceData>> get activeServices => _activeServices.stream;

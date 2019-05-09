@@ -13,6 +13,8 @@ import 'package:sos/models/service_data.dart';
 import 'package:sos/services/service_wrapper_interface.dart';
 import 'package:sos/enums.dart';
 
+import '../enums.dart';
+
 /// Wrapper service for getting the wind
 /// Utilizes the OpenWeatherMap API
 class OpenWeatherService extends IWindService {

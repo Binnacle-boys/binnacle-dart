@@ -8,7 +8,7 @@ class ProviderData {
   */
   //final String _type;
   ProviderType _type;
-  
+
   String _mode;
 
   ProviderData(this._type, this._mode);

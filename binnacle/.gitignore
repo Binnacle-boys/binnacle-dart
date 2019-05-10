@@ -258,3 +258,6 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/flutter,androidstudio**/ios/Runner.xcodeproj/project.pbxproj
 **/ios/Runner.xcodeproj/project.pbxproj
+
+**/ios/Runner/keys.plist
+

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sos/screens/binnacle_screen.dart';
 import 'package:sos/ui/boom_widget.dart';
 import 'package:sos/ui/compass/binnacle_base.dart';
+import 'screens/test_screen.dart';
 
 import 'package:sos/ui/list_angle_widget.dart';
 import 'providers/app_provider.dart';
@@ -23,28 +25,11 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
             title: 'Binnacle Demo',
             theme: _theme,
-            home: Scaffold(
-                drawer: AppDrawer(),
-                body: Center(
-                    child: Container(
-                        child: Column(children: <Widget>[
-                  Expanded(
-                      flex: 6,
-                      child: new Stack(children: <Widget>[
-                        Binnacle(),
-                        ListAngleUI(),
-                        BoomUI(),
-                      ])),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      color: _theme.bottomAppBarColor,
-                      padding: EdgeInsets.all(1),
-                      child: InfoPanel(),
-                    ),
-                  )
-                ])))
+            home: PageView(
+              children: <Widget>[BinnacleScreen(), TestScreen()],
+              pageSnapping: true,
             )
+            //BinnacleScreen(),
         ));
   }
 }

@@ -6,7 +6,12 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-       [GMSServices provideAPIKey:@"AIzaSyC3ZBTYTiHS4G9G1ZaLzhXhv9zBeCzP2Cs"];
+   
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource: @"keys" ofType: @"plist"];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
+    id obj = [dict objectForKey: @"maps_api_key"];
+    [GMSServices provideAPIKey:obj];
   
   [GeneratedPluginRegistrant registerWithRegistry:self];
   // Override point for customization after application launch.

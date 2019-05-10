@@ -47,6 +47,11 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
+        debug {
+            buildConfigField 'String', "MapsApiKey", binnacle_google_maps_key
+            resValue 'string', "maps_api_key", binnacle_google_maps_key
+        }
+        
     }
 }
 

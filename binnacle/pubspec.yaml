@@ -13,9 +13,7 @@ environment:
   sdk: ">=1.0.0-dev.68.0 <3.0.0"
 
 dependencies:
-  # sail_routing_algorithm:
-  #   git:
-  #     url: git://github.com/Binnacle-boys/sail_routing.git
+  sliding_up_panel: ^0.3.4
   flutter_blue: ^0.5.0
   rxdart: ^0.20.0
   mockito: ^4.0.0

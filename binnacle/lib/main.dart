@@ -30,8 +30,9 @@ class MyApp extends StatelessWidget {
               slideDirection: SlideDirection.UP,
               panelSnapping: true,
               minHeight:75,
-                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
+              borderRadius: BorderRadius.all(Radius.circular(25.0)),
 
+              //@Will put the panels here
               panel: Center(
                 child: Text("This is the sliding Widget"),
               ),
@@ -44,4 +45,9 @@ class MyApp extends StatelessWidget {
             //BinnacleScreen(),
         ));
   }
+}
+
+Widget _coordInputPanel(context, bloc) {
+  //return some widget
+
 }

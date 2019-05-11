@@ -24,13 +24,17 @@ class Bloc extends Object {
   BehaviorSubject<CompassModel> get compass => _compassController.stream;
   BehaviorSubject<PositionModel> get position => _positionController.stream;
   BehaviorSubject<ListAngleModel> get listAngle => _listAngleController.stream;
-
   BehaviorSubject<double> get idealBoom => _idealBoom.stream;
 
-  BehaviorSubject<bool> get isScanning => _btIsScanning; //bt
-  BehaviorSubject get scanResults => _btScanResults; //bt
-  Function get startScan => _repository.bluetooth.startScan; //bt
+  //Bluetooth functions
+  BehaviorSubject<bool> get isScanning => _btIsScanning; 
+  BehaviorSubject get scanResults => _btScanResults; 
+  Function get startScan => _repository.bluetooth.startScan; 
   Function get connect => _repository.bluetooth.connect;
+
+  // Navigation functions
+  Function get initNavigation => _repository.navigator.initNavigation;
+  BehaviorSubject get navigationEventBus => _repository.navigator.eventBus;
 
   final BehaviorSubject<PositionModel> _positionController = BehaviorSubject<PositionModel>();
   final BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject<List<ServiceList>>();

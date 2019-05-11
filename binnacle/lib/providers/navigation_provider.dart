@@ -16,21 +16,41 @@ class NavigationProvider {
   BehaviorSubject eventBus = BehaviorSubject();
 
 
-  NavigationProvider({@required position, @required wind});
-
-
-  start(PositionModel start, PositionModel end) {
-    _start = _positionToCartPoint(start);
-    _end = _positionToCartPoint(end);
+  NavigationProvider({@required position, @required wind}) {
+    _position = position;
+    _wind = wind;
+    eventBus.add(NavigationEvent(eventType: NavigationEventType.awaitingInit ));
+  }
+  initNavigation() {
+    print('!!! FROM INITNAV');
+    eventBus.add(NavigationEvent(eventType: NavigationEventType.init));
 
 
   }
-  RouteModel calculateRoute(start, end) {
-
-  }
-
-  _positionToCartPoint(p) => CartPoint(p.lat, p.lon);
-  _cartPointToPosition(c) => PositionModel(lat: c.x, lon: c.y, speed: 0.0);
 
 
+  // start(PositionModel start, PositionModel end) {
+  //   _start = _positionToCartPoint(start);
+  //   _end = _positionToCartPoint(end);
+
+
+  // }
+  // RouteModel calculateRoute(start, end) {
+
+  // }
+
+  // _positionToCartPoint(p) => CartPoint(p.lat, p.lon);
+  // _cartPointToPosition(c) => PositionModel(lat: c.x, lon: c.y, speed: 0.0);
+
+
+}
+
+class NavigationEvent {
+  final NavigationEventType eventType;
+  NavigationEvent({@required this.eventType});
+  
+}
+enum NavigationEventType {
+  awaitingInit,
+  init,
 }

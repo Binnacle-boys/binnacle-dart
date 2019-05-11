@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sail_routing_dart/cart_point.dart';
 import 'package:sail_routing_dart/route_model.dart';
 import 'package:sos/models/position_model.dart';
-
+import 'package:sos/enums.dart';
 
 class NavigationProvider {
   Stream _position;
@@ -49,8 +49,4 @@ class NavigationEvent {
   final NavigationEventType eventType;
   NavigationEvent({@required this.eventType});
   
-}
-enum NavigationEventType {
-  awaitingInit,
-  init,
 }

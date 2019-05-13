@@ -33,33 +33,18 @@ class _MapState extends State<MapWidget> {
                 child: new CircularProgressIndicator(),
               );
             } else {
-              _markers.add(Marker(
-                // This marker id can be anything that uniquely identifies each marker.
-                markerId: MarkerId("You Are Here".toString()),
-                position: snapshot.data.latlng,
-                infoWindow: InfoWindow(
-                  title: 'Mch',
-                  snippet: 'Its meh',
+              _initStartMarker(snapshot.data.latlng);
+
+              return GoogleMap(
+                onMapCreated: _onMapCreated,
+                onTap: _onMapTapped,
+                initialCameraPosition: CameraPosition(
+                  target: snapshot.data.latlng,
+                  zoom: 15.0,
                 ),
-                icon: BitmapDescriptor.defaultMarker,
-              ));
-              return Stack(children: [
-                GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  onTap: _onMapTapped,
-                  // onTap: (position) {
-                  //   setState(() {
-                  //     _markers.add(Marker(_markers.length.to))
-                  //   });
-                  // }
-                  initialCameraPosition: CameraPosition(
-                    target: snapshot.data.latlng,
-                    zoom: 15.0,
-                  ),
-                  markers: _markers,
-                  polylines: Set<Polyline>.of(_polylines.values),
-                )
-              ]);
+                markers: _markers,
+                polylines: Set<Polyline>.of(_polylines.values),
+              );
             }
           }),
       floatingActionButton: new FloatingActionButton(
@@ -86,6 +71,16 @@ class _MapState extends State<MapWidget> {
     ));
   }
 
+  void _initStartMarker(LatLng startPosition) {
+    _markers.add(Marker(
+      // This marker id can be anything that uniquely identifies each marker.
+      markerId: MarkerId("Start"),
+      position: startPosition,
+      infoWindow: InfoWindow(title: 'Starting point', snippet: 'You are here'),
+      icon: BitmapDescriptor.defaultMarker,
+    ));
+  }
+
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
   }
@@ -97,9 +92,12 @@ class _MapState extends State<MapWidget> {
 
     if (_markers.length > MAX_MARKERS) {
       // TODO: Use the navigator sliding window
+      // BUG: This doesn't work
       Scaffold.of(context).showSnackBar(new SnackBar(
         content: new Text("Max number of markers added"),
       ));
+
+      print('No more points can be placed');
     }
 
     // TODO: Use a custom icon instead of the default Google Map one
@@ -121,19 +119,14 @@ class _MapState extends State<MapWidget> {
 
       PolylineId lineId = PolylineId(i.toString());
       Polyline line = Polyline(
-        polylineId: lineId,
-        color: Colors.red,
-        width: 5,
-        points: [from.position, to.position]
-      );
+          polylineId: lineId,
+          color: Colors.red,
+          width: 10,
+          points: [from.position, to.position]);
 
       setState(() {
         _polylines[lineId] = line;
       });
-      print('added $lineId');
     }
-
-    print('finished course');
   }
-
 }

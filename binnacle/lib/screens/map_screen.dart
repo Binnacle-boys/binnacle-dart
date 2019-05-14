@@ -5,12 +5,12 @@ import 'package:sos/providers/app_provider.dart';
 
 const int MAX_MARKERS = 16;
 
-class MapWidget extends StatefulWidget {
+class MapScreen extends StatefulWidget {
   @override
   _MapState createState() => _MapState();
 }
 
-class _MapState extends State<MapWidget> {
+class _MapState extends State<MapScreen> {
   Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
   Completer<GoogleMapController> _controller = Completer();
   final Set<Marker> _markers = {};

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sos/providers/app_provider.dart';
 
-const int MAX_MARKERS = 4;
+const int MAX_MARKERS = 16;
 
 class MapWidget extends StatefulWidget {
   @override
@@ -59,7 +59,7 @@ class _MapState extends State<MapWidget> {
               content: new Text("Tap the map for where you want to go"),
             ));
           } else {
-            _onCourseFinished();
+            _onCourseCreationFinished();
           }
         },
         child: _isPlacingPoints
@@ -104,6 +104,7 @@ class _MapState extends State<MapWidget> {
     Marker marker = new Marker(
         markerId: MarkerId(_markers.length.toString()),
         position: position,
+        onTap: _onMarkerTap,
         icon: BitmapDescriptor.defaultMarker);
 
     setState(() {
@@ -111,18 +112,33 @@ class _MapState extends State<MapWidget> {
     });
   }
 
-  void _onCourseFinished() {
-    List<Marker> markers = _markers.toList();
-    for (int i = 0; i < markers.length - 1; i++) {
-      Marker from = markers.elementAt(i);
-      Marker to = markers.elementAt(i + 1);
+  void _onMarkerTap() {
+    print('the marker was tapped');
+  }
+
+  void _onCourseCreationFinished() {
+    List<LatLng> points = new List();
+    _markers.forEach((marker) => points.add(marker.position));
+
+    print('creating course');
+    _initCourse(points);
+  }
+
+  /// Constructs the polylines that will be shown on the map as the
+  /// course to be sailed. Pretty much connects the dots
+  /// List<LatLng> [points] are a list of geographical points
+  /// returns void as it sets the current state to have these polylines
+  void _initCourse(List<LatLng> points) {
+    for (int i = 0; i < points.length - 1; i++) {
+      LatLng from = points.elementAt(i);
+      LatLng to = points.elementAt(i + 1);
 
       PolylineId lineId = PolylineId(i.toString());
       Polyline line = Polyline(
           polylineId: lineId,
           color: Colors.red,
-          width: 10,
-          points: [from.position, to.position]);
+          width: 15,
+          points: [from, to]);
 
       setState(() {
         _polylines[lineId] = line;

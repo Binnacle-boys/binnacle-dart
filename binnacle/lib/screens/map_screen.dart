@@ -15,6 +15,7 @@ class _MapState extends State<MapScreen> {
   Completer<GoogleMapController> _controller = Completer();
   final Set<Marker> _markers = {};
   bool _isPlacingPoints = false;
+  bool _init = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _MapState extends State<MapScreen> {
                 onTap: _onMapTapped,
                 initialCameraPosition: CameraPosition(
                   target: snapshot.data.latlng,
-                  zoom: 15.0,
+                  zoom: 12.5,
                 ),
                 markers: _markers,
                 polylines: Set<Polyline>.of(_polylines.values),
@@ -72,6 +73,14 @@ class _MapState extends State<MapScreen> {
   }
 
   void _initStartMarker(LatLng startPosition) {
+    if (_init) {
+      // We already initialized the widget
+      return;
+    }
+
+    _init = true;
+
+    print('_initStartMarker');
     _markers.add(Marker(
       // This marker id can be anything that uniquely identifies each marker.
       markerId: MarkerId("Start"),
@@ -135,10 +144,7 @@ class _MapState extends State<MapScreen> {
 
       PolylineId lineId = PolylineId(i.toString());
       Polyline line = Polyline(
-          polylineId: lineId,
-          color: Colors.red,
-          width: 15,
-          points: [from, to]);
+          polylineId: lineId, color: Colors.red, width: 15, points: [from, to]);
 
       setState(() {
         _polylines[lineId] = line;

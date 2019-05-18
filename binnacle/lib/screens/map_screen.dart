@@ -117,17 +117,20 @@ class _MapState extends State<MapScreen> {
       print('No more points can be placed');
     }
 
-    BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(10, 10)), 'assets/flag.png')
-        .then((value) {
-      setState(() {
-        Marker marker = new Marker(
-            markerId: MarkerId(_markers.length.toString()),
-            position: position,
-            icon: value);
-        _markers.add(marker);
-      });
+    // TODO: Use a custom icon instead of the default Google Map one
+    Marker marker = new Marker(
+        markerId: MarkerId(_markers.length.toString()),
+        position: position,
+        onTap: _onMarkerTap,
+        icon: BitmapDescriptor.defaultMarker);
+
+    setState(() {
+      _markers.add(marker);
     });
+  }
+
+  void _onMarkerTap() {
+    print('the marker was tapped');
   }
 
   void _onCourseCreationFinished() {

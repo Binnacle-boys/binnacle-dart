@@ -55,6 +55,14 @@ class _MapState extends State<MapScreen> {
           });
 
           if (_isPlacingPoints) {
+            // Clear the current marker list
+            Marker start = _markers.elementAt(0);
+            _markers.clear();
+            _markers.add(start);
+
+            // Clear the current course
+            _polylines.clear();
+
             // TODO: This would be nicer if it calls the navigators sliding window
             Scaffold.of(_context).showSnackBar(new SnackBar(
               content: new Text("Tap the map for where you want to go"),

@@ -31,8 +31,9 @@ Get a Google Maps API key. Set the environment variable `OST_MAPS_API_KEY` to it
 Go to environment variables and add it.
 
 #### MacOS / Linux
-
-In your bash config add `OST_MAPS_API_KEY=YOUR_KEY_HERE` and reload the config.
+iOS: 
+Add the keys.plist (pinned to #software in slack) file here: `ios/Runner/keys.plist`
+Add to .gitignore
 
 ## Resources
 

@@ -57,16 +57,16 @@ class reticlePainter extends CustomPainter {
       ..color = lineColor
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
+      ..strokeWidth = 3;
     Path path = new Path();
 
     for (var i = 0.0; i < 301; i += 50) {
       path.moveTo(i, 0);
-      path.relativeLineTo(0, -15);
+      path.relativeLineTo(0, -20);
     }
-    for (var i = 0.0; i < 301; i += 5) {
+    for (var i = 0.0; i < 301; i += 10) {
       path.moveTo(i, 0);
-      path.relativeLineTo(0, -4);
+      path.relativeLineTo(0, -10);
     }
 
     path.close();

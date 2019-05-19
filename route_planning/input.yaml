@@ -1,0 +1,72 @@
+0:
+  end:
+  - 100
+  - 100
+  start:
+  - 0
+  - 0
+  wind_direction: 86
+  wind_speed: 2
+1:
+  end:
+  - 100
+  - 78
+  start:
+  - 0
+  - 22
+  wind_direction: 37
+  wind_speed: 1
+2:
+  end:
+  - 100
+  - 56
+  start:
+  - 0
+  - 44
+  wind_direction: 348
+  wind_speed: 0
+3:
+  end:
+  - 100
+  - 34
+  start:
+  - 0
+  - 66
+  wind_direction: 162
+  wind_speed: 0
+4:
+  end:
+  - 100
+  - 100
+  start:
+  - 0
+  - 0
+  wind_direction: 311
+  wind_speed: 0
+5:
+  end:
+  - 78
+  - 100
+  start:
+  - 22
+  - 0
+  wind_direction: 179
+  wind_speed: 2
+6:
+  end:
+  - 56
+  - 100
+  start:
+  - 44
+  - 0
+  wind_direction: 198
+  wind_speed: 2
+7:
+  end:
+  - 34
+  - 100
+  start:
+  - 66
+  - 0
+  wind_direction: 293
+  wind_speed: 2

@@ -23,6 +23,7 @@ dependencies:
   flutter_compass: ^0.2.0
   intl: ^0.15.7
   sensors: ^0.4.0
+  
   geolocator: ^3.0.1
   permission_handler: "^3.0.0"
   google_api_availability: "^2.0.0"

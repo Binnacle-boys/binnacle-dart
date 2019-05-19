@@ -21,8 +21,7 @@ class MyApp extends StatelessWidget {
     ThemeData _theme = new GlobalTheme().toThemeData();
     return Provider(
         child: MaterialApp(
-            debugShowCheckedModeBanner:
-                true, //TODO change to false before release
+            debugShowCheckedModeBanner: true, //TODO change to false before release
             title: 'Binnacle Demo',
             theme: _theme,
             home: NavigationPanel(children: [BinnacleScreen(), TestScreen()])));
@@ -42,7 +41,7 @@ class NavigationPanel extends StatelessWidget {
     return StreamBuilder(
         stream: bloc.navigationEventBus,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          print(snapshot.data.eventType.toString());
+          // print(snapshot.data.eventType.toString());
           if (snapshot.hasError) {
             return SlidingUpPanel(
               panel: null,
@@ -56,18 +55,14 @@ class NavigationPanel extends StatelessWidget {
                 backdropTapClosesPanel: true,
                 slideDirection: SlideDirection.DOWN,
                 panelSnapping: true,
-                minHeight: (snapshot.data.eventType ==
-                        NavigationEventType.awaitingInit)
-                    ? 0
-                    : 75,
+                minHeight: (snapshot.data.eventType == NavigationEventType.awaitingInit) ? 0 : 75,
                 maxHeight: 300,
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
 
                 //@Will put the panels here
                 panel: NavigationPanelBase(message: _tackNowMessage()),
                 body: PageView(
-                  children:
-                      this.children, //<Widget>[BinnacleScreen(), TestScreen()],
+                  children: this.children, //<Widget>[BinnacleScreen(), TestScreen()],
                   pageSnapping: true,
                 ));
           }
@@ -84,15 +79,20 @@ class NavigationPanel extends StatelessWidget {
 
   Widget _tackNowMessage() {
     return Row(
-        children: <Widget>[
-          Transform.rotate(
-            child: Icon(Icons.call_missed_outgoing, size: 80, color: Colors.red,), 
-            angle: -90,
+      children: <Widget>[
+        Transform.rotate(
+          child: Icon(
+            Icons.call_missed_outgoing,
+            size: 80,
+            color: Colors.red,
           ),
-          Text("Tack Now.", style: TextStyle(fontSize: 48))
-        ],
-      );
+          angle: -90,
+        ),
+        Text("Tack Now.", style: TextStyle(fontSize: 48))
+      ],
+    );
   }
+
   Widget _nullMessage() {
     return Text('');
   }
@@ -102,10 +102,11 @@ class NavigationPanelBase extends StatelessWidget {
   final Bloc bloc;
   final Widget message;
 
-  NavigationPanelBase({@required this.bloc, @required this.message });
+  NavigationPanelBase({@required this.bloc, @required this.message});
   @override
   Widget build(BuildContext context) {
-    return Material(child:Stack(
+    return Material(
+        child: Stack(
       children: <Widget>[
         _hideButton(bloc),
         _cancelButton(bloc),
@@ -122,7 +123,6 @@ class NavigationPanelBase extends StatelessWidget {
       child: message,
     );
   }
-
 
   Widget _cancelButton(Bloc bloc) {
     return Positioned(

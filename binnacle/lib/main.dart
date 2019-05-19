@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:sos/screens/home_screen.dart';
-
-import 'providers/app_provider.dart';
-import './ui/global_theme.dart';
-
-const int minFingersNeedForSwipe = 3;
+import 'package:sos/providers/app_provider.dart';
+import 'package:sos/ui/global_theme.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -20,9 +18,11 @@ class MyApp extends StatelessWidget {
 
     return Provider(
         child: MaterialApp(
-            title: 'Binnacle Demo',
+            debugShowCheckedModeBanner:
+                true, // TODO change to false before release
+            title: 'Binnacle',
             theme: _theme,
-            home: ScreenWidget()  //BinnacleScreen(),
+            home: ScreenWidget() //BinnacleScreen(),
             ));
   }
 }

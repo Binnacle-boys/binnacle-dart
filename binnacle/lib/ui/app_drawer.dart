@@ -21,10 +21,15 @@ Widget providerList(Bloc bloc) {
     builder: (context, snapshot) {
       List<Widget> widgetList = [
         DrawerHeader(
-            child: Container(
-          child: BluetoothButton(),
-          alignment: Alignment.topRight,
-        ))
+            child: Column(
+              children: <Widget>[
+                BluetoothButton(),
+                _navigationButton(bloc, context),
+              ],
+    
+            )
+        )
+
       ];
       if (snapshot.hasData) {
         for (var item in snapshot.data) {
@@ -46,6 +51,16 @@ Widget providerList(Bloc bloc) {
       }
     },
   );
+}
+Widget _navigationButton(Bloc bloc, BuildContext context) {
+  return MaterialButton(
+    child: Icon(Icons.navigation),
+    onPressed: () {
+      // Navigator.pop(context);
+      //TODO Navigate to the MAP screen
+      return bloc.initNavigation();
+    });
+
 }
 
 Widget modeToggleSwitch(Bloc bloc, ProviderData providerData) {

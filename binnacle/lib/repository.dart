@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
+import 'package:sos/providers/navigation_provider.dart';
 import 'package:sos/services/bluetooth_compass_service.dart';
 import 'package:sos/services/bluetooth_list_angle_service.dart';
 import 'package:sos/services/bluetooth_position_service.dart';
@@ -12,13 +13,11 @@ import 'package:sos/providers/wind_provider.dart';
 import 'package:sos/providers/compass_provider.dart';
 
 import 'package:sos/services/list_angle_service.dart';
-import 'package:sos/services/compass_service.dart';
 import 'package:sos/services/geolocation_service.dart';
 import 'package:sos/services/open_weather_service.dart';
 import 'package:sos/services/test_compass_service.dart';
 import 'package:sos/services/service_list.dart';
 
-import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/models/position_model.dart';
 import 'package:sos/models/compass_model.dart';
 import 'package:sos/models/wind_model.dart';
@@ -43,8 +42,15 @@ class Repository {
   Stream<List<ServiceList>> get availableServices => _availableServices;
   Stream<List<ProviderData>> get providerData => _providerData.stream;
 
+
+  //bluetooth
   StreamController<bool> isScanning() => _isScanning;
   StreamController scanResults() => _scanResults;
+  
+
+  //navigation
+  NavigationProvider navigator;
+
 
   ServiceList compassServiceList;
   ServiceList windServiceList;
@@ -123,6 +129,10 @@ class Repository {
     bluetooth.isConnected.stream.listen((data) {
       (data) ? _addBluetoothServices() : _removeBluetoothServices();
     });
+
+
+    navigator = NavigationProvider(position: positionStream, wind: _windProvider.wind.stream  );
+
   }
   _addBluetoothServices() {
     var bt = DummyBT(); //TODO: Remove this when we can actually connect to a BT device

@@ -84,6 +84,7 @@ class IdealHeadingArrowPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = width;
     Path path = new Path();
+    // Tuples points for the shape
     List<List<double>> tuples = [
       [-2, 25],
       [5, 25],

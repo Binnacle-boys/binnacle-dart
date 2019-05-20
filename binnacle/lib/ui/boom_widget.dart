@@ -128,11 +128,7 @@ class BoomArcPainter extends CustomPainter {
     // path.lineTo(size.width / 2, length);
     Rect arcContainer = new Rect.fromCircle(center: cap, radius: 200);
 
-    // path.addArc(arcContainer, 0, pi);
-    // path.close();
     canvas.drawArc(arcContainer, 298 * pi / 120, pi / 30, false, complete);
-    //canvas.drawCircle(cap, 0.001, complete);
-    //canvas.drawCircle(capOuter, 0.001, complete);
   }
 
   @override

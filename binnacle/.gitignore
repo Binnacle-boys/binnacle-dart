@@ -63,6 +63,7 @@ build/
 **/ios/Flutter/flutter_assets/
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/Runner/keys.plist
 
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
@@ -258,3 +259,6 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/flutter,androidstudio**/ios/Runner.xcodeproj/project.pbxproj
 **/ios/Runner.xcodeproj/project.pbxproj
+
+**/ios/Runner/keys.plist
+

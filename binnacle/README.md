@@ -4,7 +4,6 @@
 
 A Flutter project.
 
-
 ## Getting Started
 
 `flutter packages get` - Install project dependencies
@@ -18,6 +17,23 @@ A Flutter project.
 `flutter test` - Run tests
 
 `flutter doctor` - Check if Flutter is installed properly
+
+`flutter clean` - Cleans build cache
+
+## Setting up
+
+### Google Maps API Key
+
+Get a Google Maps API key. Set the environment variable `OST_MAPS_API_KEY` to it.
+
+#### Windows
+
+Go to environment variables and add it.
+
+#### MacOS / Linux
+iOS: 
+Add the keys.plist (pinned to #software in slack) file here: `ios/Runner/keys.plist`
+Add to .gitignore
 
 ## Resources
 

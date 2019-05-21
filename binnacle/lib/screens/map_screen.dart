@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sos/enums.dart';
 import 'package:sos/providers/app_provider.dart';
+import 'package:sos/providers/navigation_provider.dart';
+
+import '../bloc.dart';
 
 const int MAX_MARKERS = 16;
 
@@ -39,6 +43,7 @@ class _MapState extends State<MapScreen> {
               return GoogleMap(
                 onMapCreated: _onMapCreated,
                 onTap: _onMapTapped,
+                mapType: MapType.satellite,
                 initialCameraPosition: CameraPosition(
                   target: snapshot.data.latlng,
                   zoom: 12.5,
@@ -63,12 +68,9 @@ class _MapState extends State<MapScreen> {
             // Clear the current course
             _polylines.clear();
 
-            // TODO: This would be nicer if it calls the navigators sliding window
-            Scaffold.of(_context).showSnackBar(new SnackBar(
-              content: new Text("Tap the map for where you want to go"),
-            ));
+            // bloc.navigationEventBus.add(NavigationEvent(eventType: NavigationEventType.info));
           } else {
-            _onCourseCreationFinished();
+            _onCourseCreationFinished(bloc);            
           }
         },
         child: _isPlacingPoints
@@ -133,12 +135,25 @@ class _MapState extends State<MapScreen> {
     print('the marker was tapped');
   }
 
-  void _onCourseCreationFinished() {
+  void _onCourseCreationFinished(Bloc bloc) {
+    if (_markers.length < 2) return;
+
     List<LatLng> points = new List();
     _markers.forEach((marker) => points.add(marker.position));
 
-    print('creating course');
-    _initCourse(points);
+    /// Add a listener before
+    bloc.navigationEventBus.singleWhere((event) {
+      if (event == NavigationEventType.start) {
+        print('Initializing course using the BLOC');
+        _initCourse(bloc.course);
+        return true;
+      }
+    });
+
+    /// TODO: Only does the first set for now.
+    /// Navigator needs to be upgraded to deal with a list of points
+    /// to be able to handle complex courses
+    bloc.startNavigation(points.elementAt(0), points.elementAt(1));
   }
 
   /// Constructs the polylines that will be shown on the map as the

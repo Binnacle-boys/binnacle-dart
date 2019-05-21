@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sos/screens/binnacle_screen.dart';
 import 'package:sos/screens/map_screen.dart';
 import 'package:sos/screens/test_screen.dart';
+import 'package:sos/ui/navigation/navbar.dart';
 import 'package:sos/ui/navigation/panel.dart';
 
 class ScreenWidget extends StatefulWidget {
@@ -34,7 +35,7 @@ class _ScreenState extends State<ScreenWidget> {
             pageSnapping: true,
             physics: new NeverScrollableScrollPhysics(),
           ),
-          NavigationPanel(),
+          Navbar(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

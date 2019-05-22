@@ -26,7 +26,12 @@ class NavigationPanel extends StatelessWidget {
           } else if (!snapshot.hasData) {
             return SlidingUpPanel(panel: null);
           } else {
-            return SlidingUpPanel(
+            return Dismissible(
+              key: Key('navigation'),
+              onDismissed: (dismissal) {
+                print(dismissal);
+              },
+              child: SlidingUpPanel(
                 color: GlobalTheme().toThemeData().primaryColor,
                 backdropEnabled: true,
                 backdropTapClosesPanel: true,
@@ -35,36 +40,54 @@ class NavigationPanel extends StatelessWidget {
                 minHeight: (snapshot.data.eventType ==
                         NavigationEventType.awaitingInit)
                     ? 0
-                    : 75,
-                maxHeight: 300,
+                    : 100,
+                maxHeight: 200,
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
-
-                //@Will put the panels here
-                panel: NavigationPanelBase(message: _tackNowMessage())
-            );
+                panel: _panel(snapshot.data.eventType)));
           }
         });
   }
 
-  Widget _coordInputPanel(context, bloc) {
-    return Center(child: Text('Coord Input panel'));
+  Widget _panel(NavigationEventType event) {
+    switch (event) {
+      case NavigationEventType.start:
+        return NavigationPanelBase(message: _startCourseMessage());
+      case NavigationEventType.tackNow:
+        return NavigationPanelBase(message: _tackNowMessage());
+      default:
+        print('No event panel for $event');
+    }
   }
 
   Widget _nullPanel(context, bloc) {
     return SizedBox.shrink();
   }
 
+  Widget _startCourseMessage() {
+    return Row(
+      children: <Widget>[
+        Icon(Icons.directions_boat),
+        Text("Starting course", style: TextStyle(fontSize: 32))
+      ],
+    );
+  }
+
   Widget _tackNowMessage() {
     return Row(
-        children: <Widget>[
-          Transform.rotate(
-            child: Icon(Icons.call_missed_outgoing, size: 80, color: Colors.red,), 
-            angle: -90,
+      children: <Widget>[
+        Transform.rotate(
+          child: Icon(
+            Icons.call_missed_outgoing,
+            size: 80,
+            color: Colors.red,
           ),
-          Text("Tack Now.", style: TextStyle(fontSize: 48))
-        ],
-      );
+          angle: -90,
+        ),
+        Text("Tack Now.", style: TextStyle(fontSize: 48))
+      ],
+    );
   }
+
   Widget _nullMessage() {
     return Text('');
   }
@@ -74,10 +97,11 @@ class NavigationPanelBase extends StatelessWidget {
   final Bloc bloc;
   final Widget message;
 
-  NavigationPanelBase({@required this.bloc, @required this.message });
+  NavigationPanelBase({@required this.bloc, @required this.message});
   @override
   Widget build(BuildContext context) {
-    return Material(child:Stack(
+    return Material(
+        child: Stack(
       children: <Widget>[
         _hideButton(bloc),
         _cancelButton(bloc),
@@ -94,7 +118,6 @@ class NavigationPanelBase extends StatelessWidget {
       child: message,
     );
   }
-
 
   Widget _cancelButton(Bloc bloc) {
     return Positioned(

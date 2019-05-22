@@ -21,7 +21,6 @@ class NavigationProvider {
   NavigationProvider({@required position, @required wind}) {
     _position = position;
     _wind = wind;
-    // eventBus.add(NavigationEvent(eventType: NavigationEventType.init ));
   }
 
 

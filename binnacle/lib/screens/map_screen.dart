@@ -18,12 +18,29 @@ class _MapState extends State<MapScreen> {
   Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
   Completer<GoogleMapController> _controller = Completer();
   final Set<Marker> _markers = {};
-  bool _isPlacingPoints = false;
+  bool _isPlacingPoints = true;
   bool _init = false;
 
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
+
+    //[{"start":[-122.01490020751953,36.947452545166016]},
+    //{"end":[-122.01533508300781,36.95185852050781]},
+    //{"wind_direction":7.853981633974483},
+    //{"points":[[-122.01490020751953,36.947452545166016]
+    //,[-122.01724243164062,36.94987869262695],
+    //[-122.01533508300781,36.95185852050781]]}]
+    List<LatLng> nickCourse = List();
+    nickCourse.add(LatLng(36.95997101439703, -122.00122687965633));
+    nickCourse.add(LatLng(36.953033447265625, -122.00790405273438));
+    nickCourse.add(LatLng(36.945275044498516, -122.00044568628073));
+
+    _onMapTapped(LatLng(36.95997101439703, -122.00122687965633));
+    _onMapTapped(LatLng(36.945275044498516, -122.00044568628073));
+
+    _initCourse(nickCourse);
+
 
     var _context;
 
@@ -38,7 +55,7 @@ class _MapState extends State<MapScreen> {
                 child: new CircularProgressIndicator(),
               );
             } else {
-              _initStartMarker(snapshot.data.latlng);
+              // _initStartMarker(snapshot.data.latlng);
 
               return GoogleMap(
                 onMapCreated: _onMapCreated,
@@ -140,6 +157,8 @@ class _MapState extends State<MapScreen> {
 
     List<LatLng> points = new List();
     _markers.forEach((marker) => points.add(marker.position));
+
+    print(points);
 
     /// Add a listener before
     bloc.navigationEventBus.singleWhere((event) {

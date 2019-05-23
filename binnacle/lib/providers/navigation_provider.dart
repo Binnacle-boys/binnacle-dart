@@ -23,25 +23,26 @@ class NavigationProvider {
   NavigationProvider({@required position, @required wind}) {
     _position = position;
     _wind = wind;
-  }
 
+    eventBus.add(NavigationEvent(eventType: NavigationEventType.init));
+  }
 
   start(LatLng start, LatLng end) {
     /// NOTE: naive to assume long = x, lat = y, but it's close enough
     _start = Vector2(start.longitude, start.latitude);
     _end = Vector2(end.longitude, end.latitude);
 
-    eventBus.add(NavigationEvent(eventType: NavigationEventType.calculatingRoute));
+    eventBus
+        .add(NavigationEvent(eventType: NavigationEventType.calculatingRoute));
 
-    _route =
-          new RouteModel(start: _start, end: _end, wind_radians: 0);
-          // new RouteModel(start: _start, end: _end, wind_radians: currentWind.deg);
+    _route = new RouteModel(start: _start, end: _end, wind_radians: 0);
+    // new RouteModel(start: _start, end: _end, wind_radians: currentWind.deg);
 
     course = List();
     course.add(start);
     _route.intermediate_points.forEach((point) {
-        course.add(new LatLng(point.y, point.x));
-      });
+      course.add(new LatLng(point.y, point.x));
+    });
     course.add(end);
 
     print('Route generated');
@@ -60,5 +61,4 @@ class NavigationProvider {
 class NavigationEvent {
   final NavigationEventType eventType;
   NavigationEvent({@required this.eventType});
-  
 }

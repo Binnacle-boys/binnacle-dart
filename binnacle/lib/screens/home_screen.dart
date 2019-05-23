@@ -35,7 +35,7 @@ class _ScreenState extends State<ScreenWidget> {
             pageSnapping: true,
             physics: new NeverScrollableScrollPhysics(),
           ),
-          Navbar(),
+          NavigationPanel(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

@@ -5,45 +5,38 @@ import 'package:sos/bloc.dart';
 
 import 'package:sos/enums.dart';
 import 'package:sos/providers/app_provider.dart';
+import 'package:sos/providers/navigation_provider.dart';
 import 'package:sos/ui/global_theme.dart';
 
 class NavigationPanel extends StatelessWidget {
   NavigationPanel({Key key}) : super(key: key);
 
+  Bloc bloc;
+
   @override
   Widget build(BuildContext context) {
     final theme = GlobalTheme();
-    final bloc = Provider.of(context);
+    bloc = Provider.of(context);
 
     return StreamBuilder(
         stream: bloc.navigationEventBus,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          print(snapshot.data.eventType.toString());
-          if (snapshot.hasError) {
-            return SlidingUpPanel(
-              panel: null,
-            );
-          } else if (!snapshot.hasData) {
-            return SlidingUpPanel(panel: null);
+          if (snapshot.hasError || !snapshot.hasData || snapshot.data.eventType == null) {
+            return new Container();
           } else {
-            return Dismissible(
-              key: Key('navigation'),
-              onDismissed: (dismissal) {
-                print(dismissal);
-              },
-              child: SlidingUpPanel(
+            return new SlidingUpPanel(
                 color: GlobalTheme().toThemeData().primaryColor,
                 backdropEnabled: true,
                 backdropTapClosesPanel: true,
                 slideDirection: SlideDirection.DOWN,
                 panelSnapping: true,
                 minHeight: (snapshot.data.eventType ==
-                        NavigationEventType.awaitingInit)
+                        NavigationEventType.init)
                     ? 0
                     : 100,
                 maxHeight: 200,
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                panel: _panel(snapshot.data.eventType)));
+                panel: _panel(snapshot.data.eventType));          
           }
         });
   }
@@ -51,16 +44,13 @@ class NavigationPanel extends StatelessWidget {
   Widget _panel(NavigationEventType event) {
     switch (event) {
       case NavigationEventType.start:
-        return NavigationPanelBase(message: _startCourseMessage());
+        return NavigationPanelBase(bloc: bloc, message: _startCourseMessage());
       case NavigationEventType.tackNow:
-        return NavigationPanelBase(message: _tackNowMessage());
+        return NavigationPanelBase(bloc: bloc, message: _tackNowMessage());
       default:
         print('No event panel for $event');
+        return NavigationPanelBase(bloc: bloc, message: new Container());
     }
-  }
-
-  Widget _nullPanel(context, bloc) {
-    return SizedBox.shrink();
   }
 
   Widget _startCourseMessage() {
@@ -86,10 +76,6 @@ class NavigationPanel extends StatelessWidget {
         Text("Tack Now.", style: TextStyle(fontSize: 48))
       ],
     );
-  }
-
-  Widget _nullMessage() {
-    return Text('');
   }
 }
 

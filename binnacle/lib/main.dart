@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-<<<<<<< HEAD
 import 'package:sos/bloc.dart';
 import 'package:sos/screens/binnacle_screen.dart';
 import 'screens/test_screen.dart';
@@ -9,14 +8,12 @@ import 'providers/app_provider.dart';
 import './ui/global_theme.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sos/enums.dart';
-=======
 import 'package:sos/screens/home_screen.dart';
 
 import 'providers/app_provider.dart';
 import './ui/global_theme.dart';
 
 const int minFingersNeedForSwipe = 3;
->>>>>>> 96dd3e5f46e8a23390bc88381b5a3c39a69e2883
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -34,7 +31,6 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: true, //TODO change to false before release
             title: 'Binnacle Demo',
             theme: _theme,
-<<<<<<< HEAD
             home: NavigationPanel(children: [BinnacleScreen(), TestScreen()])));
   }
 }
@@ -164,9 +160,5 @@ class NavigationPanelBase extends StatelessWidget {
           ),
           onPressed: () => {}, //TODO Hook this up to the bloc
         ));
-=======
-            home: ScreenWidget()  //BinnacleScreen(),
-            ));
->>>>>>> 96dd3e5f46e8a23390bc88381b5a3c39a69e2883
   }
 }

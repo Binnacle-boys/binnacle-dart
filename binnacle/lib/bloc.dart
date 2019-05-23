@@ -37,6 +37,7 @@ class Bloc extends Object {
   Function startNavigation(start, end) => _repository.navigator.start(start, end);
   BehaviorSubject get navigationEventBus => _repository.navigator.eventBus;
   List<LatLng> get course => _repository.navigator.course;
+  ReplaySubject<PositionModel> get courseHistory => _repository.navigator.positionHistory;
 
   final BehaviorSubject<PositionModel> _positionController = BehaviorSubject<PositionModel>();
   final BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject<List<ServiceList>>();

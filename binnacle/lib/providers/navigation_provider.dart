@@ -29,6 +29,8 @@ class NavigationProvider {
 
   start(LatLng start, LatLng end) {
     /// NOTE: naive to assume long = x, lat = y, but it's close enough
+    /// A better implementation would utilize the Haversine formula
+    /// Which IMO should be done in the algorithm
     _start = Vector2(start.longitude, start.latitude);
     _end = Vector2(end.longitude, end.latitude);
 
@@ -55,6 +57,10 @@ class NavigationProvider {
 
     // TODO: Nick when producing the finish event, we need to run this line
     // positionHistory.close();
+
+    // TODO: Convert this to a stack implementation
+    // We don't want this clear to be pushed if a new event arrived in the bus
+    Future.delayed(Duration(seconds: 5), () => eventBus.add(NavigationEvent(eventType: NavigationEventType.init)));
   }
 }
 

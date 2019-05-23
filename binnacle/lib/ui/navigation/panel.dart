@@ -43,6 +43,8 @@ class NavigationPanel extends StatelessWidget {
 
   Widget _panel(NavigationEventType event) {
     switch (event) {
+      case NavigationEventType.calculatingRoute:
+        return NavigationPanelBase(bloc: bloc, message: _calculatingCourseMessage());
       case NavigationEventType.start:
         return NavigationPanelBase(bloc: bloc, message: _startCourseMessage());
       case NavigationEventType.tackNow:
@@ -51,6 +53,15 @@ class NavigationPanel extends StatelessWidget {
         print('No event panel for $event');
         return NavigationPanelBase(bloc: bloc, message: new Container());
     }
+  }
+
+  Widget _calculatingCourseMessage() {
+    return Row(
+      children: <Widget>[
+        Icon(Icons.sync),
+        Text("Calculating course", style: TextStyle(fontSize: 32))
+      ],
+    );
   }
 
   Widget _startCourseMessage() {

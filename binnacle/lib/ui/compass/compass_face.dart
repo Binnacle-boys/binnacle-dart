@@ -13,7 +13,7 @@ class CompassFace extends StatelessWidget {
           width: double.infinity,
           decoration: new BoxDecoration(
             shape: BoxShape.circle,
-            color: Theme.of(context).backgroundColor,
+            color: Colors.white,
           ),
           child: new Stack(
             children: <Widget>[

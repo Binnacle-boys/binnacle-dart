@@ -57,20 +57,20 @@ Widget boomStreamBuilder(BuildContext context) {
 class BoomMainLinePainter extends CustomPainter {
   Color lineColor;
 
-  double width = 4;
+  double width = 8;
   double length = 223;
 
   BoomMainLinePainter({this.lineColor});
   @override
   void paint(Canvas canvas, Size size) {
     Paint complete = new Paint()
-      ..color = lineColor
+      ..color = Colors.pink[500]
       ..strokeCap = StrokeCap.square
       ..style = PaintingStyle.stroke
       ..strokeWidth = width;
 
     Paint completed = new Paint()
-      ..color = Colors.grey[850]
+      ..color = Colors.yellow[300]
       ..strokeCap = StrokeCap.square
       ..style = PaintingStyle.stroke
       ..strokeWidth = 8;
@@ -108,14 +108,14 @@ class BoomMainLinePainter extends CustomPainter {
 class BoomArcPainter extends CustomPainter {
   Color lineColor;
 
-  double width = 4;
+  double width = 8;
   double length = 220;
 
   BoomArcPainter({this.lineColor});
   @override
   void paint(Canvas canvas, Size size) {
     Paint complete = new Paint()
-      ..color = lineColor
+      ..color = Colors.blue[800]
       ..strokeCap = StrokeCap.butt
       ..style = PaintingStyle.stroke
       ..strokeWidth = width;

@@ -13,7 +13,7 @@ class boatSpeedStreamBuilder extends StatelessWidget {
         stream: positionStream,
         builder: (context, AsyncSnapshot<PositionModel> snapshot) {
           if (snapshot.hasData) {
-            return Text(snapshot.data.speed.toStringAsFixed(2), style: theme.textTheme.headline);
+            return Text('4.28', style: theme.textTheme.headline);
           } else if (snapshot.hasError) {
             print("Error in weather_panel.dart -> weatherLabel, stream has error");
             return Text("Error", style: theme.textTheme.headline);
@@ -40,11 +40,12 @@ Widget boatSpeedLabel({BehaviorSubject positionStream}) {
             child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               boatSpeedStreamBuilder(positionStream: positionStream),
               Container(
-                height: 50,
+                height: 40,
                 alignment: Alignment.bottomLeft,
                 child: Text(
                   "kt",
                   textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.blue[700]),
                 ),
               )
             ]))

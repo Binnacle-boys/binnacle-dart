@@ -24,26 +24,23 @@ class GlobalTheme extends Object {
 
   GlobalTheme() {
     this._brightness = Brightness.dark;
-    this._primaryColor = Colors.yellow[100];
-    this._windArrowColor = Colors.deepOrange[500];
+    this._primaryColor = Colors.blue[600];
+    this._windArrowColor = Colors.redAccent;
     this._boomColor = Colors.yellow[600];
-    this._listAngleColor = Colors.red[600];
-    this._backgroundColor = Colors.grey[850];
-    this._infoPanelBackground = Colors.grey[900];
-    this._bottomAppBarColor = Colors.grey[900];
+    this._listAngleColor = Colors.red[700];
+    this._backgroundColor = Colors.white10;
+    this._infoPanelBackground = Colors.white10;
+    this._bottomAppBarColor = Colors.white10;
     this._textTheme = new TextTheme(
       body1: new TextStyle(color: this._primaryColor, fontFamily: "Arial", fontWeight: FontWeight.bold, fontSize: 20),
       body2: new TextStyle(color: this._primaryColor, fontFamily: "Arial", fontSize: 50, fontWeight: FontWeight.bold),
-      headline: new TextStyle(color: this._primaryColor, fontFamily: "Arial", fontSize: 65, fontWeight: FontWeight.bold),
+      headline: new TextStyle(color: this._primaryColor, fontFamily: "Arial", fontSize: 50, fontWeight: FontWeight.bold),
       title: new TextStyle(color: this._primaryColor, fontFamily: "Arial", fontSize: 120, fontWeight: FontWeight.bold),
     );
   }
   toThemeData() {
     return new ThemeData(
-        brightness: this._brightness,
-        backgroundColor: this._backgroundColor,
-        primaryColor: this._primaryColor,
-        bottomAppBarColor: this._infoPanelBackground,
-        textTheme: this._textTheme);
+        brightness: Brightness.light,
+        );
   }
 }

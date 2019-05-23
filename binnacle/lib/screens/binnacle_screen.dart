@@ -19,10 +19,10 @@ class BinnacleScreen extends StatelessWidget {
                 child: Column(children: <Widget>[
           Expanded(flex: 6, child: new Stack(children: <Widget>[Binnacle(), ListAngleUI(), BoomUI(), IdealHeadingUI()])),
           Expanded(
-            flex: 3,
+            flex: 2,
             child: Container(
               color: _theme.bottomAppBarColor,
-              padding: EdgeInsets.all(1),
+              padding: EdgeInsets.all(0),
               child: InfoPanel(),
             ),
           )

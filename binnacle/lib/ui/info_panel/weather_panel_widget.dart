@@ -19,10 +19,11 @@ Widget weatherLabel({BehaviorSubject windStream}) {
             child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               new weatherStreamBuilder(windStream: windStream),
               Container(
-                  height: 50,
+                  height: 40,
                   alignment: Alignment.bottomLeft,
                   child: Text(
                     "kt",
+                    style: TextStyle(color: Colors.blue[700]),
                     textAlign: TextAlign.center,
                   )),
             ])),

@@ -39,16 +39,18 @@ class IdealHeadingUI extends StatelessWidget {
 class HeadingArrowPainter extends CustomPainter {
   Color lineColor;
 
-  double width = 4;
+  double width = 5;
   BuildContext superContext;
   var w, h;
 
   HeadingArrowPainter({this.superContext});
 
+
+  // NOTE: This seems to be the real heading
   @override
   void paint(Canvas canvas, Size size) {
     Paint complete = new Paint()
-      ..color = GlobalTheme().primaryColor
+      ..color = Colors.lightBlue[200]
       ..strokeCap = StrokeCap.butt
       ..style = PaintingStyle.stroke
       ..strokeWidth = width;
@@ -71,7 +73,7 @@ class HeadingArrowPainter extends CustomPainter {
 class IdealHeadingArrowPainter extends CustomPainter {
   Color lineColor;
 
-  double width = 10;
+  double width = 0;
   BuildContext superContext;
 
   IdealHeadingArrowPainter({this.superContext});
@@ -79,9 +81,9 @@ class IdealHeadingArrowPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var theme = GlobalTheme();
     Paint complete = new Paint()
-      ..color = theme.backgroundColor
+      ..color = Colors.blue
       ..strokeCap = StrokeCap.butt
-      ..style = PaintingStyle.stroke
+      ..style = PaintingStyle.fill
       ..strokeWidth = width;
     Path path = new Path();
     // Tuples points for the shape
@@ -106,8 +108,9 @@ class IdealHeadingArrowPainter extends CustomPainter {
     //path = path.shift(Offset(-92, -250));
     canvas.drawPath(path, complete);
 
-    complete.color = theme.primaryColor;
-    complete.strokeWidth = 3;
+    // Outline of ideal heading arrow
+    complete.color = Colors.blue[800];
+    complete.strokeWidth = 5;
     canvas.drawPath(path, complete);
 
     complete.color = theme.backgroundColor;

@@ -28,17 +28,6 @@ class CompassFace extends StatelessWidget {
                 ),
               ),
               new BinnacleHeadingUI(),
-              // centerpoint
-              new Center(
-                child: new Container(
-                  width: 15.0,
-                  height: 15.0,
-                  decoration: new BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-              ),
             ],
           ),
         ),

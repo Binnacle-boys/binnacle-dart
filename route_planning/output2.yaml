@@ -1,0 +1,10 @@
+0:
+- algorithm_name: test01_alg
+  route_length: 118.03929569323917
+- algorithm_name: test02_alg
+  route_length: 160.25980518490286
+1:
+- algorithm_name: test01_alg
+  route_length: 96.43241138399415
+- algorithm_name: test02_alg
+  route_length: 151.36503335655564

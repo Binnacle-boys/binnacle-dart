@@ -6,7 +6,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sail_routing_dart/route_model.dart';
 import 'package:sos/enums.dart';
 import 'package:sos/models/position_model.dart';
-import 'package:sos/models/wind_model.dart';
 import 'package:vector_math/vector_math.dart';
 
 class NavigationProvider {

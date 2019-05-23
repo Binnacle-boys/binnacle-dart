@@ -18,11 +18,10 @@ class MyApp extends StatelessWidget {
 
     return Provider(
         child: MaterialApp(
-            debugShowCheckedModeBanner:
-                true, // TODO change to false before release
-            title: 'Binnacle',
+            debugShowCheckedModeBanner: true, //TODO change to false before release
+            title: 'Binnacle Demo',
             theme: _theme,
-            home: ScreenWidget() //BinnacleScreen(),
+            home: ScreenWidget()  //BinnacleScreen(),
             ));
   }
 }

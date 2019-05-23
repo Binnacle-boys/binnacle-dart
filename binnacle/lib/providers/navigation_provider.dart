@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sail_routing_dart/route_model.dart';
 import 'package:sos/enums.dart';
+import 'package:sos/models/position_model.dart';
 import 'package:sos/models/wind_model.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -15,6 +16,7 @@ class NavigationProvider {
   Vector2 _end;
   RouteModel _route;
   BehaviorSubject<NavigationEvent> eventBus = BehaviorSubject();
+  ReplaySubject<PositionModel> positionHistory;
 
   List<LatLng> course;
 
@@ -46,6 +48,12 @@ class NavigationProvider {
     print(_route);
 
     eventBus.add(NavigationEvent(eventType: NavigationEventType.start));
+
+    positionHistory = new ReplaySubject<PositionModel>();
+    positionHistory.addStream(_position);
+
+    // TODO: Nick when producing the finish event, we need to run this line
+    // positionHistory.close();
   }
 }
 

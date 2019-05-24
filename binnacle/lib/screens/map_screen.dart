@@ -30,7 +30,7 @@ class _MapState extends State<MapScreen> {
     bloc.navigationEventBus.listen((event) {
       if (event?.eventType == NavigationEventType.start) {
         print('Initializing course using the BLOC');
-        _initCourse(bloc.course, Colors.red);
+        _initCourse(bloc.getCourse(), Colors.red);
       } else if (event?.eventType == NavigationEventType.finish) {
         print('we need to display the other course');
         ReplaySubject<PositionModel> historyStream = bloc.courseHistory;

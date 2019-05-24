@@ -34,9 +34,9 @@ class Bloc extends Object {
   Function get connect => _repository.bluetooth.connect;
 
   // Navigation functions
-  Function startNavigation(start, end) => _repository.navigator.start(start, end);
+  Future startNavigation(start, end) => _repository.navigator.start(start, end);
   BehaviorSubject get navigationEventBus => _repository.navigator.eventBus;
-  List<LatLng> get course => _repository.navigator.course;
+  List<LatLng> getCourse() => _repository.navigator.getCourse();
   ReplaySubject<PositionModel> get courseHistory => _repository.navigator.positionHistory;
 
   final BehaviorSubject<PositionModel> _positionController = BehaviorSubject<PositionModel>();

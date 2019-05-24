@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sos/screens/binnacle_screen.dart';
 import 'package:sos/screens/map_screen.dart';
 import 'package:sos/screens/test_screen.dart';
+import 'package:sos/ui/navigation/navbar.dart';
+import 'package:sos/ui/navigation/panel.dart';
 
 class ScreenWidget extends StatefulWidget {
   ScreenWidget({Key key}) : super(key: key);
@@ -25,13 +27,16 @@ class _ScreenState extends State<ScreenWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: PageView(
-          children: <Widget>[TestScreen(), BinnacleScreen(), MapScreen()],
-          controller: _pageController,
-          pageSnapping: true,
-          physics: new NeverScrollableScrollPhysics(),
-        ),
+      body: Stack(
+        children: <Widget>[
+          PageView(
+            children: <Widget>[TestScreen(), BinnacleScreen(), MapScreen()],
+            controller: _pageController,
+            pageSnapping: true,
+            physics: new NeverScrollableScrollPhysics(),
+          ),
+          NavigationPanel(),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

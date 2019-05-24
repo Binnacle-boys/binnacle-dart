@@ -131,7 +131,7 @@ class Repository {
     });
 
 
-    navigator = NavigationProvider(position: positionStream, wind: _windProvider.wind.stream  );
+    navigator = NavigationProvider(position: positionStream, wind: _windProvider.wind.stream.asBroadcastStream()  );
 
   }
   _addBluetoothServices() {

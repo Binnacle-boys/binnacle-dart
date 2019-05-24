@@ -19,27 +19,23 @@ class ListAngleUI extends StatelessWidget {
 Widget listAngleStreamBuilder(BuildContext context) {
   Bloc bloc = Provider.of(context);
   return StreamBuilder(
-      stream: bloc
-          .listAngle, //take(5).reduce((x,y) => ListAngleModel(x.angle + y.angle))),
+      stream: bloc.listAngle, //take(5).reduce((x,y) => ListAngleModel(x.angle + y.angle))),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Center(
-              child: Stack(children: <Widget>[
-            new Center(
+          return Stack(children: <Widget>[
+            new Container(
+                alignment: Alignment.bottomCenter,
+                height: 50.0,
+                width: 50.0,
+                child: new CustomPaint(foregroundPainter: new levelLinePainter(lineColor: GlobalTheme().listAngleColor))),
+            new Transform.translate(
+                offset: Offset((snapshot.data.angle * (180 / pi) - 151), 0),
                 child: Container(
+                    alignment: Alignment.bottomCenter,
                     height: 50.0,
                     width: 50.0,
-                    child: new CustomPaint(foregroundPainter: new levelLinePainter(lineColor: GlobalTheme().listAngleColor)))),
-            new Center(
-                child: new Transform.rotate(
-
-                    // TODO still gittery
-                    angle: (snapshot.data.angle + 5 * pi / 6),
-                    child: Container(
-                        height: 50.0,
-                        width: 50.0,
-                        child: new CustomPaint(foregroundPainter: new reticlePainter(lineColor: GlobalTheme().listAngleColor, width: 2.0)))))
-          ]));
+                    child: new CustomPaint(foregroundPainter: new reticlePainter(lineColor: GlobalTheme().listAngleColor, width: 2.0))))
+          ]);
         } else if (snapshot.hasError) {
           print("Stream error in list_angle_widget.dart -> listAngleStreamBuilder");
           return Text(' ');
@@ -61,28 +57,20 @@ class reticlePainter extends CustomPainter {
       ..color = lineColor
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
-      ..strokeWidth = width;
-    Offset center = new Offset(size.width / 2, size.height / 2);
-    double radius = 40.0;
+      ..strokeWidth = 3;
     Path path = new Path();
 
-    double a = 0.0;
-
-    for (var i = 0.0; i < 17; i += 1) {
-      a = (i * pi / 12);
-
-      path.moveTo(size.width / 2, size.height / 2);
-      path.relativeMoveTo(40 * cos(a), 40 * sin(a));
-      if (i % 4 == 0) {
-        path.relativeLineTo(13 * cos(a), 13 * sin(a));
-      } else {
-        path.relativeLineTo(5 * cos(a), 5 * sin(a));
-      }
+    for (var i = 0.0; i < 301; i += 50) {
+      path.moveTo(i, 0);
+      path.relativeLineTo(0, -20);
+    }
+    for (var i = 0.0; i < 301; i += 10) {
+      path.moveTo(i, 0);
+      path.relativeLineTo(0, -10);
     }
 
     path.close();
     canvas.drawPath(path, complete);
-    canvas.drawArc(new Rect.fromCircle(center: center, radius: radius), 0, pi * 1.33, false, complete);
   }
 
   @override
@@ -106,7 +94,7 @@ class levelLinePainter extends CustomPainter {
       ..strokeWidth = width;
     Path path = new Path();
 
-    path.moveTo(size.width / 2, size.height / 2 - 15);
+    path.moveTo(size.width / 2, size.height / 2);
     path.lineTo(size.width / 2, -30);
 
     path.close();

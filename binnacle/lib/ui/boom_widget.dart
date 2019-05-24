@@ -76,11 +76,11 @@ class BoomMainLinePainter extends CustomPainter {
       ..strokeWidth = 8;
 
     Path path_stroke = new Path();
-    Offset cap = new Offset(size.width / 2, size.height / 2 + 15);
+    Offset cap = new Offset(size.width / 2, size.height / 2 + 40);
 
     canvas.drawCircle(cap, 0.001, completed);
     canvas.drawCircle(cap, 0.001, complete);
-    path_stroke.moveTo(size.width / 2, size.height / 2 + 15);
+    path_stroke.moveTo(size.width / 2, size.height / 2 + 40);
 
     //path_stroke.lineTo(size.width / 2, size.height / 2 + 15);
     path_stroke.lineTo(size.width / 2, length);
@@ -89,7 +89,7 @@ class BoomMainLinePainter extends CustomPainter {
     canvas.drawPath(path_stroke, completed);
     Path path = new Path();
     Offset capOuter = new Offset(size.width / 2, length);
-    path.moveTo(size.width / 2, size.height / 2 + 15);
+    path.moveTo(size.width / 2, size.height / 2 + 40);
 
     // path.lineTo(size.width / 2, size.height / 2 + 15);
     path.lineTo(size.width / 2, length);
@@ -128,11 +128,7 @@ class BoomArcPainter extends CustomPainter {
     // path.lineTo(size.width / 2, length);
     Rect arcContainer = new Rect.fromCircle(center: cap, radius: 200);
 
-    // path.addArc(arcContainer, 0, pi);
-    // path.close();
     canvas.drawArc(arcContainer, 298 * pi / 120, pi / 30, false, complete);
-    //canvas.drawCircle(cap, 0.001, complete);
-    //canvas.drawCircle(capOuter, 0.001, complete);
   }
 
   @override

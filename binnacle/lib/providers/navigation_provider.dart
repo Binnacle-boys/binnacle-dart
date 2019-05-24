@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:math';
 import 'package:vector_math/vector_math.dart';
@@ -11,38 +12,43 @@ import 'package:sos/models/position_model.dart';
 import 'package:sos/models/wind_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sos/enums.dart';
+import 'package:sos/models/position_model.dart';
+import 'package:vector_math/vector_math.dart';
 
 const metersPerDegree = 111111;
 
-/// Navigation Provider handles new positions and route calculations. 
+/// Navigation Provider handles new positions and route calculations.
 /// Every position change checks if a new event needs to be emitted or if the route needs to be recalculated.
 class NavigationProvider {
-  
   BehaviorSubject<PositionModel> _position;
   // Position for cancelling listener when necessary.
   StreamSubscription<PositionModel> _positionSub;
-  
+
   BehaviorSubject<WindModel> _wind;
   WindModel _windModel;
-  
+
   Vector2 _start;
   Vector2 _end;
-  
+
   RouteModel _route;
   PolarPlot _plot;
-  
+
   double _currentIdealHeading;
   BehaviorSubject<double> idealHeading;
-  
+
   int _currentCheckPoint;
 
   NavigationEvent _currentEvent;
   BehaviorSubject<NavigationEvent> eventBus;
+  ReplaySubject<PositionModel> positionHistory;
 
   double _closeEnough = (1 / metersPerDegree) * 25; // 25 meters
   double get closeEnough => _closeEnough;
-  
-  NavigationProvider({@required BehaviorSubject<PositionModel> position, @required BehaviorSubject<WindModel> wind, @required PolarPlot plot}) {
+
+  NavigationProvider(
+      {@required BehaviorSubject<PositionModel> position,
+      @required BehaviorSubject<WindModel> wind,
+      @required PolarPlot plot}) {
     _position = position;
     _wind = wind;
     _plot = plot;
@@ -63,8 +69,15 @@ class NavigationProvider {
     _end = Vector2(end.longitude, end.latitude);
     print("About to get wind!");
     // Gets most recent wind entry
-    _windModel = await _wind.firstWhere((w) {return (w != null);});
+    _windModel = await _wind.firstWhere((w) {
+      return (w != null);
+    });
     _initRoute(_plot, _start, _end, _windModel);
+
+    /// Record the position history now that we have a course
+    positionHistory = new ReplaySubject<PositionModel>();
+    positionHistory.addStream(_position);
+
     _currentCheckPoint = 0;
     _positionSub = await _position.listen(_navigate);
   }
@@ -93,15 +106,18 @@ class NavigationProvider {
     Vector2 posVec = Vector2(pos.lon, pos.lat);
     if (_currentCheckPoint == 0) {
       // Route starting
-      _currentCheckPoint = 1; 
+      _currentCheckPoint = 1;
       // Update event bus to trigger the start of the route
       _updateEventBus(NavigationEventType.start);
-      
     }
     if (posVec.distanceTo(_end) < _closeEnough) {
       // Finish!
       //Push event
-      eventBus.add(NavigationEvent(eventType: NavigationEventType.finish)); 
+      eventBus.add(NavigationEvent(eventType: NavigationEventType.finish));
+
+      /// Stop recording position now that the course is finished
+      positionHistory.close();
+
       // Canceling position listener
       _positionSub?.cancel(); // This may not work
       return;
@@ -113,7 +129,8 @@ class NavigationProvider {
       // Update Event bus to tack
       _updateEventBus(NavigationEventType.tackNow);
       // Update new ideal heading for next checkpoint
-      _updateIdeal(_route.intermediate_points[_currentCheckPoint - 1], _route.intermediate_points[_currentCheckPoint]);
+      _updateIdeal(_route.intermediate_points[_currentCheckPoint - 1],
+          _route.intermediate_points[_currentCheckPoint]);
       return;
     }
     //If off course
@@ -134,11 +151,16 @@ class NavigationProvider {
   ///   (Vector2) end: An end point for the route.
   ///   (WindModel) wind: current wind.
   /// Returns:
-  ///   (RouteModel) - A route calculated 
-  RouteModel calculateRoute(PolarPlot plot, Vector2 start, Vector2 end, WindModel wind) {
+  ///   (RouteModel) - A route calculated
+  RouteModel calculateRoute(
+      PolarPlot plot, Vector2 start, Vector2 end, WindModel wind) {
     PolarRouter pr = PolarRouter(plot);
-    var points = pr.getTransRoute(start.storage.toList(), end.storage.toList(), wind.speed, wind.deg);
-    var rm = RouteModel(start: start, end: end, wind_radians: degToRad(cardinalTransform(wind.deg)));
+    var points = pr.getTransRoute(
+        start.storage.toList(), end.storage.toList(), wind.speed, wind.deg);
+    var rm = RouteModel(
+        start: start,
+        end: end,
+        wind_radians: degToRad(cardinalTransform(wind.deg)));
     List<Vector2> pointVectors = List<Vector2>();
     for (var point in points) {
       pointVectors.add(Vector2(point[0], point[1]));
@@ -171,10 +193,19 @@ class NavigationProvider {
   /// Args:
   ///   (NavigationEventType): Event that occurred.
   /// Returns:
-  ///   Nothing, but updates event bus to listeners. 
+  ///   Nothing, but updates event bus to listeners.
   void _updateEventBus(NavigationEventType event) {
     _currentEvent = NavigationEvent(eventType: event);
     eventBus.add(_currentEvent);
+
+    if (event == NavigationEventType.start) {
+      // TODO: Convert this to a stack implementation
+      // We don't want this clear to be pushed if a new event arrived in the bus
+      Future.delayed(
+          Duration(seconds: 5),
+          () => eventBus
+              .add(NavigationEvent(eventType: NavigationEventType.init)));
+    }
   }
 
   void _updateIdeal(Vector2 start, Vector2 end) {
@@ -185,12 +216,12 @@ class NavigationProvider {
   }
 
   /// Gets current course. Should only be called on start event.
-  /// Args: 
+  /// Args:
   ///   None.
   /// Returns:
   ///   (List<LatLng>) List of Lat/Long coordinates in rote
   List<LatLng> getCourse() {
-    if(_route == null) {
+    if (_route == null) {
       return null;
     }
     List<LatLng> course = List<LatLng>();
@@ -199,11 +230,9 @@ class NavigationProvider {
     }
     return course;
   }
-  
 }
 
 class NavigationEvent {
   final NavigationEventType eventType;
   NavigationEvent({@required this.eventType});
-  
 }

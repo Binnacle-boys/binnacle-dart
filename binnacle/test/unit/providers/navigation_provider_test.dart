@@ -28,7 +28,7 @@ void main() {
     wind = BehaviorSubject<WindModel>(sync: true);
   });
 
-  test('Expect somethin', () async {
+  test('Expect Wind stream to trigger calculation, and position to trigger start.', () async {
     print("Testing somethin");
     start = LatLng(0, 0);
     end = LatLng(10, 0);
@@ -49,6 +49,36 @@ void main() {
     await positionStream.add(PositionModel(lat: start.latitude, lon: start.longitude, speed: 1.0));
     await expectLater(boy.eventType, NavigationEventType.start);
     
+    
+    
+  });
+  test('Expect event bus to get proper ideal heading and finish on arrival of end.', () async {
+    print("Testing somethin");
+    start = LatLng(0, 0);
+    end = LatLng(10, 0);
+    NavigationProvider np = NavigationProvider(position: positionStream, plot: plot, wind: wind);
+    NavigationEvent boy;
+    np.eventBus.listen((event) {
+      print(event.eventType);
+      if(event != null) {
+        boy = event;
+      }
+    });
+    await wind.add(WindModel(6.0, 180.0));
+    await np.start(start, end);
+    // Ensuring start got the wind
+    // Checking if the route started
+    await positionStream.add(PositionModel(lat: start.latitude, lon: start.longitude, speed: 1.0));
+    await expectLater(boy.eventType, NavigationEventType.start);
+
+    double headingBoy;
+    // Test ideal
+    await np.idealHeading.listen((heading) {
+      headingBoy = heading;
+    });
+    await expectLater(headingBoy, 316.1000012170191);
+    await positionStream.add(PositionModel(lat: end.latitude, lon: end.longitude));
+    await expectLater(boy.eventType, NavigationEventType.finish); 
     
     
   });

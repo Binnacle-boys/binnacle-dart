@@ -73,12 +73,14 @@ class NavigationProvider {
       return (w != null);
     });
     _initRoute(_plot, _start, _end, _windModel);
-
+    print("About to get position history");
     /// Record the position history now that we have a course
     positionHistory = new ReplaySubject<PositionModel>();
-    positionHistory.addStream(_position);
+    //positionHistory.addStream(_position);
+    //await positionHistory.addStream(_position);
 
     _currentCheckPoint = 0;
+    print("About to start listener");
     _positionSub = await _position.listen(_navigate);
   }
 
@@ -101,6 +103,7 @@ class NavigationProvider {
   /// Returns:
   ///   Nothing, updates internal information
   void _navigate(PositionModel pos) {
+    positionHistory.add(pos);
     print("New position ${pos.lat} ${pos.lon}");
     print("Current Checkpoint: ${_currentCheckPoint}");
     Vector2 posVec = Vector2(pos.lon, pos.lat);

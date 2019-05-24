@@ -12,25 +12,37 @@ import 'package:sos/models/position_model.dart';
 import 'package:sos/models/wind_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sos/enums.dart';
+
 const metersPerDegree = 111111;
+
+/// Navigation Provider handles new positions and route calculations. 
+/// Every position change checks if a new event needs to be emitted or if the route needs to be recalculated.
 class NavigationProvider {
+  
   BehaviorSubject<PositionModel> _position;
+  // Position for cancelling listener when necessary.
   StreamSubscription<PositionModel> _positionSub;
+  
   BehaviorSubject<WindModel> _wind;
-  StreamSubscription<WindModel> _windSub;
   WindModel _windModel;
+  
   Vector2 _start;
   Vector2 _end;
+  
   RouteModel _route;
   PolarPlot _plot;
+  
   double _currentIdealHeading;
   BehaviorSubject<double> idealHeading;
-  NavigationEvent _currentEvent;
+  
   int _currentCheckPoint;
-  double closeEnough = (1 / metersPerDegree) * 25; // 25 meters
+
+  NavigationEvent _currentEvent;
   BehaviorSubject<NavigationEvent> eventBus;
 
-
+  double _closeEnough = (1 / metersPerDegree) * 25; // 25 meters
+  double get closeEnough => _closeEnough;
+  
   NavigationProvider({@required BehaviorSubject<PositionModel> position, @required BehaviorSubject<WindModel> wind, @required PolarPlot plot}) {
     _position = position;
     _wind = wind;
@@ -39,6 +51,13 @@ class NavigationProvider {
     idealHeading = BehaviorSubject<double>();
     // eventBus.add(NavigationEvent(eventType: NavigationEventType.awaitingInit ));
   }
+
+  /// Used to initialize new course
+  /// Args:
+  ///   (LatLng) start: Start of the course, usually the current location
+  ///   (LatLng) end: Where the user wants to go.
+  /// Returns:
+  ///   Nothing, async
   Future start(LatLng start, LatLng end) async {
     _updateEventBus(NavigationEventType.calculatingRoute);
     _start = Vector2(start.longitude, start.latitude);
@@ -46,9 +65,9 @@ class NavigationProvider {
     print("About to get wind!");
     // Gets most recent wind entry
     _windModel = await _wind.firstWhere((w) {return (w != null);});
-    initRoute(_plot, _start, _end, _windModel);
+    _initRoute(_plot, _start, _end, _windModel);
     _currentCheckPoint = 0;
-    _positionSub = await _position.listen(navigate);
+    _positionSub = await _position.listen(_navigate);
   }
 
   /// Sets close enough with the meter as units. Will be converted to lat/long degrees
@@ -57,7 +76,11 @@ class NavigationProvider {
   /// Returns:
   ///   void
   void setCloseEnough(double meters) {
-    closeEnough = meters / metersPerDegree;
+    if (meters < 0) {
+      // Don't accept negative numbers
+      return;
+    }
+    _closeEnough = meters / metersPerDegree;
   }
 
   /// Navigate function called on the change of the position of the boat.
@@ -65,7 +88,7 @@ class NavigationProvider {
   ///   pos (PositionModel): The boat's new/current position
   /// Returns:
   ///   Nothing, updates internal information
-  void navigate(PositionModel pos) {
+  void _navigate(PositionModel pos) {
     print("New position ${pos.lat} ${pos.lon}");
     print("Current Checkpoint: ${_currentCheckPoint}");
     Vector2 posVec = Vector2(pos.lon, pos.lat);
@@ -76,7 +99,7 @@ class NavigationProvider {
       _updateEventBus(NavigationEventType.start);
       
     }
-    if (posVec.distanceTo(_end) < closeEnough) {
+    if (posVec.distanceTo(_end) < _closeEnough) {
       // Finish!
       //Push event
       eventBus.add(NavigationEvent(eventType: NavigationEventType.finish)); 
@@ -99,16 +122,57 @@ class NavigationProvider {
     // Some extra if statement to check if it is off course
   }
 
+  /// Sets up new route with start end, current wind, and plot.
+  void _initRoute(PolarPlot plot, Vector2 start, Vector2 end, WindModel wind) {
+    _route = calculateRoute(plot, start, end, wind);
+    _updateIdeal(start, _route.intermediate_points[1]);
+  }
 
+  /// Gets a route from start, end, plot and wind.
+  /// Args:
+  ///   (PolarPlot) plot: A polar plot of the boat in use.
+  ///   (Vector2) start: The start point.
+  ///   (Vector2) end: An end point for the route.
+  ///   (WindModel) wind: current wind.
+  /// Returns:
+  ///   (RouteModel) - A route calculated 
+  RouteModel calculateRoute(PolarPlot plot, Vector2 start, Vector2 end, WindModel wind) {
+    PolarRouter pr = PolarRouter(plot);
+    var points = pr.getTransRoute(start.storage.toList(), end.storage.toList(), wind.speed, wind.deg);
+    var rm = RouteModel(start: start, end: end, wind_radians: degToRad(cardinalTransform(wind.deg)));
+    List<Vector2> pointVectors = List<Vector2>();
+    for (var point in points) {
+      pointVectors.add(Vector2(point[0], point[1]));
+    }
+    rm.intermediate_points = pointVectors;
+    return rm;
+  }
+
+  /// Get direction from a start and an end point
+  /// Args:
+  ///   (Vector2) start: First point
+  ///   (Vector2) end: Second point - not necessarily the last point in a route, just segment
+  /// Returns:
+  ///   (double) - Cardinal direction in degrees
   double _getDirection(Vector2 start, Vector2 end) {
     Vector2 idealRoute = end - start;
     double radianAngle = atan2(idealRoute.y, idealRoute.x);
     return radiansToCardinal(radianAngle);
   }
+
+  /// Determines if user should tack based on their objective/nextCheckpoint.
+  /// Args:
+  ///   (PositionModel) pos - Current position of the user.
+  ///   (Vector2) nextCheckpoint - Next objective.
   bool _shouldTack(PositionModel pos, Vector2 nextCheckpoint) {
-    return nextCheckpoint.distanceTo(Vector2(pos.lon, pos.lat)) < closeEnough;
+    return nextCheckpoint.distanceTo(Vector2(pos.lon, pos.lat)) < _closeEnough;
   }
 
+  /// Update the event bus.
+  /// Args:
+  ///   (NavigationEventType): Event that occurred.
+  /// Returns:
+  ///   Nothing, but updates event bus to listeners. 
   void _updateEventBus(NavigationEventType event) {
     _currentEvent = NavigationEvent(eventType: event);
     eventBus.add(_currentEvent);
@@ -121,6 +185,11 @@ class NavigationProvider {
     idealHeading.add(_currentIdealHeading);
   }
 
+  /// Gets current course. Should only be called on start event.
+  /// Args: 
+  ///   None.
+  /// Returns:
+  ///   (List<LatLng>) List of Lat/Long coordinates in rote
   List<LatLng> getCourse() {
     if(_route == null) {
       return null;
@@ -132,22 +201,7 @@ class NavigationProvider {
     return course;
   }
 
-  void initRoute(PolarPlot plot, Vector2 start, Vector2 end, WindModel wind) {
-    _route = calculateRoute(plot, start, end, wind);
-    _updateIdeal(start, _route.intermediate_points[1]);
-  }
-
-  RouteModel calculateRoute(PolarPlot plot, Vector2 start, Vector2 end, WindModel wind) {
-    PolarRouter pr = PolarRouter(plot);
-    var points = pr.getTransRoute(start.storage.toList(), end.storage.toList(), wind.speed, wind.deg);
-    var rm = RouteModel(start: start, end: end, wind_radians: degToRad(cardinalTransform(wind.deg)));
-    List<Vector2> pointVectors = List<Vector2>();
-    for (var point in points) {
-      pointVectors.add(Vector2(point[0], point[1]));
-    }
-    rm.intermediate_points = pointVectors;
-    return rm;
-  }
+  
 
 
 }

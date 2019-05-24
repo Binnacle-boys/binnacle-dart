@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: true, //TODO change to false before release
             title: 'Binnacle Demo',
             theme: _theme,
-            home: ScreenWidget()  //BinnacleScreen(),
-            ));
+            home: ScreenWidget()));
   }
 }

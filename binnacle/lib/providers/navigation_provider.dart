@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:math';
@@ -200,10 +199,7 @@ class NavigationProvider {
     }
     return course;
   }
-
   
-
-
 }
 
 class NavigationEvent {

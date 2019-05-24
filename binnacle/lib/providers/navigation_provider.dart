@@ -30,6 +30,7 @@ class NavigationProvider {
   double closeEnough = (1 / metersPerDegree) * 25; // 25 meters
   BehaviorSubject<NavigationEvent> eventBus;
 
+
   NavigationProvider({@required BehaviorSubject<PositionModel> position, @required BehaviorSubject<WindModel> wind, @required PolarPlot plot}) {
     _position = position;
     _wind = wind;
@@ -48,19 +49,6 @@ class NavigationProvider {
     initRoute(_plot, _start, _end, _windModel);
     _currentCheckPoint = 0;
     _positionSub = await _position.listen(navigate);
-    // _windSub = await _wind.listen((w) async {
-    //   print("Done getting wind");
-    //   print(_windModel);
-    //   if (_windModel == null) {
-    //     _windModel = w;
-    //     initRoute(_plot, _start, _end, _windModel);
-    //     print("Done initializing route");
-    //     _currentCheckPoint = 0;
-    //     _positionSub = await _position.listen(navigate);
-    //   }
-    // });
-    
-    
   }
 
   /// Sets close enough with the meter as units. Will be converted to lat/long degrees
@@ -78,7 +66,8 @@ class NavigationProvider {
   /// Returns:
   ///   Nothing, updates internal information
   void navigate(PositionModel pos) {
-    print("New position $pos");
+    print("New position ${pos.lat} ${pos.lon}");
+    print("Current Checkpoint: ${_currentCheckPoint}");
     Vector2 posVec = Vector2(pos.lon, pos.lat);
     if (_currentCheckPoint == 0) {
       // Route starting
@@ -117,7 +106,7 @@ class NavigationProvider {
     return radiansToCardinal(radianAngle);
   }
   bool _shouldTack(PositionModel pos, Vector2 nextCheckpoint) {
-    return nextCheckpoint.distanceTo(Vector2(pos.lat, pos.lon)) < closeEnough;
+    return nextCheckpoint.distanceTo(Vector2(pos.lon, pos.lat)) < closeEnough;
   }
 
   void _updateEventBus(NavigationEventType event) {
@@ -132,16 +121,16 @@ class NavigationProvider {
     idealHeading.add(_currentIdealHeading);
   }
 
-
-  // start(PositionModel start, PositionModel end) {
-  //   _start = _positionToCartPoint(start);
-  //   _end = _positionToCartPoint(end);
-
-
-  // }
-  // RouteModel calculateRoute(start, end) {
-
-  // }
+  List<LatLng> getCourse() {
+    if(_route == null) {
+      return null;
+    }
+    List<LatLng> course = List<LatLng>();
+    for (Vector2 point in _route.intermediate_points) {
+      course.add(LatLng(point.y, point.x));
+    }
+    return course;
+  }
 
   void initRoute(PolarPlot plot, Vector2 start, Vector2 end, WindModel wind) {
     _route = calculateRoute(plot, start, end, wind);

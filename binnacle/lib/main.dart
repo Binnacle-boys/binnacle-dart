@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sos/bloc.dart';
 import 'package:sos/screens/binnacle_screen.dart';
+import 'package:sos/splash_screen.dart';
 import 'screens/test_screen.dart';
 
 import 'providers/app_provider.dart';
@@ -17,7 +18,7 @@ const int minFingersNeedForSwipe = 3;
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(MyApp());
+  runApp(Provider(child: MaterialApp(home: SplashScreen())));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,12 +27,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData _theme = new GlobalTheme().toThemeData();
 
-    return Provider(
-        child: MaterialApp(
-            debugShowCheckedModeBanner: true, //TODO change to false before release
-            title: 'Binnacle Demo',
-            theme: _theme,
-            home: NavigationPanel(children: [BinnacleScreen(), TestScreen()])));
+    return MaterialApp(
+        debugShowCheckedModeBanner: true, //TODO change to false before release
+        title: 'Binnacle Demo',
+        theme: _theme,
+        home: NavigationPanel(children: [BinnacleScreen(), TestScreen()]));
   }
 }
 

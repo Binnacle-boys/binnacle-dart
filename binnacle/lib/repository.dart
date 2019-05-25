@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 import 'package:sos/providers/navigation_provider.dart';
+import 'package:sail_routing_dart/polar_plotting/polar_plot.dart';
 import 'package:sos/services/bluetooth_compass_service.dart';
 import 'package:sos/services/bluetooth_list_angle_service.dart';
 import 'package:sos/services/bluetooth_position_service.dart';
@@ -23,6 +24,8 @@ import 'package:sos/models/compass_model.dart';
 import 'package:sos/models/wind_model.dart';
 import 'package:sos/models/service_data.dart';
 import 'package:sos/models/provider_data.dart';
+import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
 
 import "providers/bluetooth.dart";
 import "enums.dart";
@@ -59,6 +62,8 @@ class Repository {
   StreamController<List<ServiceData>> _activeServices = StreamController();
   BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject();
   BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject();
+
+  
 
   BluetoothManager bluetooth;
   StreamController<bool> _isScanning = StreamController();
@@ -125,9 +130,10 @@ class Repository {
       (data) ? _addBluetoothServices() : _removeBluetoothServices();
     });
 
-    navigator = NavigationProvider(
-        position: positionStream,
-        wind: _windProvider.wind.stream.asBroadcastStream());
+    _setUpNavigationProvider(positionStream);
+    
+    
+    
   }
   _addBluetoothServices() {
     var bt =
@@ -160,4 +166,10 @@ class Repository {
   setActiveService(ServiceData serviceData) {
     _providerMap[serviceData.category].changeService(serviceData);
   }
+
+  void _setUpNavigationProvider(BehaviorSubject<PositionModel> positionStream) {
+    navigator = NavigationProvider(
+      position: positionStream,
+      wind: _windProvider.wind);
+  } 
 }

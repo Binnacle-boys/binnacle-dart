@@ -10,17 +10,15 @@ import 'package:sail_routing_dart/polar_algs/polar_router.dart';
 import 'package:sail_routing_dart/shared/route_math.dart';
 import 'package:sos/models/position_model.dart';
 import 'package:sos/models/wind_model.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sos/enums.dart';
-import 'package:sos/models/position_model.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 const metersPerDegree = 111111;
 
 /// Navigation Provider handles new positions and route calculations.
 /// Every position change checks if a new event needs to be emitted or if the route needs to be recalculated.
 class NavigationProvider {
-  BehaviorSubject<PositionModel> _position;
+  Stream<PositionModel> _position;
   // Position for cancelling listener when necessary.
   StreamSubscription<PositionModel> _positionSub;
 
@@ -46,15 +44,16 @@ class NavigationProvider {
   double get closeEnough => _closeEnough;
 
   NavigationProvider(
-      {@required BehaviorSubject<PositionModel> position,
+      {@required Stream<PositionModel> position,
       @required BehaviorSubject<WindModel> wind,
-      @required PolarPlot plot}) {
+      PolarPlot plot}) {
     _position = position;
     _wind = wind;
+    print("Printing plot!");
+    print(plot);
     _plot = plot;
     eventBus = BehaviorSubject<NavigationEvent>(sync: true);
     idealHeading = BehaviorSubject<double>();
-    // eventBus.add(NavigationEvent(eventType: NavigationEventType.awaitingInit ));
   }
 
   /// Used to initialize new course
@@ -64,6 +63,11 @@ class NavigationProvider {
   /// Returns:
   ///   Nothing, async
   Future start(LatLng start, LatLng end) async {
+    if (_plot == null) {
+      // Set up polar plot
+      print("Plot was null!");
+      await _initPolarPlot();
+    }
     _updateEventBus(NavigationEventType.calculatingRoute);
     _start = Vector2(start.longitude, start.latitude);
     _end = Vector2(end.longitude, end.latitude);
@@ -72,12 +76,11 @@ class NavigationProvider {
     _windModel = await _wind.firstWhere((w) {
       return (w != null);
     });
+    print("Got wind!");
     _initRoute(_plot, _start, _end, _windModel);
     print("About to get position history");
     /// Record the position history now that we have a course
     positionHistory = new ReplaySubject<PositionModel>();
-    //positionHistory.addStream(_position);
-    //await positionHistory.addStream(_position);
 
     _currentCheckPoint = 0;
     print("About to start listener");
@@ -116,8 +119,8 @@ class NavigationProvider {
     if (posVec.distanceTo(_end) < _closeEnough) {
       // Finish!
       //Push event
-      eventBus.add(NavigationEvent(eventType: NavigationEventType.finish));
-
+      //eventBus.add(NavigationEvent(eventType: NavigationEventType.finish));
+      _updateEventBus(NavigationEventType.finish);
       /// Stop recording position now that the course is finished
       positionHistory.close();
 
@@ -141,6 +144,12 @@ class NavigationProvider {
     // Some extra if statement to check if it is off course
   }
 
+  Future _initPolarPlot() async {
+    print("Initializing polar plot");
+    String csv = await rootBundle.loadString("assets/polar_plots/test_plot.csv");
+    _plot = PolarPlot();
+    _plot.initStream(csv);
+  }
   /// Sets up new route with start end, current wind, and plot.
   void _initRoute(PolarPlot plot, Vector2 start, Vector2 end, WindModel wind) {
     _route = calculateRoute(plot, start, end, wind);
@@ -202,6 +211,7 @@ class NavigationProvider {
     eventBus.add(_currentEvent);
 
     if (event == NavigationEventType.start) {
+      print("START EVENT!!!");
       // TODO: Convert this to a stack implementation
       // We don't want this clear to be pushed if a new event arrived in the bus
       Future.delayed(

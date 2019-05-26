@@ -44,6 +44,9 @@ class NavigationProvider {
   double _closeEnough = (1 / metersPerDegree) * 25; // 25 meters
   double get closeEnough => _closeEnough;
 
+  double _maxOffset = (1 / metersPerDegree) * 25; // 25 meters
+  double get maxOffset => _maxOffset;
+
   NavigationProvider(
       {@required Stream<PositionModel> position,
       @required BehaviorSubject<WindModel> wind,
@@ -101,12 +104,19 @@ class NavigationProvider {
     _closeEnough = meters / metersPerDegree;
   }
 
+  void setMaxOffset(double meters) {
+    if (meters < 0) {
+      return;
+    }
+    _maxOffset = meters / metersPerDegree;
+  }
+
   /// Navigate function called on the change of the position of the boat.
   /// Args:
   ///   pos (PositionModel): The boat's new/current position
   /// Returns:
   ///   Nothing, updates internal information
-  void _navigate(PositionModel pos) {
+  Future<void> _navigate(PositionModel pos) async {
     positionHistory.add(pos);
     print("New position ${pos.lat} ${pos.lon}");
     print("Current Checkpoint: ${_currentCheckPoint}");
@@ -123,10 +133,10 @@ class NavigationProvider {
       //eventBus.add(NavigationEvent(eventType: NavigationEventType.finish));
       _updateEventBus(NavigationEventType.finish);
       /// Stop recording position now that the course is finished
-      positionHistory.close();
+      await positionHistory.close();
 
       // Canceling position listener
-      _positionSub?.cancel(); // This may not work
+      await _positionSub?.cancel(); // This may not work
       return;
     }
     if (_shouldTack(pos, _route.intermediate_points[_currentCheckPoint])) {
@@ -143,6 +153,7 @@ class NavigationProvider {
     //If off course
     //start(LatLng(posVec.y, posVec.x), LatLng(_end.y, _end.x));
     // Some extra if statement to check if it is off course
+    _handleOffCourse(posVec, _currentCheckPoint);
   }
 
   Future _initPolarPlot() async {
@@ -153,7 +164,7 @@ class NavigationProvider {
   }
   /// Sets up new route with start end, current wind, and plot.
   void _initRoute(PolarPlot plot, Vector2 start, Vector2 end, WindModel wind) {
-    _route = calculateRoute(plot, start, end, wind);
+    _route = _calculateRoute(plot, start, end, wind);
     _updateIdeal(start, _route.intermediate_points[1]);
   }
 
@@ -165,7 +176,7 @@ class NavigationProvider {
   ///   (WindModel) wind: current wind.
   /// Returns:
   ///   (RouteModel) - A route calculated
-  RouteModel calculateRoute(
+  RouteModel _calculateRoute(
       PolarPlot plot, Vector2 start, Vector2 end, WindModel wind) {
     PolarRouter pr = PolarRouter(plot);
     var points = pr.getTransRoute(
@@ -200,6 +211,27 @@ class NavigationProvider {
   ///   (Vector2) nextCheckpoint - Next objective.
   bool _shouldTack(PositionModel pos, Vector2 nextCheckpoint) {
     return nextCheckpoint.distanceTo(Vector2(pos.lon, pos.lat)) < _closeEnough;
+  }
+
+  Future<void> _handleOffCourse(Vector2 current, int currentCheckpoint) {
+    Vector2 nextCheckpoint = _route.intermediate_points[currentCheckpoint];
+    Vector2 prevCheckpoint = _route.intermediate_points[currentCheckpoint - 1];
+
+    Vector2 reverseIdealPath = prevCheckpoint - nextCheckpoint;
+    Vector2 reverseRealPath = current - nextCheckpoint;
+    
+    double angle = reverseRealPath.angleTo(reverseIdealPath);
+    double offset = sin(angle) * reverseRealPath.length;
+
+    if (angle > pi/2) {
+      // Some how past tack point
+      // Recalculate
+      return start(LatLng(current.y, current.x), LatLng(_end.y, _end.x));
+    }
+    if (offset > maxOffset) {
+      return start(LatLng(current.y, current.x), LatLng(_end.y, _end.x));
+    }
+
   }
 
   /// Update the event bus.

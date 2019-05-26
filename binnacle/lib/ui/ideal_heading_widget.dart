@@ -18,7 +18,6 @@ class IdealHeadingUI extends StatelessWidget {
             // return CircularProgressIndicator();
             return Stack(children: [
               new Transform.rotate(
-                  //TODO just hooked up to heading stream for now bc ideal heading doesnt exist
                   angle: (snapshot.data.direction * pi / 180),
                   child: new Align(
                     alignment: Alignment.center,

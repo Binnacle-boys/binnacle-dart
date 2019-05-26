@@ -111,8 +111,8 @@ class NavigationProvider {
   ///   void
   void setCloseEnough(double meters) {
     if (meters < 0) {
-      // Don't accept negative numbers
-      return;
+      print("No negative numbers!");
+      throw FormatException;
     }
     _closeEnough = meters / metersPerDegree;
   }
@@ -122,7 +122,8 @@ class NavigationProvider {
   ///   (double) meters: Max offset in meters. How off the boat can be from the course.
   void setMaxOffset(double meters) {
     if (meters < 0) {
-      return;
+      print("No negative numbers!");
+      throw FormatException;
     }
     _maxOffset = meters / metersPerDegree;
   }
@@ -146,7 +147,6 @@ class NavigationProvider {
     if (posVec.distanceTo(_end) < _closeEnough) {
       // Finish!
       //Push event
-      //eventBus.add(NavigationEvent(eventType: NavigationEventType.finish));
       _updateEventBus(NavigationEventType.finish);
       /// Stop recording position now that the course is finished
       await positionHistory.close();
@@ -167,7 +167,6 @@ class NavigationProvider {
       return;
     }
     //If off course
-    //start(LatLng(posVec.y, posVec.x), LatLng(_end.y, _end.x));
     // Some extra if statement to check if it is off course
     _handleOffCourse(posVec, _currentCheckPoint);
   }

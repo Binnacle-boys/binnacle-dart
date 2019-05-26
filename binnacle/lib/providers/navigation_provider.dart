@@ -15,7 +15,8 @@ import 'package:sos/enums.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 const metersPerDegree = 111111;
-
+const defaultMaxOffset = 25.0;
+const defaultCloseEnough = 25.0;
 /// Navigation Provider handles new positions and route calculations.
 /// Every position change checks if a new event needs to be emitted or if the route needs to be recalculated.
 class NavigationProvider {
@@ -41,10 +42,12 @@ class NavigationProvider {
   BehaviorSubject<NavigationEvent> eventBus;
   ReplaySubject<PositionModel> positionHistory;
 
-  double _closeEnough = (1 / metersPerDegree) * 25; // 25 meters
+  
+  double _closeEnough = (1 / metersPerDegree) * defaultCloseEnough; // 25 meters
   double get closeEnough => _closeEnough;
 
-  double _maxOffset = (1 / metersPerDegree) * 25; // 25 meters
+  
+  double _maxOffset = (1 / metersPerDegree) * defaultMaxOffset; // 25 meters
   double get maxOffset => _maxOffset;
 
   NavigationProvider(

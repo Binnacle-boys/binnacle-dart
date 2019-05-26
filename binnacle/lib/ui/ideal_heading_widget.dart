@@ -24,7 +24,7 @@ class IdealHeadingUI extends StatelessWidget {
                     alignment: Alignment.center,
                     child: CustomPaint(painter: IdealHeadingArrowPainter(superContext: context)),
                   )),
-              new Container(alignment: Alignment.center, child: CustomPaint(painter: HeadingArrowPainter(superContext: context))),
+              //new Container(alignment: Alignment.center, child: CustomPaint(painter: HeadingArrowPainter(superContext: context))),
             ]);
           } else if (snapshot.hasError) {
             print("Stream error in list_angle_widget.dart -> listAngleStreamBuilder");

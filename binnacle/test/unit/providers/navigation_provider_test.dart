@@ -8,7 +8,7 @@ import 'package:sail_routing_dart/polar_plotting/polar_plot.dart';
 import 'package:sos/providers/navigation_provider.dart';
 import 'package:sos/models/wind_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sos/models/wind_model.dart';
+import 'package:sos/models/ideal_heading_model.dart';
 import 'package:sos/enums.dart';
 import 'dart:io';
 
@@ -74,7 +74,7 @@ void main() {
     double headingBoy;
     // Test ideal
     await np.idealHeading.listen((heading) {
-      headingBoy = heading;
+      headingBoy = heading.direction;
     });
     await expectLater(headingBoy, 316.1000012170191);
     await positionStream.add(PositionModel(lat: end.latitude, lon: end.longitude));
@@ -106,7 +106,7 @@ void main() {
     double headingBoy;
     // Test ideal
     await np.idealHeading.listen((heading) {
-      headingBoy = heading;
+      headingBoy = heading.direction;
     });
     await expectLater(headingBoy, 316.1000012170191);
     var tackPoint = LatLng(4.999998569488525, -4.811605930328369);

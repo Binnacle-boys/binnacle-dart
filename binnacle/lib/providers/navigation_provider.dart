@@ -44,11 +44,19 @@ class NavigationProvider {
 
   
   double _closeEnough = (1 / metersPerDegree) * defaultCloseEnough; // 25 meters
-  double get closeEnough => _closeEnough;
+  
+  /// Gets the current closeEnough value in meters.
+  /// Returns:
+  ///   (double) Close enough value (meters) to trigger finishes or tacks.
+  double get closeEnough => _closeEnough * metersPerDegree;
 
   
   double _maxOffset = (1 / metersPerDegree) * defaultMaxOffset; // 25 meters
-  double get maxOffset => _maxOffset;
+  
+  /// Gets the current max offset value in meters.
+  /// Returns:
+  ///   (double) Max offset value (meters) to trigger off course value
+  double get maxOffset => _maxOffset * metersPerDegree;
 
   NavigationProvider(
       {@required Stream<PositionModel> position,
@@ -107,6 +115,9 @@ class NavigationProvider {
     _closeEnough = meters / metersPerDegree;
   }
 
+  /// Sets max offset value in meters. Will be converted to lat/long. Used to check if boat is off course.
+  /// Args:
+  ///   (double) meters: Max offset in meters. How off the boat can be from the course.
   void setMaxOffset(double meters) {
     if (meters < 0) {
       return;

@@ -14,7 +14,9 @@ import 'package:sos/models/wind_model.dart';
 import 'package:sos/enums.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
+// How many meters are in one degree of lat/long
 const metersPerDegree = 111111;
+// Defaults to value checks for navigating. The actual values can be changed at runtime.
 const defaultMaxOffset = 25.0;
 const defaultCloseEnough = 25.0;
 /// Navigation Provider handles new positions and route calculations.
@@ -44,11 +46,19 @@ class NavigationProvider {
 
   
   double _closeEnough = (1 / metersPerDegree) * defaultCloseEnough; // 25 meters
-  double get closeEnough => _closeEnough;
+  
+  /// Gets the current closeEnough value in meters.
+  /// Returns:
+  ///   (double) Close enough value (meters) to trigger finishes or tacks.
+  double get closeEnough => _closeEnough * metersPerDegree;
 
   
   double _maxOffset = (1 / metersPerDegree) * defaultMaxOffset; // 25 meters
-  double get maxOffset => _maxOffset;
+  
+  /// Gets the current max offset value in meters.
+  /// Returns:
+  ///   (double) Max offset value (meters) to trigger off course value
+  double get maxOffset => _maxOffset * metersPerDegree;
 
   NavigationProvider(
       {@required Stream<PositionModel> position,
@@ -101,15 +111,19 @@ class NavigationProvider {
   ///   void
   void setCloseEnough(double meters) {
     if (meters < 0) {
-      // Don't accept negative numbers
-      return;
+      print("No negative numbers!");
+      throw FormatException;
     }
     _closeEnough = meters / metersPerDegree;
   }
 
+  /// Sets max offset value in meters. Will be converted to lat/long. Used to check if boat is off course.
+  /// Args:
+  ///   (double) meters: Max offset in meters. How off the boat can be from the course.
   void setMaxOffset(double meters) {
     if (meters < 0) {
-      return;
+      print("No negative numbers!");
+      throw FormatException;
     }
     _maxOffset = meters / metersPerDegree;
   }
@@ -133,7 +147,6 @@ class NavigationProvider {
     if (posVec.distanceTo(_end) < _closeEnough) {
       // Finish!
       //Push event
-      //eventBus.add(NavigationEvent(eventType: NavigationEventType.finish));
       _updateEventBus(NavigationEventType.finish);
       /// Stop recording position now that the course is finished
       await positionHistory.close();
@@ -154,7 +167,6 @@ class NavigationProvider {
       return;
     }
     //If off course
-    //start(LatLng(posVec.y, posVec.x), LatLng(_end.y, _end.x));
     // Some extra if statement to check if it is off course
     _handleOffCourse(posVec, _currentCheckPoint);
   }
@@ -216,7 +228,7 @@ class NavigationProvider {
     return nextCheckpoint.distanceTo(Vector2(pos.lon, pos.lat)) < _closeEnough;
   }
 
-  Future<void> _handleOffCourse(Vector2 current, int currentCheckpoint) {
+  Future _handleOffCourse(Vector2 current, int currentCheckpoint) async {
     Vector2 nextCheckpoint = _route.intermediate_points[currentCheckpoint];
     Vector2 prevCheckpoint = _route.intermediate_points[currentCheckpoint - 1];
 

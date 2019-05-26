@@ -24,7 +24,6 @@ class IdealHeadingUI extends StatelessWidget {
                     alignment: Alignment.center,
                     child: CustomPaint(painter: IdealHeadingArrowPainter(superContext: context)),
                   )),
-              //new Container(alignment: Alignment.center, child: CustomPaint(painter: HeadingArrowPainter(superContext: context))),
             ]);
           } else if (snapshot.hasError) {
             print("Stream error in list_angle_widget.dart -> listAngleStreamBuilder");
@@ -33,38 +32,6 @@ class IdealHeadingUI extends StatelessWidget {
             return CircularProgressIndicator();
           }
         });
-  }
-}
-
-class HeadingArrowPainter extends CustomPainter {
-  Color lineColor;
-
-  double width = 4;
-  BuildContext superContext;
-  var w, h;
-
-  HeadingArrowPainter({this.superContext});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint complete = new Paint()
-      ..color = GlobalTheme().primaryColor
-      ..strokeCap = StrokeCap.butt
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = width;
-    Path path = new Path();
-    w = superContext.size.width;
-    h = superContext.size.height;
-    path.moveTo(0, -130);
-    path.lineTo(0, 140);
-    path.addPolygon([Offset(3, -130), Offset(0, -135), Offset(-3, -130)], true);
-    path.close();
-    canvas.drawPath(path, complete);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }
 

@@ -7,5 +7,5 @@ enum NavigationEventType {
   finish,
   tackNow,
   offCourse,
-  calculatingRoute
+  calculatingRoute,
 }

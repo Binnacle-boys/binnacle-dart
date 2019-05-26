@@ -60,6 +60,8 @@ class Repository {
   BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject();
   BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject();
 
+  
+
   BluetoothManager bluetooth;
   StreamController<bool> _isScanning = StreamController();
   StreamController _scanResults = StreamController();
@@ -126,7 +128,11 @@ class Repository {
     });
 
     navigator = NavigationProvider(
-        position: positionStream, wind: _windProvider.wind.stream);
+      position: positionStream,
+      wind: _windProvider.wind);
+    
+    
+    
   }
   _addBluetoothServices() {
     var bt =

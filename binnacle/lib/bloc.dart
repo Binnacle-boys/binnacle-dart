@@ -7,6 +7,7 @@ import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/services/service_list.dart';
 import './repository.dart';
 import 'models/position_model.dart';
+import 'package:sos/models/ideal_heading_model.dart';
 import 'models/wind_model.dart';
 import 'models/service_data.dart';
 import 'models/provider_data.dart';
@@ -36,6 +37,7 @@ class Bloc extends Object {
   // Navigation functions
   Future startNavigation(start, end) => _repository.navigator.start(start, end);
   BehaviorSubject get navigationEventBus => _repository.navigator.eventBus;
+  BehaviorSubject<IdealHeadingModel> get idealHeading => _repository.navigator.idealHeading;
   List<LatLng> getCourse() => _repository.navigator.getCourse();
   ReplaySubject<PositionModel> get courseHistory => _repository.navigator.positionHistory;
 

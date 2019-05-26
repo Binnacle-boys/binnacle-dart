@@ -9,6 +9,7 @@ import 'package:sail_routing_dart/polar_plotting/polar_plot.dart';
 import 'package:sail_routing_dart/polar_algs/polar_router.dart';
 import 'package:sail_routing_dart/shared/route_math.dart';
 import 'package:sos/models/position_model.dart';
+import 'package:sos/models/ideal_heading_model.dart';
 import 'package:sos/models/wind_model.dart';
 import 'package:sos/enums.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -32,7 +33,7 @@ class NavigationProvider {
   PolarPlot _plot;
 
   double _currentIdealHeading;
-  BehaviorSubject<double> idealHeading;
+  BehaviorSubject<IdealHeadingModel> idealHeading;
 
   int _currentCheckPoint;
 
@@ -53,7 +54,7 @@ class NavigationProvider {
     print(plot);
     _plot = plot;
     eventBus = BehaviorSubject<NavigationEvent>(sync: true);
-    idealHeading = BehaviorSubject<double>();
+    idealHeading = BehaviorSubject<IdealHeadingModel>();
   }
 
   /// Used to initialize new course
@@ -225,7 +226,8 @@ class NavigationProvider {
     // Get ideal from start and end point
     _currentIdealHeading = _getDirection(start, end);
     // Update Ideal heading stream
-    idealHeading.add(_currentIdealHeading);
+
+    idealHeading.add(IdealHeadingModel(direction: _currentIdealHeading));
   }
 
   /// Gets current course. Should only be called on start event.

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:sos/models/compass_model.dart';
+import 'package:sos/models/ideal_heading_model.dart';
 import 'package:sos/ui/global_theme.dart';
 import '../bloc.dart';
 import '../providers/app_provider.dart';
@@ -12,8 +12,8 @@ class IdealHeadingUI extends StatelessWidget {
   Widget build(BuildContext context) {
     Bloc bloc = Provider.of(context);
     return StreamBuilder(
-        stream: bloc.compass,
-        builder: (context, AsyncSnapshot<CompassModel> snapshot) {
+        stream: bloc.idealHeading,
+        builder: (context, AsyncSnapshot<IdealHeadingModel> snapshot) {
           if (snapshot.hasData) {
             // return CircularProgressIndicator();
             return Stack(children: [

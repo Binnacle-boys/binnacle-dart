@@ -229,7 +229,7 @@ class NavigationProvider {
     return nextCheckpoint.distanceTo(Vector2(pos.lon, pos.lat)) < _closeEnough;
   }
 
-  Future<void> _handleOffCourse(Vector2 current, int currentCheckpoint) {
+  Future _handleOffCourse(Vector2 current, int currentCheckpoint) async {
     Vector2 nextCheckpoint = _route.intermediate_points[currentCheckpoint];
     Vector2 prevCheckpoint = _route.intermediate_points[currentCheckpoint - 1];
 

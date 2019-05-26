@@ -14,7 +14,9 @@ import 'package:sos/models/wind_model.dart';
 import 'package:sos/enums.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
+// How many meters are in one degree of lat/long
 const metersPerDegree = 111111;
+// Defaults to value checks for navigating. The actual values can be changed at runtime.
 const defaultMaxOffset = 25.0;
 const defaultCloseEnough = 25.0;
 /// Navigation Provider handles new positions and route calculations.

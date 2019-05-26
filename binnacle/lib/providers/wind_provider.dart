@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:sos/services/service_list.dart';
 
 import '../models/wind_model.dart';
+import 'package:rxdart/rxdart.dart';
 import '../models/wind_service_interface.dart';
 import '../models/service_data.dart';
 import '../models/provider_data.dart';
@@ -12,7 +13,7 @@ class WindProvider {
   IWindService _currentService;
 
   ServiceList _serviceList;
-  StreamController<WindModel> _stream = StreamController();
+  BehaviorSubject<WindModel> _stream = BehaviorSubject<WindModel>();
   StreamController<ServiceData> _activeService = StreamController();
   StreamSubscription _subscription;
   StreamController<ServiceList> _availableServices = StreamController();
@@ -63,7 +64,7 @@ class WindProvider {
     this._providerDataStream.sink.add(this._providerData);
   }
 
-  StreamController<WindModel> get wind => this._stream;
+  BehaviorSubject<WindModel> get wind => this._stream;
   StreamController<ServiceData> get activeService => this._activeService;
   StreamController<ServiceList> get availableServices => _availableServices;
   StreamController<ProviderData> get providerData => _providerDataStream;

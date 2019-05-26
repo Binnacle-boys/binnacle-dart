@@ -1,82 +1,76 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sos/bloc.dart';
-import 'package:sos/screens/binnacle_screen.dart';
-import 'package:sos/splash_screen.dart';
-import 'enums.dart';
-import 'screens/test_screen.dart';
 
-import 'package:sos/screens/home_screen.dart';
+import 'package:sos/enums.dart';
 import 'package:sos/providers/app_provider.dart';
+import 'package:sos/providers/navigation_provider.dart';
 import 'package:sos/ui/global_theme.dart';
 
-void main() {
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(Provider(child: MaterialApp(home: SplashScreen())));
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    ThemeData _theme = new GlobalTheme().toThemeData();
-
-    return MaterialApp(
-        debugShowCheckedModeBanner: true, //TODO change to false before release
-        title: 'Binnacle Demo',
-        theme: _theme,
-        home: NavigationPanel(children: [BinnacleScreen(), TestScreen()]));
-  }
-}
-
 class NavigationPanel extends StatelessWidget {
-  final List<Widget> children;
+  NavigationPanel({Key key}) : super(key: key);
 
-  NavigationPanel({@required this.children});
+  Bloc bloc;
 
   @override
   Widget build(BuildContext context) {
     final theme = GlobalTheme();
-    final bloc = Provider.of(context);
+    bloc = Provider.of(context);
 
     return StreamBuilder(
         stream: bloc.navigationEventBus,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          // print(snapshot.data.eventType.toString());
-          if (snapshot.hasError) {
-            return SlidingUpPanel(
-              panel: null,
-            );
-          } else if (!snapshot.hasData) {
-            return SlidingUpPanel(panel: null);
+          if (snapshot.hasError || !snapshot.hasData || snapshot.data.eventType == null) {
+            return new Container();
           } else {
-            return SlidingUpPanel(
+            return new SlidingUpPanel(
                 color: GlobalTheme().toThemeData().primaryColor,
                 backdropEnabled: true,
                 backdropTapClosesPanel: true,
                 slideDirection: SlideDirection.DOWN,
                 panelSnapping: true,
-                minHeight: (snapshot.data.eventType == NavigationEventType.init) ? 0 : 75,
-                maxHeight: 300,
+                minHeight: (snapshot.data.eventType ==
+                        NavigationEventType.init)
+                    ? 0
+                    : 100,
+                maxHeight: 200,
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
-
-                //@Will put the panels here
-                panel: NavigationPanelBase(message: _tackNowMessage()),
-                body: PageView(
-                  children: this.children, //<Widget>[BinnacleScreen(), TestScreen()],
-                  pageSnapping: true,
-                ));
+                panel: _panel(snapshot.data.eventType));          
           }
         });
   }
 
-  Widget _coordInputPanel(context, bloc) {
-    return Center(child: Text('Coord Input panel'));
+  Widget _panel(NavigationEventType event) {
+    switch (event) {
+      case NavigationEventType.calculatingRoute:
+        return NavigationPanelBase(bloc: bloc, message: _calculatingCourseMessage());
+      case NavigationEventType.start:
+        return NavigationPanelBase(bloc: bloc, message: _startCourseMessage());
+      case NavigationEventType.tackNow:
+        return NavigationPanelBase(bloc: bloc, message: _tackNowMessage());
+      default:
+        print('No event panel for $event');
+        return NavigationPanelBase(bloc: bloc, message: new Container());
+    }
   }
 
-  Widget _nullPanel(context, bloc) {
-    return SizedBox.shrink();
+  Widget _calculatingCourseMessage() {
+    return Row(
+      children: <Widget>[
+        Icon(Icons.sync),
+        Text("Calculating course", style: TextStyle(fontSize: 32))
+      ],
+    );
+  }
+
+  Widget _startCourseMessage() {
+    return Row(
+      children: <Widget>[
+        Icon(Icons.directions_boat),
+        Text("Starting course", style: TextStyle(fontSize: 32))
+      ],
+    );
   }
 
   Widget _tackNowMessage() {
@@ -93,10 +87,6 @@ class NavigationPanel extends StatelessWidget {
         Text("Tack Now.", style: TextStyle(fontSize: 48))
       ],
     );
-  }
-
-  Widget _nullMessage() {
-    return Text('');
   }
 }
 

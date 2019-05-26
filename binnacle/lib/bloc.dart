@@ -1,11 +1,13 @@
 import 'dart:math';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sos/models/compass_model.dart';
 import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/services/service_list.dart';
 import './repository.dart';
 import 'models/position_model.dart';
+import 'package:sos/models/ideal_heading_model.dart';
 import 'models/wind_model.dart';
 import 'models/service_data.dart';
 import 'models/provider_data.dart';
@@ -33,8 +35,11 @@ class Bloc extends Object {
   Function get connect => _repository.bluetooth.connect;
 
   // Navigation functions
-  Function get initNavigation => _repository.navigator.initNavigation;
+  Future startNavigation(start, end) => _repository.navigator.start(start, end);
   BehaviorSubject get navigationEventBus => _repository.navigator.eventBus;
+  BehaviorSubject<IdealHeadingModel> get idealHeading => _repository.navigator.idealHeading;
+  List<LatLng> getCourse() => _repository.navigator.getCourse();
+  ReplaySubject<PositionModel> get courseHistory => _repository.navigator.positionHistory;
 
   final BehaviorSubject<PositionModel> _positionController = BehaviorSubject<PositionModel>();
   final BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject<List<ServiceList>>();

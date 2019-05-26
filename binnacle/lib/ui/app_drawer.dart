@@ -24,7 +24,6 @@ Widget providerList(Bloc bloc) {
             child: Column(
               children: <Widget>[
                 BluetoothButton(),
-                _navigationButton(bloc, context),
               ],
     
             )
@@ -51,16 +50,6 @@ Widget providerList(Bloc bloc) {
       }
     },
   );
-}
-Widget _navigationButton(Bloc bloc, BuildContext context) {
-  return MaterialButton(
-    child: Icon(Icons.navigation),
-    onPressed: () {
-      // Navigator.pop(context);
-      //TODO Navigate to the MAP screen
-      return bloc.initNavigation();
-    });
-
 }
 
 Widget modeToggleSwitch(Bloc bloc, ProviderData providerData) {

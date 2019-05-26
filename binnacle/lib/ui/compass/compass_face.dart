@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sos/ui/binnacle_heading_ui.dart';
+import 'package:sos/ui/ideal_heading_widget.dart';
 import 'package:sos/ui/compass/compass_dial_painter.dart';
+
 
 class CompassFace extends StatelessWidget {
   @override
@@ -28,6 +30,7 @@ class CompassFace extends StatelessWidget {
                 ),
               ),
               new BinnacleHeadingUI(),
+              new IdealHeadingUI(),
             ],
           ),
         ),

@@ -41,6 +41,11 @@ class Bloc extends Object {
   List<LatLng> getCourse() => _repository.navigator.getCourse();
   ReplaySubject<PositionModel> get courseHistory => _repository.navigator.positionHistory;
 
+  // Map State Variables
+  Map<PolylineId, Polyline> lines = new Map();
+  List<Marker> markers = new List();
+  List<LatLng> sailedCourse = new List();
+
   final BehaviorSubject<PositionModel> _positionController = BehaviorSubject<PositionModel>();
   final BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject<List<ServiceList>>();
   final BehaviorSubject<List<ServiceData>> _activeServices = BehaviorSubject<List<ServiceData>>();

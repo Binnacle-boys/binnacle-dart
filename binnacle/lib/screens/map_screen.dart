@@ -26,12 +26,17 @@ class _MapState extends State<MapScreen> {
   Map<PolylineId, Polyline> lines;
   List<Marker> markers;
   LatLng currentPosition;
-  var _context;
+  BuildContext _context;
+
+  StreamSubscription eventBusListener;
 
   @override
   void dispose() {
     bloc.lines = lines;
     bloc.markers = markers;
+
+    eventBusListener.cancel();
+    super.dispose();
   }
 
   @override
@@ -40,7 +45,7 @@ class _MapState extends State<MapScreen> {
     lines = bloc.lines;
     markers = bloc.markers;
 
-    bloc.navigationEventBus.listen((event) {
+    eventBusListener = bloc.navigationEventBus.listen((event) {
       if (event?.eventType == NavigationEventType.start) {
         if (course.isEmpty) {
           print('Initializing course using the BLOC');

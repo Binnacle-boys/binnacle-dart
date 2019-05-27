@@ -57,6 +57,7 @@ class Bloc extends Object {
   final BehaviorSubject<ListAngleModel> _listAngleController = BehaviorSubject<ListAngleModel>();
 
   VoiceAlerts _voiceAlerts;
+  Function voiceAlertTest() => _voiceAlerts.test;
 
   Bloc() {
     this._repository = Repository(_positionController);

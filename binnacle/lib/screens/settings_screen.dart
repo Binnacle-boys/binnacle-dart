@@ -17,7 +17,7 @@ class SettingsScreen extends StatelessWidget {
      ),
      drawer: AppDrawer(),
      body: Column( children: <Widget>[
-       new RaisedButton(child: Text('Test Voice Alert'))
+       new RaisedButton(child: Text('Test Voice Alert'), onPressed: bloc.voiceAlertTest(),)
      ])
    );
   }

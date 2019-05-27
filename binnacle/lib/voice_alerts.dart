@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sos/enums.dart';
@@ -25,5 +27,27 @@ class VoiceAlerts {
         default:
       }
     });
+  }
+
+  void test() {
+    List<String> phrases = [
+      "On board",
+      "Batten down the hatches",
+      "In deep water",
+      "All at sea",
+      "Sink or swim",
+      "Dead in the water",
+      "Rock the boat",
+      "All hands on deck",
+      "Loose cannon",
+      "Making waves",
+      "Land lubber",
+      "Bottoms up",
+    ];
+
+    final _random = new Random();
+    String phrase = phrases[_random.nextInt(phrases.length)];
+
+    _tts.speak(phrase);
   }
 }

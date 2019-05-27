@@ -43,6 +43,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  image: 2.0.7 # <- Put this here
   flutter_launcher_icons: "^0.7.0"
   pedantic: ^1.0.0
 
@@ -50,7 +51,11 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/icon/icon.png"
+  image_path: "assets/icon/dark.png"
+  image_path_ios: "assets/icon/dark.png"
+  image_path_android: "assets/icon/icon_android.png"
+  #adaptive_icon_background: "assets/icon/bg.png"
+  #adaptive_icon_foreground: "assets/icon/dark.png"
 
 
 # For information on the generic Dart part of this file, see the
@@ -59,6 +64,7 @@ flutter_icons:
 # The following section is specific to Flutter.
 flutter:
   assets:
+    - assets/icon/
     - assets/polar_plots/test_plot.csv
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

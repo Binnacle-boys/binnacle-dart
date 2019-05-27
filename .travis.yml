@@ -27,7 +27,7 @@ before_script:
 - ./flutter/bin/flutter doctor
 - ./flutter/bin/flutter packages get
 script:
-- ./flutter/bin/flutter analyze --no-pub --no-current-package lib || :
+- ./flutter/bin/flutter analyze --no-pub --no-current-package lib || ;
 - ./flutter/bin/flutter test
 cache:
   directories:

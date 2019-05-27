@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import '../ui/app_drawer.dart';
-import '../bloc.dart';
-import '../providers/app_provider.dart';
+import 'package:sos/ui/app_drawer.dart';
+import 'package:sos/bloc.dart';
+import 'package:sos/providers/app_provider.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
 
-class TestScreen extends StatelessWidget {
+class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
+    Bloc bloc = Provider.of(context);
    return Scaffold(
-     backgroundColor: Colors.grey,
      floatingActionButton: _buildPopup(context),
      
      appBar: AppBar(
-       backgroundColor: Colors.blueGrey,
-       title: Text("Test Screen")
+       title: Text("Settings")
      ),
      drawer: AppDrawer(),
-     body: Column( children: <Widget>[])
+     body: Column( children: <Widget>[
+       new RaisedButton(child: Text('Test Voice Alert'))
+     ])
    );
   }
 }
 _buildPopup(context) {
-  return FloatingActionButton(backgroundColor: Colors.amber, onPressed: () {
+  return FloatingActionButton(child: Icon(Icons.settings_bluetooth), backgroundColor: Colors.blue, onPressed: () {
       Bloc bloc = Provider.of(context);
       bloc.startScan;
       showDialog(

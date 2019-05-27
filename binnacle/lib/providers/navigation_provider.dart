@@ -168,7 +168,8 @@ class NavigationProvider {
     }
     //If off course
     // Some extra if statement to check if it is off course
-    _handleOffCourse(posVec, _currentCheckPoint);
+    print("about to handle off course");
+    await _handleOffCourse(posVec, _currentCheckPoint);
   }
 
   Future _initPolarPlot() async {
@@ -237,14 +238,15 @@ class NavigationProvider {
     
     double angle = reverseRealPath.angleTo(reverseIdealPath);
     double offset = sin(angle) * reverseRealPath.length;
-
     if (angle > pi/2) {
       // Some how past tack point
       // Recalculate
-      return start(LatLng(current.y, current.x), LatLng(_end.y, _end.x));
+      await _updateEventBus(NavigationEventType.offCourse);
+      return await start(LatLng(current.y, current.x), LatLng(_end.y, _end.x));
     }
-    if (offset > maxOffset) {
-      return start(LatLng(current.y, current.x), LatLng(_end.y, _end.x));
+    if (offset > _maxOffset) {
+      await _updateEventBus(NavigationEventType.offCourse);
+      return await start(LatLng(current.y, current.x), LatLng(_end.y, _end.x));
     }
 
   }

@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sos/models/compass_model.dart';
 import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/services/service_list.dart';
+import 'package:sos/voice_alerts.dart';
 import './repository.dart';
 import 'models/position_model.dart';
 import 'package:sos/models/ideal_heading_model.dart';
@@ -55,6 +56,8 @@ class Bloc extends Object {
   final BehaviorSubject<CompassModel> _compassController = BehaviorSubject<CompassModel>();
   final BehaviorSubject<ListAngleModel> _listAngleController = BehaviorSubject<ListAngleModel>();
 
+  VoiceAlerts _voiceAlerts;
+
   Bloc() {
     this._repository = Repository(_positionController);
 
@@ -71,6 +74,8 @@ class Bloc extends Object {
 
     this._btIsScanning.addStream(_repository.isScanning().stream);
     this._btScanResults.addStream(_repository.scanResults().stream);
+
+    _voiceAlerts = new VoiceAlerts(navigationEventBus);
   }
 
   setActiveService(ServiceData serviceData) {

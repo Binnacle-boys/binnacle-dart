@@ -8,4 +8,5 @@ enum NavigationEventType {
   tackNow,
   offCourse,
   calculatingRoute,
+  courseUpdated,
 }

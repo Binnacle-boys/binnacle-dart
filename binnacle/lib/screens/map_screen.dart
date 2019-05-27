@@ -68,7 +68,6 @@ class _MapState extends State<MapScreen> {
         print("Fastest speed on this course was $fastestSpeed");
         print("Average speed on this course was $averageSpeed");
 
-        print('Display finished course');
         _drawCourse();
       }
     });

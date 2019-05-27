@@ -18,11 +18,11 @@ void main() {
   LatLng end;
   PolarPlot plot;
   BehaviorSubject<WindModel> wind;
+  print("PRINTING CURRENT DIRECTORY!!");
   print(Directory.current.path);
   setUp(() async {
     plot = PolarPlot();
-    
-    await plot.init('./test/unit/providers/providerAssets/test_plot.csv');
+    await plot.init('unit/providers/providerAssets/test_plot.csv');
 
     positionStream = BehaviorSubject<PositionModel>();
     wind = BehaviorSubject<WindModel>(sync: true);

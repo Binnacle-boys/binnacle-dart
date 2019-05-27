@@ -46,12 +46,10 @@ class _MapState extends State<MapScreen> {
 
     eventBusListener = bloc.navigationEventBus.listen((event) {
       if (event?.eventType == NavigationEventType.start) {
-        if (course.isEmpty) {
-          print('Initializing course using the BLOC');
-          course = bloc.getCourse();
-          bloc.originalCourse = bloc.getCourse();
-          _initCourse(course, Colors.red);
-        }
+        print('Initializing course using the BLOC');
+        course = bloc.getCourse();
+        bloc.originalCourse = bloc.getCourse();
+        _initCourse(course, Colors.red);
       } else if (event?.eventType == NavigationEventType.finish) {
         if (bloc.sailedCourse.isNotEmpty) {
           return;
@@ -117,12 +115,14 @@ class _MapState extends State<MapScreen> {
 
           if (placingPoints) {
             // Clear the current marker list
-            Marker start = markers.elementAt(0);
-            markers.clear();
-            markers.add(start);
+            setState(() {
+              // Clear the current course
+              lines.clear();
 
-            // Clear the current course
-            lines.clear();
+              Marker start = markers.elementAt(0);
+              markers.clear();
+              markers.add(start);
+            });
           } else {
             _onCourseCreationFinished(bloc);
           }

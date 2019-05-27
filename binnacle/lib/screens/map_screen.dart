@@ -47,10 +47,13 @@ class _MapState extends State<MapScreen> {
           _initCourse(course, Colors.red);
         }
       } else if (event?.eventType == NavigationEventType.finish) {
+        if (bloc.sailedCourse.isNotEmpty) {
+          return;
+        }
+
         print('we need to display the other course');
         ReplaySubject<PositionModel> historyStream = bloc.courseHistory;
         historyStream.listen((position) {
-          print(position.latlng);
           bloc.sailedCourse.add(position.latlng);
         });
 

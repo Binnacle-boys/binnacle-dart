@@ -49,11 +49,13 @@ class _MapState extends State<MapScreen> {
       } else if (event?.eventType == NavigationEventType.finish) {
         print('we need to display the other course');
         ReplaySubject<PositionModel> historyStream = bloc.courseHistory;
-        List<LatLng> sailedCourse;
-        historyStream.listen((position) => sailedCourse.add(position.latlng));
+        historyStream.listen((position) {
+          print(position.latlng);
+          bloc.sailedCourse.add(position.latlng);
+        });
 
         print('Display finished course');
-        _initCourse(sailedCourse, Colors.green);
+        _drawCourse();
       }
     });
 
@@ -74,6 +76,7 @@ class _MapState extends State<MapScreen> {
                 onMapCreated: _onMapCreated,
                 onTap: _onMapTapped,
                 mapType: MapType.satellite,
+                myLocationEnabled: true,
                 initialCameraPosition: CameraPosition(
                   target: snapshot.data.latlng,
                   zoom: 12.5,
@@ -163,8 +166,6 @@ class _MapState extends State<MapScreen> {
     List<LatLng> points = new List();
     markers.forEach((marker) => points.add(marker.position));
 
-    print(points);
-
     /// TODO: Only does the first set for now.
     /// Navigator needs to be upgraded to deal with a list of points
     /// to be able to handle complex courses
@@ -176,6 +177,7 @@ class _MapState extends State<MapScreen> {
   /// List<LatLng> [points] are a list of geographical points
   /// returns void as it sets the current state to have these polylines
   void _initCourse(List<LatLng> points, Color lineColor) {
+    print('initializing course');
     for (int i = 0; i < points.length - 1; i++) {
       LatLng from = points.elementAt(i);
       LatLng to = points.elementAt(i + 1);
@@ -190,5 +192,36 @@ class _MapState extends State<MapScreen> {
     }
 
     bloc.lines = lines;
+  }
+
+  void _drawCourse() {
+    for (int i = 0; i < markers.length - 1; i++) {
+      LatLng from = markers.elementAt(i).position;
+      LatLng to = markers.elementAt(i + 1).position;
+
+      PolylineId lineId = PolylineId(i.toString());
+      Polyline line = Polyline(
+          polylineId: lineId, color: Colors.red, width: 15, points: [from, to]);
+
+      setState(() {
+        lines[lineId] = line;
+      });
+    }
+
+    for (int i = 0; i < bloc.sailedCourse.length; i++) {
+      LatLng from = bloc.sailedCourse.elementAt(i);
+      LatLng to = bloc.sailedCourse.elementAt(i + 1);
+
+      PolylineId lineId = PolylineId((markers.length + i).toString());
+      Polyline line = Polyline(
+          polylineId: lineId,
+          color: Colors.green,
+          width: 15,
+          points: [from, to]);
+
+      setState(() {
+        lines[lineId] = line;
+      });
+    }
   }
 }

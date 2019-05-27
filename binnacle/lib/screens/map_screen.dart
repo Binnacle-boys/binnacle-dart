@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
@@ -35,7 +36,18 @@ class _MapState extends State<MapScreen> {
         print('we need to display the other course');
         ReplaySubject<PositionModel> historyStream = bloc.courseHistory;
         List<LatLng> sailedCourse;
-        historyStream.listen((position) => sailedCourse.add(position.latlng));
+        double fastestSpeed = 0;
+        double averageSpeed = 0;
+        int count = 0;
+        historyStream.listen((position) {
+          fastestSpeed = max(fastestSpeed, position.speed);
+          averageSpeed += position.speed;
+          count++;
+          sailedCourse.add(position.latlng);
+        });
+        averageSpeed = averageSpeed / count;
+        print("Fastest speed on this course was $fastestSpeed");
+        print("Average speed on this course was $averageSpeed");
 
         print('Display finished course');
         _initCourse(sailedCourse, Colors.green);

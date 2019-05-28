@@ -146,5 +146,7 @@ void main() {
     print("Going to tack point");
     await positionStream.add(PositionModel(lat: tackPoint.latitude, lon: tackPoint.longitude));
     await expectLater(boy.eventType, NavigationEventType.offCourse);
+    await Future.delayed(Duration(seconds: 1));
+    await expectLater(boy.eventType, NavigationEventType.courseUpdated);
   });
 }

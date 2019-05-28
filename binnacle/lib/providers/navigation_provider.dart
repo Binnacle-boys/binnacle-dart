@@ -164,7 +164,9 @@ class NavigationProvider {
       // Update event bus to trigger the start of the route
       _updateEventBus(NavigationEventType.start);
     }
-    if (meterDistance(posVec, _end) < _closeEnough) {
+    double distanceToFinish = meterDistance(posVec, _end);
+    print("Distance to finish point: ${distanceToFinish} meters");
+    if (distanceToFinish < _closeEnough) {
       // Finish!
       //Push event
       _updateEventBus(NavigationEventType.finish);
@@ -250,11 +252,20 @@ class NavigationProvider {
   }
 
   Future _handleOffCourse(Vector2 current, int currentCheckpoint) async {
+    print("Current checkpoint: ${currentCheckpoint}");
     Vector2 nextCheckpoint = _route.intermediate_points[currentCheckpoint];
     Vector2 prevCheckpoint = _route.intermediate_points[currentCheckpoint - 1];
 
     Vector2 reverseIdealPath = prevCheckpoint - nextCheckpoint;
+    double distanceOfLeg = meterDistance(prevCheckpoint, nextCheckpoint);
     Vector2 reverseRealPath = current - nextCheckpoint;
+    double distanceToNextCheckpoint = meterDistance(current, nextCheckpoint);
+    print("Current point: ${current}");
+    print("Start point: ${_start}");
+    double distanceToStart = meterDistance(current, _start);
+    print("Distance to start: ${distanceToStart} meters");
+    print("Leg distance: ${distanceOfLeg} meters");
+    print("Next check point is in ${distanceToNextCheckpoint}");
     
     double angle = reverseRealPath.angleTo(reverseIdealPath);
     double angleDegree = radToDeg(angle);
@@ -264,10 +275,10 @@ class NavigationProvider {
     Vector2 offsetPoint = reverseIdealPath.normalized().scaled(awayFromCheckpoint) + nextCheckpoint;
     // Use haversine formula to see how far the two points are
     double offset = meterDistance(current, offsetPoint);
-
+    print("Off course by ${offset} meters.");
     if (offset > _maxOffset || angle > pi/2) {
       //double offsetMeters = offset * metersPerDegree;
-      print("Off course by ${offset} meters.");
+      print("================we are off course!===============");
       print("Offset angle: ${angleDegree}");
       await _updateEventBus(NavigationEventType.offCourse);
       await _recalculateRoute(current, _end);

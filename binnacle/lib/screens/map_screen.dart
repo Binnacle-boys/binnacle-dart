@@ -35,6 +35,7 @@ class _MapState extends State<MapScreen> {
     bloc.markers = markers;
 
     eventBusListener.cancel();
+    eventBusListener = null;
     super.dispose();
   }
 
@@ -43,8 +44,8 @@ class _MapState extends State<MapScreen> {
     bloc = Provider.of(context);
     lines = bloc.lines;
     markers = bloc.markers;
-
-    eventBusListener = bloc.navigationEventBus.listen((event) {
+    print("Building!!!!");
+    eventBusListener ??= bloc.navigationEventBus.listen((event) {
       if (event?.eventType == NavigationEventType.start) {
         print('Initializing course using the BLOC');
         course = bloc.getCourse();
@@ -59,20 +60,22 @@ class _MapState extends State<MapScreen> {
         course = bloc.originalCourse;
 
         ReplaySubject<PositionModel> historyStream = bloc.courseHistory;
-        List<LatLng> sailedCourse;
+        List<LatLng> sailedCourse = List();
         double fastestSpeed = 0;
         double averageSpeed = 0;
         int count = 0;
-        historyStream.listen((position) {
+        historyStream.values.forEach((position) {
           fastestSpeed = max(fastestSpeed, position.speed);
           averageSpeed += position.speed;
           count++;
           sailedCourse.add(position.latlng);
         });
+
         averageSpeed = averageSpeed / count;
         print("Fastest speed on this course was $fastestSpeed");
         print("Average speed on this course was $averageSpeed");
 
+        bloc.sailedCourse = sailedCourse;
         _drawCourse();
       } else if (event?.eventType == NavigationEventType.courseUpdated) {
         course = bloc.getCourse();
@@ -146,11 +149,10 @@ class _MapState extends State<MapScreen> {
     );
 
     if (markers.isEmpty) {
-      markers.add(start);    
+      markers.add(start);
     } else {
       markers[0] = start;
     }
-
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -200,7 +202,7 @@ class _MapState extends State<MapScreen> {
   /// List<LatLng> [points] are a list of geographical points
   /// returns void as it sets the current state to have these polylines
   void _initCourse(List<LatLng> points, Color lineColor) {
-    print('initializing course');
+    //print('initializing course');
     for (int i = 0; i < points.length - 1; i++) {
       LatLng from = points.elementAt(i);
       LatLng to = points.elementAt(i + 1);
@@ -218,9 +220,12 @@ class _MapState extends State<MapScreen> {
   }
 
   void _drawCourse() {
-    for (int i = 0; i < markers.length - 1; i++) {
-      LatLng from = markers.elementAt(i).position;
-      LatLng to = markers.elementAt(i + 1).position;
+    lines.clear();
+    markers.clear();
+
+    for (int i = 0; i < bloc.originalCourse.length - 1; i++) {
+      LatLng from = bloc.originalCourse.elementAt(i);
+      LatLng to = bloc.originalCourse.elementAt(i + 1);
 
       PolylineId lineId = PolylineId(i.toString());
       Polyline line = Polyline(
@@ -231,11 +236,12 @@ class _MapState extends State<MapScreen> {
       });
     }
 
-    for (int i = 0; i < bloc.sailedCourse.length; i++) {
+    for (int i = 0; i < bloc.sailedCourse.length - 1; i++) {
       LatLng from = bloc.sailedCourse.elementAt(i);
       LatLng to = bloc.sailedCourse.elementAt(i + 1);
 
-      PolylineId lineId = PolylineId((markers.length + i).toString());
+      PolylineId lineId =
+          PolylineId((bloc.originalCourse.length + i).toString());
       Polyline line = Polyline(
           polylineId: lineId,
           color: Colors.green,

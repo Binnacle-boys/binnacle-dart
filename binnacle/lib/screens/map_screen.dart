@@ -19,19 +19,23 @@ class MapScreen extends StatefulWidget {
 class _MapState extends State<MapScreen> {
   Completer<GoogleMapController> _controller = Completer();
   bool placingPoints = false;
-  bool _init = false;
   Bloc bloc;
 
   List<LatLng> course = new List();
   Map<PolylineId, Polyline> lines;
   List<Marker> markers;
   LatLng currentPosition;
-  var _context;
+  BuildContext _context;
+
+  StreamSubscription eventBusListener;
 
   @override
   void dispose() {
     bloc.lines = lines;
     bloc.markers = markers;
+
+    eventBusListener.cancel();
+    super.dispose();
   }
 
   @override
@@ -40,19 +44,20 @@ class _MapState extends State<MapScreen> {
     lines = bloc.lines;
     markers = bloc.markers;
 
-    bloc.navigationEventBus.listen((event) {
+    eventBusListener = bloc.navigationEventBus.listen((event) {
       if (event?.eventType == NavigationEventType.start) {
-        if (course.isEmpty) {
-          print('Initializing course using the BLOC');
-          course = bloc.getCourse();
-          _initCourse(course, Colors.red);
-        }
+        print('Initializing course using the BLOC');
+        course = bloc.getCourse();
+        bloc.originalCourse = bloc.getCourse();
+        _initCourse(course, Colors.red);
       } else if (event?.eventType == NavigationEventType.finish) {
         if (bloc.sailedCourse.isNotEmpty) {
           return;
         }
 
-        print('we need to display the other course');
+        /// NOTE: Show the original course the sailor was supposed to sail
+        course = bloc.originalCourse;
+
         ReplaySubject<PositionModel> historyStream = bloc.courseHistory;
         List<LatLng> sailedCourse;
         double fastestSpeed = 0;
@@ -69,6 +74,9 @@ class _MapState extends State<MapScreen> {
         print("Average speed on this course was $averageSpeed");
 
         _drawCourse();
+      } else if (event?.eventType == NavigationEventType.courseUpdated) {
+        course = bloc.getCourse();
+        _initCourse(course, Colors.red);
       }
     });
 
@@ -83,7 +91,7 @@ class _MapState extends State<MapScreen> {
                 child: new CircularProgressIndicator(),
               );
             } else {
-              _initStartMarker(snapshot.data.latlng);
+              _updateStartMarker(snapshot.data.latlng);
 
               return GoogleMap(
                 onMapCreated: _onMapCreated,
@@ -107,12 +115,14 @@ class _MapState extends State<MapScreen> {
 
           if (placingPoints) {
             // Clear the current marker list
-            Marker start = markers.elementAt(0);
-            markers.clear();
-            markers.add(start);
+            setState(() {
+              // Clear the current course
+              lines.clear();
 
-            // Clear the current course
-            lines.clear();
+              Marker start = markers.elementAt(0);
+              markers.clear();
+              markers.add(start);
+            });
           } else {
             _onCourseCreationFinished(bloc);
           }
@@ -125,22 +135,22 @@ class _MapState extends State<MapScreen> {
     ));
   }
 
-  void _initStartMarker(LatLng startPosition) {
-    if (_init) {
-      // We already initialized the widget
-      return;
-    }
-
-    _init = true;
-
-    print('_initStartMarker');
-    markers.add(Marker(
+  void _updateStartMarker(LatLng startPosition) {
+    Marker start = Marker(
       // This marker id can be anything that uniquely identifies each marker.
       markerId: MarkerId("Start"),
       position: startPosition,
-      infoWindow: InfoWindow(title: 'Starting point', snippet: 'You are here'),
-      icon: BitmapDescriptor.defaultMarker,
-    ));
+      infoWindow: InfoWindow(title: 'Starting point'),
+      // NOTE: Marker is originally red, we need hue to change it to green
+      icon: BitmapDescriptor.defaultMarkerWithHue(114),
+    );
+
+    if (markers.isEmpty) {
+      markers.add(start);    
+    } else {
+      markers[0] = start;
+    }
+
   }
 
   void _onMapCreated(GoogleMapController controller) {

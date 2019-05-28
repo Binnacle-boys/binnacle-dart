@@ -29,24 +29,30 @@ class _SettingsState extends State<SettingsScreen> {
             child: Text('Test Voice Alert'),
             onPressed: bloc.voiceAlertTest(),
           ),
-          Slider(
-            value: _closeEnoughValue,
-            min: 10.0,
-            max: 250.0,
-            onChanged: (double newValue) {
-              setState(() {
-                bloc.setNavigationCloseEnough(newValue);
-              });
-            },
-          ),
-          Slider(
-            value: _maxOffset,
-            min: 10.0,
-            max: 1000.0,
-            onChanged: (value) => setState(() {
-                  bloc.setNavigationMaxOffset(value);
-                }),
-          ),
+          Column(children: <Widget>[
+            Text('Navigator Close Enough Value: ${_closeEnoughValue.round()} meters'),
+            Slider(
+              value: _closeEnoughValue,
+              min: 10.0,
+              max: 250.0,
+              onChanged: (double newValue) {
+                setState(() {
+                  bloc.setNavigationCloseEnough(newValue);
+                });
+              },
+            )
+          ]),
+          Column(children: <Widget>[
+            Text('Navigator Max Offset: ${_maxOffset.round()} meters'),
+            Slider(
+              value: _maxOffset,
+              min: 10.0,
+              max: 500.0,
+              onChanged: (value) => setState(() {
+                    bloc.setNavigationMaxOffset(value);
+                  }),
+            )
+          ]),
         ]));
   }
 }

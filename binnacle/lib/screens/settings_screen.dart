@@ -12,11 +12,14 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsState extends State<SettingsScreen> {
   Bloc bloc;
   double _closeEnoughValue;
+  double _maxOffset;
 
   @override
   Widget build(BuildContext context) {
     bloc = Provider.of(context);
     _closeEnoughValue = bloc.navigationCloseEnough;
+    _maxOffset = bloc.navigationMaxOffset;
+
     return Scaffold(
         floatingActionButton: _buildPopup(context),
         appBar: AppBar(title: Text("Settings")),
@@ -27,17 +30,22 @@ class _SettingsState extends State<SettingsScreen> {
             onPressed: bloc.voiceAlertTest(),
           ),
           Slider(
-            value: _closeEnoughValue.toDouble(),
+            value: _closeEnoughValue,
             min: 10.0,
             max: 250.0,
-            label: "Navigator: Close Enough (meters)",
             onChanged: (double newValue) {
-              // bloc.setNavigationCloseEnough(value);
               setState(() {
-                _closeEnoughValue = newValue.roundToDouble();
+                bloc.setNavigationCloseEnough(newValue);
               });
-              print(_closeEnoughValue);
             },
+          ),
+          Slider(
+            value: _maxOffset,
+            min: 10.0,
+            max: 1000.0,
+            onChanged: (value) => setState(() {
+                  bloc.setNavigationMaxOffset(value);
+                }),
           ),
         ]));
   }

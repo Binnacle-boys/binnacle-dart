@@ -43,8 +43,8 @@ class Bloc extends Object {
   ReplaySubject<PositionModel> get courseHistory => _repository.navigator.positionHistory;
   double get navigationCloseEnough => _repository.navigator.closeEnough;
   double get navigationMaxOffset => _repository.navigator.maxOffset;
-  Function setNavigationCloseEnough(double value) => _repository.navigator.setCloseEnough;
-  Function setNavigationMaxOffset(double value) => _repository.navigator.setMaxOffset;
+  void setNavigationCloseEnough(double value) => _repository.navigator.setCloseEnough(value);
+  void setNavigationMaxOffset(double value) => _repository.navigator.setMaxOffset(value);
 
 
   // Map State Variables

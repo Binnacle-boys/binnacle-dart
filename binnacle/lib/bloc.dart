@@ -41,6 +41,11 @@ class Bloc extends Object {
   BehaviorSubject<IdealHeadingModel> get idealHeading => _repository.navigator.idealHeading;
   List<LatLng> getCourse() => _repository.navigator.getCourse();
   ReplaySubject<PositionModel> get courseHistory => _repository.navigator.positionHistory;
+  double get navigationCloseEnough => _repository.navigator.closeEnough;
+  double get navigationMaxOffset => _repository.navigator.maxOffset;
+  Function setNavigationCloseEnough(double value) => _repository.navigator.setCloseEnough;
+  Function setNavigationMaxOffset(double value) => _repository.navigator.setMaxOffset;
+
 
   // Map State Variables
   Map<PolylineId, Polyline> lines = new Map();

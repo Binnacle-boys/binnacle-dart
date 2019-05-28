@@ -44,7 +44,7 @@ class _MapState extends State<MapScreen> {
     bloc = Provider.of(context);
     lines = bloc.lines;
     markers = bloc.markers;
-    print("Building!!!!");
+
     eventBusListener ??= bloc.navigationEventBus.listen((event) {
       if (event?.eventType == NavigationEventType.start) {
         print('Initializing course using the BLOC');
@@ -139,6 +139,10 @@ class _MapState extends State<MapScreen> {
   }
 
   void _updateStartMarker(LatLng startPosition) {
+    if (bloc.originalCourse != null && bloc.originalCourse.isNotEmpty) {
+      return;
+    }
+
     Marker start = Marker(
       // This marker id can be anything that uniquely identifies each marker.
       markerId: MarkerId("Start"),

@@ -4,6 +4,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:math';
 import 'package:vector_math/vector_math.dart';
+import 'package:latlong/latlong.dart' as lng;
+import 'package:flutter/services.dart' show rootBundle;
+
 import 'package:sail_routing_dart/route_model.dart';
 import 'package:sail_routing_dart/polar_plotting/polar_plot.dart';
 import 'package:sail_routing_dart/polar_algs/polar_router.dart';
@@ -12,10 +15,8 @@ import 'package:sos/models/position_model.dart';
 import 'package:sos/models/ideal_heading_model.dart';
 import 'package:sos/models/wind_model.dart';
 import 'package:sos/enums.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
-// How many meters are in one degree of lat/long
-const metersPerDegree = 111111;
+
 // Defaults to value checks for navigating. The actual values can be changed at runtime.
 const defaultMaxOffset = 25.0;
 const defaultCloseEnough = 25.0;
@@ -45,20 +46,22 @@ class NavigationProvider {
   ReplaySubject<PositionModel> positionHistory;
 
   
-  double _closeEnough = (1 / metersPerDegree) * defaultCloseEnough; // 25 meters
+  double _closeEnough = defaultCloseEnough; // 25 meters
   
   /// Gets the current closeEnough value in meters.
   /// Returns:
   ///   (double) Close enough value (meters) to trigger finishes or tacks.
-  double get closeEnough => _closeEnough * metersPerDegree;
+  double get closeEnough => _closeEnough;
 
   
-  double _maxOffset = (1 / metersPerDegree) * defaultMaxOffset; // 25 meters
+  double _maxOffset = defaultMaxOffset; // 25 meters
   
   /// Gets the current max offset value in meters.
   /// Returns:
   ///   (double) Max offset value (meters) to trigger off course value
-  double get maxOffset => _maxOffset * metersPerDegree;
+  double get maxOffset => _maxOffset;
+
+  lng.Distance distance;
 
   NavigationProvider(
       {@required Stream<PositionModel> position,
@@ -71,6 +74,7 @@ class NavigationProvider {
     _plot = plot;
     eventBus = BehaviorSubject<NavigationEvent>(sync: true);
     idealHeading = BehaviorSubject<IdealHeadingModel>();
+    distance = lng.Distance();
   }
 
   /// Used to initialize new course
@@ -85,6 +89,7 @@ class NavigationProvider {
       print("Plot was null!");
       await _initPolarPlot();
     }
+    await _positionSub?.cancel();
     _updateEventBus(NavigationEventType.calculatingRoute);
     _start = Vector2(start.longitude, start.latitude);
     _end = Vector2(end.longitude, end.latitude);
@@ -104,6 +109,21 @@ class NavigationProvider {
     _positionSub = await _position.listen(_navigate);
   }
 
+  /// Recalculate/Updates route
+  Future _recalculateRoute(Vector2 start, Vector2 end) async {
+    _start = start;
+    _end = end;
+    print("Recalculating route!");
+    // Gets most recent wind entry
+    _windModel = await _wind.firstWhere((w) {
+      return (w != null);
+    });
+    print("Got wind!");
+    _initRoute(_plot, start, end, _windModel);
+    _currentCheckPoint = 0;
+    await _updateEventBus(NavigationEventType.courseUpdated);
+  }
+
   /// Sets close enough with the meter as units. Will be converted to lat/long degrees
   /// Args:
   ///   (double) meters : Close enough for finish or tacks in meters
@@ -114,7 +134,7 @@ class NavigationProvider {
       print("No negative numbers!");
       throw FormatException;
     }
-    _closeEnough = meters / metersPerDegree;
+    _closeEnough = meters;
   }
 
   /// Sets max offset value in meters. Will be converted to lat/long. Used to check if boat is off course.
@@ -125,7 +145,7 @@ class NavigationProvider {
       print("No negative numbers!");
       throw FormatException;
     }
-    _maxOffset = meters / metersPerDegree;
+    _maxOffset = meters;
   }
 
   /// Navigate function called on the change of the position of the boat.
@@ -133,7 +153,7 @@ class NavigationProvider {
   ///   pos (PositionModel): The boat's new/current position
   /// Returns:
   ///   Nothing, updates internal information
-  Future<void> _navigate(PositionModel pos) async {
+  Future _navigate(PositionModel pos) async {
     positionHistory.add(pos);
     print("New position ${pos.lat} ${pos.lon}");
     print("Current Checkpoint: ${_currentCheckPoint}");
@@ -144,7 +164,9 @@ class NavigationProvider {
       // Update event bus to trigger the start of the route
       _updateEventBus(NavigationEventType.start);
     }
-    if (posVec.distanceTo(_end) < _closeEnough) {
+    double distanceToFinish = meterDistance(posVec, _end);
+    print("Distance to finish point: ${distanceToFinish} meters");
+    if (distanceToFinish < _closeEnough) {
       // Finish!
       //Push event
       _updateEventBus(NavigationEventType.finish);
@@ -168,7 +190,6 @@ class NavigationProvider {
     }
     //If off course
     // Some extra if statement to check if it is off course
-    print("about to handle off course");
     await _handleOffCourse(posVec, _currentCheckPoint);
   }
 
@@ -226,27 +247,41 @@ class NavigationProvider {
   ///   (PositionModel) pos - Current position of the user.
   ///   (Vector2) nextCheckpoint - Next objective.
   bool _shouldTack(PositionModel pos, Vector2 nextCheckpoint) {
-    return nextCheckpoint.distanceTo(Vector2(pos.lon, pos.lat)) < _closeEnough;
+    return meterDistance(Vector2(pos.lon, pos.lat), nextCheckpoint) < _closeEnough;
+    //return nextCheckpoint.distanceTo(Vector2(pos.lon, pos.lat)) < _closeEnough;
   }
 
   Future _handleOffCourse(Vector2 current, int currentCheckpoint) async {
+    print("Current checkpoint: ${currentCheckpoint}");
     Vector2 nextCheckpoint = _route.intermediate_points[currentCheckpoint];
     Vector2 prevCheckpoint = _route.intermediate_points[currentCheckpoint - 1];
 
     Vector2 reverseIdealPath = prevCheckpoint - nextCheckpoint;
+    double distanceOfLeg = meterDistance(prevCheckpoint, nextCheckpoint);
     Vector2 reverseRealPath = current - nextCheckpoint;
+    double distanceToNextCheckpoint = meterDistance(current, nextCheckpoint);
+    print("Current point: ${current}");
+    print("Start point: ${_start}");
+    double distanceToStart = meterDistance(current, _start);
+    print("Distance to start: ${distanceToStart} meters");
+    print("Leg distance: ${distanceOfLeg} meters");
+    print("Next check point is in ${distanceToNextCheckpoint}");
     
     double angle = reverseRealPath.angleTo(reverseIdealPath);
-    double offset = sin(angle) * reverseRealPath.length;
-    if (angle > pi/2) {
-      // Some how past tack point
-      // Recalculate
+    double angleDegree = radToDeg(angle);
+    // double offset = sin(angle) * reverseRealPath.length;
+    double awayFromCheckpoint = (cos(angle) * reverseRealPath.length);
+    // Get perpendicular point along the ideal path where the current user is
+    Vector2 offsetPoint = reverseIdealPath.normalized().scaled(awayFromCheckpoint) + nextCheckpoint;
+    // Use haversine formula to see how far the two points are
+    double offset = meterDistance(current, offsetPoint);
+    print("Off course by ${offset} meters.");
+    if (offset > _maxOffset || angle > pi/2) {
+      //double offsetMeters = offset * metersPerDegree;
+      print("================we are off course!===============");
+      print("Offset angle: ${angleDegree}");
       await _updateEventBus(NavigationEventType.offCourse);
-      return await start(LatLng(current.y, current.x), LatLng(_end.y, _end.x));
-    }
-    if (offset > _maxOffset) {
-      await _updateEventBus(NavigationEventType.offCourse);
-      return await start(LatLng(current.y, current.x), LatLng(_end.y, _end.x));
+      await _recalculateRoute(current, _end);
     }
 
   }
@@ -293,6 +328,13 @@ class NavigationProvider {
       course.add(LatLng(point.y, point.x));
     }
     return course;
+  }
+
+  double meterDistance(Vector2 a, Vector2 b) {
+    return distance.as(lng.LengthUnit.Meter, 
+      lng.LatLng(a.y, a.x),
+      lng.LatLng(b.y, b.x)
+    );
   }
 }
 

@@ -19,8 +19,10 @@ class Bloc extends Object {
   final _btIsScanning = BehaviorSubject<bool>(); //bt
   final _btScanResults = BehaviorSubject();
 
-  BehaviorSubject<List<ServiceList>> get availableServices => _availableServices.stream;
-  BehaviorSubject<List<ServiceData>> get activeServices => _activeServices.stream;
+  BehaviorSubject<List<ServiceList>> get availableServices =>
+      _availableServices.stream;
+  BehaviorSubject<List<ServiceData>> get activeServices =>
+      _activeServices.stream;
   BehaviorSubject<List<ProviderData>> get providerData => _providerData.stream;
   BehaviorSubject<WindModel> get wind => _windContoller.stream;
   BehaviorSubject<CompassModel> get compass => _compassController.stream;
@@ -29,26 +31,36 @@ class Bloc extends Object {
   BehaviorSubject<double> get idealBoom => _idealBoom.stream;
 
   //Bluetooth functions
-  BehaviorSubject<bool> get isScanning => _btIsScanning; 
-  BehaviorSubject get scanResults => _btScanResults; 
-  Function get startScan => _repository.bluetooth.startScan; 
+  BehaviorSubject<bool> get isScanning => _btIsScanning;
+  BehaviorSubject get scanResults => _btScanResults;
+  Function get startScan => _repository.bluetooth.startScan;
   Function get connect => _repository.bluetooth.connect;
+  BehaviorSubject get btstream => _repository.bluetooth.bluetoothDataStream;
 
   // Navigation functions
   Future startNavigation(start, end) => _repository.navigator.start(start, end);
   BehaviorSubject get navigationEventBus => _repository.navigator.eventBus;
-  BehaviorSubject<IdealHeadingModel> get idealHeading => _repository.navigator.idealHeading;
+  BehaviorSubject<IdealHeadingModel> get idealHeading =>
+      _repository.navigator.idealHeading;
   List<LatLng> getCourse() => _repository.navigator.getCourse();
-  ReplaySubject<PositionModel> get courseHistory => _repository.navigator.positionHistory;
+  ReplaySubject<PositionModel> get courseHistory =>
+      _repository.navigator.positionHistory;
 
-  final BehaviorSubject<PositionModel> _positionController = BehaviorSubject<PositionModel>();
-  final BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject<List<ServiceList>>();
-  final BehaviorSubject<List<ServiceData>> _activeServices = BehaviorSubject<List<ServiceData>>();
-  final BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject<List<ProviderData>>();
+  final BehaviorSubject<PositionModel> _positionController =
+      BehaviorSubject<PositionModel>();
+  final BehaviorSubject<List<ServiceList>> _availableServices =
+      BehaviorSubject<List<ServiceList>>();
+  final BehaviorSubject<List<ServiceData>> _activeServices =
+      BehaviorSubject<List<ServiceData>>();
+  final BehaviorSubject<List<ProviderData>> _providerData =
+      BehaviorSubject<List<ProviderData>>();
 
-  final BehaviorSubject<WindModel> _windContoller = BehaviorSubject<WindModel>();
-  final BehaviorSubject<CompassModel> _compassController = BehaviorSubject<CompassModel>();
-  final BehaviorSubject<ListAngleModel> _listAngleController = BehaviorSubject<ListAngleModel>();
+  final BehaviorSubject<WindModel> _windContoller =
+      BehaviorSubject<WindModel>();
+  final BehaviorSubject<CompassModel> _compassController =
+      BehaviorSubject<CompassModel>();
+  final BehaviorSubject<ListAngleModel> _listAngleController =
+      BehaviorSubject<ListAngleModel>();
 
   Bloc() {
     this._repository = Repository(_positionController);
@@ -62,7 +74,8 @@ class Bloc extends Object {
     this._windContoller.addStream(_repository.wind);
     this._compassController.addStream(_repository.compass);
     this._listAngleController.addStream(_repository.listAngle);
-    this._idealBoom.addStream(calcIdealBoomStream(_compassController.stream, _windContoller.stream));
+    this._idealBoom.addStream(
+        calcIdealBoomStream(_compassController.stream, _windContoller.stream));
 
     this._btIsScanning.addStream(_repository.isScanning().stream);
     this._btScanResults.addStream(_repository.scanResults().stream);
@@ -85,8 +98,10 @@ class Bloc extends Object {
     await _listAngleController?.close();
   }
 
-  Stream<double> calcIdealBoomStream(Stream<CompassModel> compass, Stream<WindModel> wind) {
-    return CombineLatestStream.combine2(compass, wind, (c, w) => calcBoomAngle(c, w));
+  Stream<double> calcIdealBoomStream(
+      Stream<CompassModel> compass, Stream<WindModel> wind) {
+    return CombineLatestStream.combine2(
+        compass, wind, (c, w) => calcBoomAngle(c, w));
   }
 
   double calcBoomAngle(compass, wind) {

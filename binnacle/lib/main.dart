@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sos/bloc.dart';
 import 'package:sos/screens/binnacle_screen.dart';
-import 'package:sos/splash_screen.dart';
+import 'package:sos/screens/map_screen.dart';
+import 'package:sos/screens/splash_screen.dart';
 import 'enums.dart';
 import 'screens/test_screen.dart';
 
@@ -13,7 +14,7 @@ import 'package:sos/ui/global_theme.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(Provider(child: MaterialApp(home: SplashScreen())));
+  runApp(Provider(child: MaterialApp(home: Scaffold(body: SplashScreen()))));
 }
 
 class MyApp extends StatelessWidget {
@@ -22,11 +23,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData _theme = new GlobalTheme().toThemeData();
 
-    return MaterialApp(
-        debugShowCheckedModeBanner: true, //TODO change to false before release
-        title: 'Binnacle Demo',
-        theme: _theme,
-        home: NavigationPanel(children: [BinnacleScreen(), TestScreen()]));
+    return Provider(
+        child: MaterialApp(
+            debugShowCheckedModeBanner: true, //TODO change to false before release
+            title: 'Binnacle Demo',
+            theme: _theme,
+            home: Scaffold(body: NavigationPanel(children: [BinnacleScreen(), MapScreen()]))));
   }
 }
 

@@ -17,24 +17,17 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
-    //loadData();
   }
 
   void waitForBloc() async {
     Observable o = Provider.of(context).position.any((x) => x != null).asObservable();
-    var first = await o.first;
+    await o.first;
     onDoneLoading();
     return;
   }
 
   Future<Timer> waitForGif() async {
     return new Timer(Duration(seconds: 3), waitForBloc);
-  }
-
-  Future<Timer> loadData() async {
-    return new Timer(Duration(seconds: 3), onDoneLoading);
-    // onDoneLoading();
   }
 
   onDoneLoading() async {
@@ -44,27 +37,27 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     waitForGif();
-    return Container(
-        alignment: Alignment.center,
-        color: Colors.white,
-        child: Column(children: <Widget>[
-          Expanded(
-              flex: 8,
-              child: Container(
+    return Scaffold(
+        body: Container(
+            alignment: Alignment.center,
+            color: Colors.white,
+            child: Column(children: <Widget>[
+              Expanded(
+                  flex: 8,
                   child: Container(
-                height: 200,
-                width: 200,
-                // alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage('assets/compass.gif')),
-                ),
-              ))),
-          Expanded(
-              flex: 2,
-              child: Text(
-                "Created by The Binnacle Boys",
-                style: new TextStyle(fontSize: 12, color: Colors.blue[300]),
-              ))
-        ]));
+                      child: Container(
+                    height: 200,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(image: AssetImage('assets/compass.gif')),
+                    ),
+                  ))),
+              Expanded(
+                  flex: 2,
+                  child: Text(
+                    "Created by The Binnacle Boys",
+                    style: new TextStyle(fontSize: 12, color: Colors.blue[300]),
+                  ))
+            ])));
   }
 }

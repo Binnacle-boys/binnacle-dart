@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sos/models/compass_model.dart';
 import 'package:sos/models/list_angle_model.dart';
 import 'package:sos/services/service_list.dart';
+import 'package:sos/voice_alerts.dart';
 import './repository.dart';
 import 'models/position_model.dart';
 import 'package:sos/models/ideal_heading_model.dart';
@@ -40,6 +41,17 @@ class Bloc extends Object {
   BehaviorSubject<IdealHeadingModel> get idealHeading => _repository.navigator.idealHeading;
   List<LatLng> getCourse() => _repository.navigator.getCourse();
   ReplaySubject<PositionModel> get courseHistory => _repository.navigator.positionHistory;
+  double get navigationCloseEnough => _repository.navigator.closeEnough;
+  double get navigationMaxOffset => _repository.navigator.maxOffset;
+  void setNavigationCloseEnough(double value) => _repository.navigator.setCloseEnough(value);
+  void setNavigationMaxOffset(double value) => _repository.navigator.setMaxOffset(value);
+
+
+  // Map State Variables
+  Map<PolylineId, Polyline> lines = new Map();
+  List<Marker> markers = new List();
+  List<LatLng> originalCourse;
+  List<LatLng> sailedCourse = new List();
 
   final BehaviorSubject<PositionModel> _positionController = BehaviorSubject<PositionModel>();
   final BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject<List<ServiceList>>();
@@ -49,6 +61,9 @@ class Bloc extends Object {
   final BehaviorSubject<WindModel> _windContoller = BehaviorSubject<WindModel>();
   final BehaviorSubject<CompassModel> _compassController = BehaviorSubject<CompassModel>();
   final BehaviorSubject<ListAngleModel> _listAngleController = BehaviorSubject<ListAngleModel>();
+
+  VoiceAlerts _voiceAlerts;
+  Function voiceAlertTest() => _voiceAlerts.test;
 
   Bloc() {
     this._repository = Repository(_positionController);
@@ -66,6 +81,8 @@ class Bloc extends Object {
 
     this._btIsScanning.addStream(_repository.isScanning().stream);
     this._btScanResults.addStream(_repository.scanResults().stream);
+
+    _voiceAlerts = new VoiceAlerts(navigationEventBus);
   }
 
   setActiveService(ServiceData serviceData) {

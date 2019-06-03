@@ -86,7 +86,6 @@ class BluetoothManager {
         print("_connect device: " + device.toString());
       },
 
-      // (d) => print('From deviceConneection --- ${d.toString()}'),
       onDone:
           _disconnect, //? Will this work for our case? Should we have an onDone handler?
     );
@@ -112,12 +111,6 @@ class BluetoothManager {
       }
     });
 
-    // device.readCharacteristic(characteristic).then((currentService) {
-    //   print("service: " + currentService.toString());
-    //   for (var char in currentService) {
-    //     print("\t " + char.toString());
-    //   }
-    // });
   }
 
   _disconnect() {
@@ -163,7 +156,6 @@ class BluetoothManager {
         bluetoothDataStream.addStream(_test(String.fromCharCodes(d)));
 
         bluetoothDataStream.listen((d) => print(d.toString()));
-        // print('!!!' + String.fromCharCodes(d));
       });
       // Add to map
       valueChangedSubscriptions[c.uuid] = sub;
@@ -177,14 +169,9 @@ class BluetoothManager {
       List<String> temp = _buffer.toString().split('\n');
       _buffer.clear();
 
-      // print(temp[0]);
       yield temp[0];
     }
-    // if (_buffer.toString().allMatches('\$').length > 1) {
-    //   String temp = _buffer.toString();
-    //   print(temp);
-    //   _buffer.clear();
-    // }
+
   }
 
   // _refreshDeviceState(BluetoothDevice d) async {

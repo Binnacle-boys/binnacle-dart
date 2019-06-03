@@ -27,7 +27,6 @@ import 'package:sos/models/provider_data.dart';
 import "providers/bluetooth.dart";
 import "enums.dart";
 
-import "dummy_bt_stream.dart"; //TODO: Remove this when we can actually connect to BT device
 
 class Repository {
   /// Data points
@@ -59,8 +58,6 @@ class Repository {
   StreamController<List<ServiceData>> _activeServices = StreamController();
   BehaviorSubject<List<ServiceList>> _availableServices = BehaviorSubject();
   BehaviorSubject<List<ProviderData>> _providerData = BehaviorSubject();
-
-  
 
   BluetoothManager bluetooth;
   StreamController<bool> _isScanning = StreamController();
@@ -127,25 +124,20 @@ class Repository {
       (data) ? _addBluetoothServices() : _removeBluetoothServices();
     });
 
-    navigator = NavigationProvider(
-      position: positionStream,
-      wind: _windProvider.wind);
-    
-    
-    
+    navigator =
+        NavigationProvider(position: positionStream, wind: _windProvider.wind);
   }
   _addBluetoothServices() {
-    var bt =
-        DummyBT(); //TODO: Remove this when we can actually connect to a BT device
 
-    _bluetoothServiceMap = {
-      ProviderType.compass:
-          BluetoothCompassServiceWrapper(bluetooth: bt.btStream),
-      ProviderType.wind: BluetoothWindServiceWrapper(bluetooth: bt.btStream),
-      ProviderType.position:
-          BluetoothPositionServiceWrapper(bluetooth: bt.btStream),
-      ProviderType.list_angle:
-          BluetoothListAngleServiceWrapper(bluetooth: bt.btStream)
+        _bluetoothServiceMap = {
+      ProviderType.compass: BluetoothCompassServiceWrapper(
+          bluetooth: bluetooth.bluetoothDataStream),
+      ProviderType.wind:
+          BluetoothWindServiceWrapper(bluetooth: bluetooth.bluetoothDataStream),
+      ProviderType.position: BluetoothPositionServiceWrapper(
+          bluetooth: bluetooth.bluetoothDataStream),
+      ProviderType.list_angle: BluetoothListAngleServiceWrapper(
+          bluetooth: bluetooth.bluetoothDataStream)
     };
 
     ProviderType.values.forEach(

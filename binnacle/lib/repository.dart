@@ -27,7 +27,6 @@ import 'package:sos/models/provider_data.dart';
 import "providers/bluetooth.dart";
 import "enums.dart";
 
-import "dummy_bt_stream.dart"; //TODO: Remove this when we can actually connect to BT device
 
 class Repository {
   /// Data points
@@ -129,9 +128,6 @@ class Repository {
         NavigationProvider(position: positionStream, wind: _windProvider.wind);
   }
   _addBluetoothServices() {
-    var btstream =
-        // var bt =
-        //     DummyBT(); //TODO: Remove this when we can actually connect to a BT device
 
         _bluetoothServiceMap = {
       ProviderType.compass: BluetoothCompassServiceWrapper(

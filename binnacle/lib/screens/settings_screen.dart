@@ -27,12 +27,11 @@ class _SettingsState extends State<SettingsScreen> {
           Padding(
               padding: EdgeInsets.all(25),
               child: RaisedButton(
-            child: Text('Test Voice Alert'),
-            onPressed: bloc.voiceAlertTest(),
-          )),
+                child: Text('Test Voice Alert'),
+                //  onPressed: bloc.voiceAlertTest(),
+              )),
           Column(children: <Widget>[
-            Text(
-                'Navigator Close Enough Value: ${_closeEnoughValue.round()} meters'),
+            Text('Navigator Close Enough Value: ${_closeEnoughValue.round()} meters'),
             Slider(
               value: _closeEnoughValue,
               min: 10.0,

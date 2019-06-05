@@ -30,9 +30,9 @@ class Bloc extends Object {
   BehaviorSubject<double> get idealBoom => _idealBoom.stream;
 
   //Bluetooth functions
-  BehaviorSubject<bool> get isScanning => _btIsScanning; 
-  BehaviorSubject get scanResults => _btScanResults; 
-  Function get startScan => _repository.bluetooth.startScan; 
+  BehaviorSubject<bool> get isScanning => _btIsScanning;
+  BehaviorSubject get scanResults => _btScanResults;
+  Function get startScan => _repository.bluetooth.startScan;
   Function get connect => _repository.bluetooth.connect;
 
   // Navigation functions
@@ -45,7 +45,6 @@ class Bloc extends Object {
   double get navigationMaxOffset => _repository.navigator.maxOffset;
   void setNavigationCloseEnough(double value) => _repository.navigator.setCloseEnough(value);
   void setNavigationMaxOffset(double value) => _repository.navigator.setMaxOffset(value);
-
 
   // Map State Variables
   Map<PolylineId, Polyline> lines = new Map();
@@ -62,8 +61,8 @@ class Bloc extends Object {
   final BehaviorSubject<CompassModel> _compassController = BehaviorSubject<CompassModel>();
   final BehaviorSubject<ListAngleModel> _listAngleController = BehaviorSubject<ListAngleModel>();
 
-  VoiceAlerts _voiceAlerts;
-  Function voiceAlertTest() => _voiceAlerts.test;
+  // VoiceAlerts _voiceAlerts;
+  // Function voiceAlertTest() => _voiceAlerts.test;
 
   Bloc() {
     this._repository = Repository(_positionController);
@@ -82,7 +81,7 @@ class Bloc extends Object {
     this._btIsScanning.addStream(_repository.isScanning().stream);
     this._btScanResults.addStream(_repository.scanResults().stream);
 
-    _voiceAlerts = new VoiceAlerts(navigationEventBus);
+    //  _voiceAlerts = new VoiceAlerts(navigationEventBus);
   }
 
   setActiveService(ServiceData serviceData) {

@@ -28,7 +28,7 @@ class IdealHeadingUI extends StatelessWidget {
             print("Stream error in list_angle_widget.dart -> listAngleStreamBuilder");
             return Text(' ');
           } else {
-            return CircularProgressIndicator();
+            return Container();
           }
         });
   }

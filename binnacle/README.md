@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/Binnacle-boys/binnacle-dart.svg?branch=master)](https://travis-ci.com/Binnacle-boys/binnacle-dart)
 
-A Flutter project.
+The Flutter project for Binnacle's iOS and Android mobile applications. Architectured around the BLoC pattern.
 
 ## Getting Started
 
